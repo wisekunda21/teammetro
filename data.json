@@ -59,7 +59,8 @@
   {
    "k": "k11",
    "id": 1003,
-   "name": "Lucy Mukaka"
+   "name": "Lucy Mukaka",
+   "crm": true
   },
   {
    "k": "k12",
