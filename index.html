@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#14224a"><meta name="description" content="Metro Team Agent Register: attendance, call tracking and team performance.">
+<script>try{var t=localStorage.getItem("mtheme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script><title>Metro Team · Agent Register</title><link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#0f172a;--mu:#64748b;--ln:#e2e8f0;--ln2:#cbd5e1;--navy:#14224a;--navy2:#0d1836;--ac:#2457d6;--ac2:#1c46b0;--gold:#d9a826;--ok:#15803d;--bad:#b42318;--sh:0 1px 2px rgba(15,23,42,.05),0 6px 20px rgba(15,23,42,.05)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
+input,select,button{font:inherit}:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.in{background:#fff;border:1px solid var(--ln2);color:var(--ink);padding:10px 12px;border-radius:8px;width:100%;transition:border-color .15s,box-shadow .15s}
+.in:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px #2457d61f}
+.btn{background:var(--ac);color:#fff;border:1px solid var(--ac);font-weight:600;padding:9px 16px;border-radius:8px;cursor:pointer;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--ac2);border-color:var(--ac2)}.btn:disabled{opacity:.5;cursor:default}
+.btn.g{background:#fff;color:#1e293b;border-color:var(--ln2)}.btn.g:hover{background:#f8fafc;border-color:#94a3b8}
+.btn.s{padding:6px 12px;font-size:13px}
+.btn.danger{background:#fff;color:var(--bad);border-color:#f1c0bb}.btn.danger:hover{background:#fef3f2;border-color:#e59a93}
+
+/* sign-in */
+#gate{display:grid;place-items:center;min-height:100vh;padding:20px;background:radial-gradient(900px 520px at 85% -10%,#22458f,transparent 60%),linear-gradient(#0f1c42,#0a1330)}
+.gc{width:min(400px,100%);background:#fff;border-radius:12px;padding:34px 30px 28px;text-align:center;box-shadow:0 24px 60px rgba(3,8,24,.45)}
+.gc img{width:92px;height:92px;border-radius:22px;box-shadow:0 6px 20px rgba(20,34,74,.25)}
+.gc h1{font-size:22px;margin:16px 0 2px;color:var(--navy)}.gc .sub{margin:0 0 22px;color:var(--mu);font-size:13px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#eef1f6;border-radius:10px;padding:3px;margin-bottom:14px}
+.seg button{background:none;border:0;color:var(--mu);padding:8px;border-radius:8px;font-weight:600;cursor:pointer}.seg .on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(15,23,42,.12)}
+.gc .in{margin-bottom:10px;text-align:left}.gc .btn{padding:11px 16px;margin-top:4px}#err{color:var(--bad);min-height:22px;margin-top:10px;font-size:13px}
+.gc .foot{margin-top:14px;font-size:11px;letter-spacing:.14em;color:#94a3b8;text-transform:uppercase}
+
+/* header */
+.hdr{background:linear-gradient(#14224a,#0d1836);border-bottom:3px solid var(--gold);color:#fff}
+.top{max-width:1500px;margin:auto;padding:14px 24px 0;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}.brand img{width:44px;height:44px;border-radius:11px}
+.bt{font-size:17px;font-weight:700;letter-spacing:.02em;line-height:1.15}.bs{font-size:12px;color:#a9b7d6}
+.acro{display:flex;gap:18px;margin-left:12px;padding-left:20px;border-left:1px solid #ffffff26;font-size:12px;color:#a9b7d6}
+.acro span b{color:var(--gold);font-weight:700}
+.who{display:flex;gap:10px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.usr{display:flex;flex-direction:column;line-height:1.25;text-align:right;margin-right:4px}.usr b{font-size:13px}.usr small{color:#a9b7d6;font-size:11px}
+.ss{font-size:12.5px;color:var(--mu)}.who .ss{color:#a9b7d6}.who .ss.ok{color:#7ee2ab}.who .ss.bad{color:#ffaab2}.ss.ok{color:var(--ok)}.ss.bad{color:var(--bad)}
+.hdr .btn.g{background:transparent;color:#e6ecfa;border-color:#ffffff33}.hdr .btn.g:hover{background:#ffffff14;border-color:#ffffff66}
+.navwrap{max-width:1500px;margin:12px auto 0;padding:0 24px}
+#tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}#tabs::-webkit-scrollbar{display:none}
+#tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-3px;color:#a9b7d6;padding:11px 18px;font-weight:600;cursor:pointer;white-space:nowrap;transition:color .15s}
+#tabs button:hover{color:#fff}#tabs .on{color:#fff;border-bottom-color:var(--gold)}
+
+main{max-width:1500px;margin:auto;padding:26px 24px 48px}
+.wel{margin-bottom:20px}.wel h2{font-size:24px;color:var(--navy)}.wel p{margin:2px 0 0;color:var(--mu)}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
+.k{background:var(--card);border:1px solid var(--ln);border-radius:8px;padding:16px 18px;box-shadow:var(--sh)}
+.k small{color:var(--mu);font-weight:500;font-size:12.5px}
+.big{font-size:30px;font-weight:650;line-height:1.2;display:block;margin-top:4px;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+.mbar{display:inline-flex;background:#e8ecf3;border-radius:10px;padding:3px;gap:2px;margin-bottom:14px;max-width:100%;overflow:auto}
+.mo{background:none;border:0;color:var(--mu);padding:7px 16px;border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;gap:6px;align-items:center}
+.mo:hover{color:var(--navy)}.mo.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(15,23,42,.14)}.mo svg{opacity:.6}
+.tbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;color:var(--mu);font-size:13px}
+.tbar select{background:#fff;color:var(--ink);border:1px solid var(--ln2);padding:6px 10px;border-radius:8px}
+.lg{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}.lg i{font-style:normal;font-weight:700;font-size:11.5px;padding:2px 8px;border-radius:5px;margin-right:5px}.sp{flex:1}
+.sh{font-size:15px;margin:4px 0 12px;color:var(--navy)}.sh.dz{margin-top:34px;color:var(--bad)}
+.note{padding:12px 16px;color:var(--mu);font-size:13px;line-height:1.55}
+.note.info{background:#fff;border:1px solid var(--ln);border-left:3px solid var(--ac);border-radius:8px;margin-bottom:14px;color:#334155}
+
+.sheet{background:#fff;color:var(--ink);border:1px solid var(--ln);border-radius:8px;overflow:auto;max-height:70vh;font-size:12.5px;box-shadow:var(--sh)}
+.sheet table{border-collapse:separate;border-spacing:0;width:100%}
+.sheet td,.sheet th{border-right:1px solid #eef1f6;border-bottom:1px solid #eef1f6;text-align:center;white-space:nowrap;padding:0 6px;height:32px}
+.sheet th{background:var(--navy);color:#e6ecfa;position:sticky;z-index:2;font-weight:600;font-size:11.5px;border-color:#ffffff14}
+.sheet tr.h1 th{top:0;height:26px}.sheet tr.h2 th{top:26px;height:26px}
+.sheet th.so{background:#2c3a63}.sheet th[data-d]{cursor:pointer}.sheet th[data-d]:hover{background:var(--ac)}
+.sheet .nm{position:sticky;left:0;z-index:1;background:#f8fafc;text-align:left;min-width:170px;font-weight:600;white-space:normal;line-height:1.25;padding:4px 12px;border-right:1px solid var(--ln)}
+.sheet .nm small{display:block;color:var(--mu);font-weight:500;font-size:11px}
+.sheet th.nm{z-index:3;background:var(--navy);color:#e6ecfa}
+.sheet tbody tr:hover td:not(.c):not(.sm):not(.tt){background-color:#f5f8fd}.sheet tbody tr:hover .nm{background:#eef3fb}
+.c{min-width:32px;width:32px;font-weight:700;font-size:12px;cursor:pointer;user-select:none}.c.ro{cursor:default}
+.sP{background:#e7f5ec;color:#16653a}.sA{background:#fde9e7;color:#a8261b}.sL{background:#fff3d4;color:#8a5a00}.sFL{background:#ece6f7;color:#5a3d96}.sSL{background:#e0eefa;color:#1b5683}.sOFF{background:#f1f3f7;color:#9aa5b8;cursor:default}.sN{background:#fff}
+.c:hover:not(.sOFF):not(.ro){box-shadow:inset 0 0 0 2px var(--ac)}.c:not(.ro){outline-offset:-2px}
+.c:not(.ro).sN:empty:hover::after{content:'▾';color:#94a3b8;font-weight:400}
+.cc{background:#fff;padding:0!important}.cc.so{background:#f1f3f7}
+.ci{width:34px;border:0;background:transparent;text-align:center;font:inherit;color:var(--ink);padding:6px 0;-moz-appearance:textfield}.ci::-webkit-inner-spin-button,.ci::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.ci:hover{background:#f5f8fd}.ci:focus{background:#fff;outline:2px solid var(--ac);outline-offset:-2px}
+.sm{background:#f4f6fa;font-weight:650;min-width:38px;font-variant-numeric:tabular-nums}.tt{background:#e9eef7;font-weight:700;min-width:70px;font-variant-numeric:tabular-nums}
+.sheet tfoot td{position:sticky;bottom:0;background:#eaeff7;font-weight:650;z-index:2;border-top:1px solid var(--ln2)}.sheet tfoot .nm{z-index:3;background:#eaeff7}
+.pill{padding:2px 9px;border-radius:999px;font-weight:650;font-size:12px}
+.hi{background:#e7f5ec;color:#16653a}.mid{background:#fff3d4;color:#8a5a00}.lo{background:#fde9e7;color:#a8261b}.na{background:#eef1f6;color:var(--mu)}
+.sheet td.l{text-align:left}.sheet td.n{text-align:right;font-variant-numeric:tabular-nums;padding:0 14px}
+.ni{font-weight:500;border:1px solid var(--ln2);border-radius:6px;padding:5px 8px;font:inherit;color:var(--ink);background:#fff;width:100%}.ni:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px #2457d61f}
+
+#pop{position:fixed;z-index:20;background:#fff;border:1px solid var(--ln);border-radius:8px;padding:6px;box-shadow:0 14px 40px rgba(15,23,42,.22);display:grid;gap:3px;min-width:180px}
+#pop button{border:0;border-radius:7px;padding:9px 12px;font-weight:600;text-align:left;cursor:pointer;font-size:13px}#pop button:hover{filter:brightness(.95)}#pop .clr{background:#f1f3f7;color:#475569}
+
+#ibody label{display:block;margin-top:10px;margin-bottom:3px}
+dialog{background:#fff;color:var(--ink);border:0;border-radius:10px;padding:24px;width:min(440px,calc(100% - 32px));box-shadow:0 24px 60px rgba(15,23,42,.35)}dialog::backdrop{background:rgba(10,19,48,.55);backdrop-filter:blur(2px)}
+#pdlg .in{display:block;width:100%;box-sizing:border-box;margin-bottom:8px}dialog h2{font-size:18px;margin-bottom:8px;color:var(--navy)}dialog p{margin:0 0 12px}.err{color:var(--bad);min-height:22px;font-size:13px}
+@media(max-width:900px){.acro{display:none}}
+@media(max-width:600px){.kp{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}.k{padding:12px 14px}.k small{font-size:11.5px}.yr{display:none}.mo{padding:7px 12px}.top{padding:12px 16px 0}.navwrap{padding:0 8px}main{padding:18px 14px 40px}.wel h2{font-size:20px}.big{font-size:26px}.sheet .nm{min-width:118px}.who{margin-left:0;width:100%}.usr{text-align:left;margin-right:auto}}
+.rk{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#eef1f6;color:var(--mu);font-size:11px;font-weight:700;margin-right:9px;font-variant-numeric:tabular-nums}
+.rk.r1{background:#fbf0cc;color:#8a6a00}.rk.r2{background:#e9edf3;color:#475569}.rk.r3{background:#f6e3d3;color:#8a4b1b}
+.you{display:inline-block;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:#fdf3d2;border:1px solid #efd68a;border-radius:4px;padding:0 5px}
+.sheet tr.me td{background:#f2f6ff}.sheet tr.me .nm,.sheet tr.me td.hl{background:#e6eeff}.sheet td.hl{background:#f6f8fc;font-weight:700}
+.bar{height:8px;min-width:150px;background:#e8ecf3;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),#5b8def);border-radius:99px}.sheet tr.me .bar i{background:var(--gold)}
+.of{font-size:15px;color:var(--mu);font-weight:500}
+.ft{text-align:center;color:#94a3b8;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:0 0 28px}
+@media print{body{background:#fff}.hdr{-webkit-print-color-adjust:exact;print-color-adjust:exact}.who,#tabs,.mbar,.tbar button,.tbar select,#pop{display:none!important}.sheet{max-height:none;overflow:visible;box-shadow:none}.k{box-shadow:none}}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:22px}
+.hc{background:#fff;border:1px solid var(--ln);border-radius:8px;padding:16px 18px;box-shadow:var(--sh)}
+.hc.t1{border-top:3px solid var(--gold)}.hc.t2{border-top:3px solid var(--ac)}.hc.t3{border-top:3px solid var(--ok)}
+.hc h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);font-weight:700;margin-bottom:6px}
+.hc .sb{color:var(--mu);font-size:12px;margin:8px 0 0}.hc .lab{font-size:11.5px;font-weight:600;color:var(--mu);margin:12px 0 2px}
+.rw{display:flex;align-items:center;padding:9px 0}.rw+.rw{border-top:1px solid #eef1f6}.rw b{flex:1;font-weight:600}.rw .v{font-variant-numeric:tabular-nums;font-weight:700;color:var(--navy)}
+.rw .rk{flex:none}.gain{color:var(--ok)}
+.cc.sA{background:#fde9e7;color:#a8261b}.cc.sL{background:#fff3d4;color:#8a5a00}.cc.sFL{background:#ece6f7;color:#5a3d96}.cc.sSL{background:#e0eefa;color:#1b5683}
+.cc.sA,.cc.sL,.cc.sFL,.cc.sSL{font-size:12px;font-weight:700}.cc.sA .ci::placeholder{color:#a8261b;opacity:1}.cc.sL .ci::placeholder{color:#8a5a00;opacity:1}.cc.sFL .ci::placeholder{color:#5a3d96;opacity:1}.cc.sSL .ci::placeholder{color:#1b5683;opacity:1}
+.znote{background:linear-gradient(90deg,#0b1220,#14224a);border:1px solid #0b1220;border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin:0 0 16px}.znote b{display:block;font-size:16px;color:#fff}.znote span.zt{display:block;color:#cbd5ee;font-size:13px;line-height:1.5;margin-top:4px;max-width:760px}
+.tgt{background:linear-gradient(90deg,#14224a,#1e3a8a);border:1px solid #14224a;border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin-bottom:16px}.tgt b{font-size:16px;color:#fff;display:block}.tgt small{display:block;color:#cbd5ee;margin-top:4px;font-size:13px;line-height:1.5}.tgt.ok{background:linear-gradient(90deg,#0b1220,#14224a);border-color:#0b1220}.wow{background:linear-gradient(90deg,#0b1220,#14224a);border:1px solid #0b1220;border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin-bottom:16px}.wow b{font-size:17px;color:#fff}.wow small{display:block;color:#cbd5ee;margin-top:2px}
+.wow{background:var(--card);border:1px solid var(--ln);border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin-bottom:16px;box-shadow:var(--sh)}.wow b{display:block;font-size:15px;color:var(--navy)}.wow small{display:block;color:var(--mu);margin-top:4px;font-size:13px}
+.dmsg{background:var(--card);border:1px solid var(--ln);border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin-bottom:16px;box-shadow:var(--sh)}.dmsg b{display:block;font-size:16px;color:var(--navy)}
+.pn{background:var(--card);border:1px solid var(--ln);border-top:3px solid var(--gold);border-radius:8px;box-shadow:var(--sh);margin-bottom:16px}
+.pnh{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--ln)}.pnh h3{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);font-weight:700}.pnh small{color:var(--mu);font-size:12px}
+.png{display:grid;grid-template-columns:1fr 1fr}.pnc{padding:14px 18px 8px}.pnc+.pnc{border-left:1px solid var(--ln)}.pnc .lab{margin:0 0 4px;font-size:11.5px;font-weight:700;color:var(--mu);letter-spacing:.04em;text-transform:uppercase}
+.pn .foot{margin:0;padding:0 18px 14px;color:var(--mu);font-size:11.5px}.rw .dy{color:var(--mu);font-size:11.5px;font-weight:500;margin:0 12px 0 8px;white-space:nowrap}
+@media(max-width:700px){.png{grid-template-columns:1fr}.pnc+.pnc{border-left:0;border-top:1px solid var(--ln)}}
+.live{margin-left:auto;display:inline-flex;gap:6px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:lv 2s ease-out infinite}
+@keyframes lv{0%{box-shadow:0 0 0 0 rgba(21,128,61,.5)}70%{box-shadow:0 0 0 7px rgba(21,128,61,0)}100%{box-shadow:0 0 0 0 rgba(21,128,61,0)}}
+@media(prefers-reduced-motion:reduce){.live i{animation:none}}
+.dmsg,.wow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.wow>div{flex:1;min-width:200px}
+html[data-theme=dark] .live{color:#7ee2ab}html[data-theme=dark] .live i{background:#7ee2ab}
+/* dark mode */
+html[data-theme=dark]{color-scheme:dark;--bg:#0b1220;--card:#131c33;--ink:#e6ebf5;--mu:#93a1bd;--ln:#243049;--ln2:#33415e;--navy:#dbe4f7;--ac:#3b6fe0;--ac2:#2f5fc8;--sh:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.25)}
+html[data-theme=dark] .in,html[data-theme=dark] .ni,html[data-theme=dark] .tbar select{background:#0e1730}
+html[data-theme=dark] .btn.g,html[data-theme=dark] .btn.danger{background:#18233d;color:var(--ink);border-color:var(--ln2)}
+html[data-theme=dark] .btn.g:hover{background:#1d2a48;border-color:#4a5b80}html[data-theme=dark] .btn.danger{color:#ffaab2}
+html[data-theme=dark] .hdr .btn.g{background:transparent;color:#e6ecfa;border-color:#ffffff33}html[data-theme=dark] .hdr .btn.g:hover{background:#ffffff14}
+html[data-theme=dark] .gc,html[data-theme=dark] dialog,html[data-theme=dark] #pop,html[data-theme=dark] .sheet,html[data-theme=dark] .hc,html[data-theme=dark] .k,html[data-theme=dark] .note.info{background:var(--card)}
+html[data-theme=dark] .note.info{color:#cbd5e8}
+html[data-theme=dark] .seg,html[data-theme=dark] .mbar{background:#0e1730}html[data-theme=dark] .seg .on,html[data-theme=dark] .mo.on{background:#1d2a48}
+html[data-theme=dark] .sheet td,html[data-theme=dark] .sheet th{border-color:#1c2740}
+html[data-theme=dark] .sheet th{background:#14224a}html[data-theme=dark] .sheet th.nm{background:#14224a}html[data-theme=dark] .sheet th.so{background:#223463}
+html[data-theme=dark] .sheet .nm{background:#101a30}html[data-theme=dark] .sheet tbody tr:hover .nm{background:#1a2744}
+html[data-theme=dark] .sheet tbody tr:hover td:not(.c):not(.sm):not(.tt){background-color:#18233d}
+html[data-theme=dark] .cc,html[data-theme=dark] .sN{background:var(--card)}html[data-theme=dark] .cc.so,html[data-theme=dark] .sheet .so{background:#0e1730}
+html[data-theme=dark] .ci:hover{background:#18233d}html[data-theme=dark] .ci:focus{background:#0e1730}
+html[data-theme=dark] .sm{background:#162139}html[data-theme=dark] .tt{background:#1a2744}
+html[data-theme=dark] .sheet tfoot td,html[data-theme=dark] .sheet tfoot .nm{background:#17223c}
+html[data-theme=dark] .sheet tr.me td{background:#15264a}html[data-theme=dark] .sheet tr.me .nm,html[data-theme=dark] .sheet tr.me td.hl{background:#1a3160}html[data-theme=dark] .sheet td.hl{background:#15203a}
+html[data-theme=dark] .sP,html[data-theme=dark] .hi{background:#12372a;color:#7ee2ab}
+html[data-theme=dark] .sA,html[data-theme=dark] .cc.sA,html[data-theme=dark] .lo{background:#3d1b1a;color:#ffaab2}
+html[data-theme=dark] .sL,html[data-theme=dark] .cc.sL,html[data-theme=dark] .mid{background:#3b2f0f;color:#f5d77a}
+html[data-theme=dark] .sFL,html[data-theme=dark] .cc.sFL{background:#2a2147;color:#c9b8f5}
+html[data-theme=dark] .sSL,html[data-theme=dark] .cc.sSL{background:#12324a;color:#9fd0f5}
+html[data-theme=dark] .sOFF,html[data-theme=dark] .na{background:#18233d;color:#6b7a99}
+html[data-theme=dark] .cc.sA .ci::placeholder{color:#ffaab2}html[data-theme=dark] .cc.sL .ci::placeholder{color:#f5d77a}html[data-theme=dark] .cc.sFL .ci::placeholder{color:#c9b8f5}html[data-theme=dark] .cc.sSL .ci::placeholder{color:#9fd0f5}
+html[data-theme=dark] .rk{background:#1d2a48}html[data-theme=dark] .rk.r1{background:#4a3b0a;color:#f5d77a}html[data-theme=dark] .rk.r2{background:#2a3347;color:#cbd5e1}html[data-theme=dark] .rk.r3{background:#4a2a14;color:#f0b98a}
+html[data-theme=dark] .you{background:#3b2f0f;color:#f5d77a;border-color:#6b5415}
+html[data-theme=dark] .rw+.rw{border-top-color:#243049}html[data-theme=dark] .bar{background:#1d2a48}
+html[data-theme=dark] .gc .sub,html[data-theme=dark] .gc .foot{color:#93a1bd}
+/* ===== visual upgrade: executive polish ===== */
+:root{--sh:0 1px 2px rgba(15,23,42,.05),0 8px 28px rgba(15,23,42,.07);--sh2:0 2px 4px rgba(15,23,42,.06),0 16px 40px rgba(20,34,74,.14);--rad:14px;--goldg:linear-gradient(135deg,#f3cf63,#d9a826 55%,#b9871a);--blueg:linear-gradient(135deg,#3b72ea,#2457d6 55%,#1c46b0);--disp:Manrope,Inter,system-ui,sans-serif}
+body{background:radial-gradient(900px 480px at 100% -5%,rgba(36,87,214,.10),transparent 60%),radial-gradient(700px 420px at -5% 35%,rgba(217,168,38,.08),transparent 60%),var(--bg);background-attachment:fixed}
+h1,h2,h3,.bt,.big{font-family:var(--disp)}
+::selection{background:#2457d633}
+*{scrollbar-width:thin;scrollbar-color:#94a3b866 transparent}
+/* header */
+.hdr{position:relative;border-bottom:0;background:radial-gradient(700px 240px at 80% -40%,rgba(59,114,234,.55),transparent 65%),radial-gradient(500px 200px at 10% 140%,rgba(217,168,38,.22),transparent 60%),linear-gradient(135deg,#16275a,#0b1430);box-shadow:0 10px 30px rgba(8,14,38,.35)}
+.hdr::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,#d9a826 20%,#f3cf63 50%,#d9a826 80%,transparent)}
+.top{padding-top:18px}
+.brand img{width:50px;height:50px;border-radius:13px;box-shadow:0 0 0 2px rgba(217,168,38,.55),0 8px 22px rgba(0,0,0,.35)}
+.bt{font-size:19px;letter-spacing:.03em;font-weight:800}.bs{letter-spacing:.04em}
+.acro{border-left-color:#d9a82655}
+.usr b{font-family:var(--disp)}
+.hdr .btn.g{border-radius:999px;padding:6px 14px;backdrop-filter:blur(4px)}
+#tabs{gap:6px;padding-bottom:0}
+#tabs button{border-radius:10px 10px 0 0;padding:12px 20px;letter-spacing:.01em;position:relative}
+#tabs button:hover{background:rgba(255,255,255,.07)}
+#tabs .on{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.13));border-bottom-color:#f3cf63;box-shadow:0 8px 18px -10px rgba(243,207,99,.8)}
+/* welcome */
+main{padding-top:30px}
+.wel{margin-bottom:24px;padding-left:16px;border-left:4px solid transparent;border-image:var(--goldg) 1}
+.wel h2{font-size:30px;font-weight:800;letter-spacing:-.025em;background:linear-gradient(90deg,var(--navy),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}
+.wel p{font-size:14.5px}
+/* KPI cards */
+.kp{gap:16px;margin-bottom:26px}
+.k{position:relative;overflow:hidden;border-radius:var(--rad);padding:20px 22px 18px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.k::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--blueg)}
+.k:nth-child(2)::before{background:var(--goldg)}.k:nth-child(3)::before{background:linear-gradient(135deg,#34c38f,#15803d)}.k:nth-child(4)::before{background:linear-gradient(135deg,#8b7bf0,#5a3d96)}
+.k::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(36,87,214,.10),transparent)}
+.k:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--ln2)}
+.k small{font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:11px}
+.big{font-size:36px;font-weight:800;margin-top:8px;letter-spacing:-.035em}
+/* panels and cards */
+.hc,.pn,.dmsg,.wow,.sheet,.note.info{border-radius:var(--rad)}
+.hc,.pn{transition:transform .2s,box-shadow .2s}.hc:hover,.pn:hover{box-shadow:var(--sh2)}
+.hc{padding:20px 22px}.hc h3{color:var(--ac);letter-spacing:.1em}
+.hc.t1{border-top:4px solid var(--gold)}.hc.t2{border-top:4px solid var(--ac)}.hc.t3{border-top:4px solid var(--ok)}
+.pn{border-top:4px solid var(--gold);overflow:hidden}
+.pnh{background:linear-gradient(180deg,rgba(36,87,214,.05),transparent);padding:16px 22px}.pnh h3{font-size:13px}
+.pnc{padding:16px 22px 10px}
+.rw{padding:11px 0;transition:background .15s}.rw:hover{background:rgba(36,87,214,.04)}
+.rw .v{font-family:var(--disp);font-weight:800;font-size:15px}
+.rk{width:26px;height:26px;font-family:var(--disp);font-weight:800}
+.rk.r1{background:var(--goldg);color:#3a2a00;box-shadow:0 2px 8px rgba(217,168,38,.5)}
+.rk.r2{background:linear-gradient(135deg,#eef1f6,#b8c2d3);color:#2b3548}
+.rk.r3{background:linear-gradient(135deg,#f0c9a4,#c98a52);color:#4a2608}
+/* hero banners */
+.dmsg,.wow{position:relative;overflow:hidden;border:0;padding:20px 24px;background:radial-gradient(520px 160px at 100% 0%,rgba(59,114,234,.55),transparent 70%),linear-gradient(135deg,#16275a,#0b1430);box-shadow:var(--sh2)}
+.dmsg::before,.wow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--goldg)}
+.dmsg b,.wow b{color:#fff;font-family:var(--disp);font-size:18px;font-weight:800;letter-spacing:-.01em}
+.wow small{color:#c3d0ee}
+/* tables */
+.sheet{box-shadow:var(--sh2);border-color:var(--ln)}
+.sheet th{background:linear-gradient(180deg,#1b2f6b,#14224a);letter-spacing:.03em}
+.sheet th.nm{background:#14224a}
+.sheet tbody tr{transition:background .12s}
+.sheet tfoot td{background:#e3eaf7}.sheet tfoot .nm{background:#e3eaf7}
+.pill{padding:3px 11px;font-family:var(--disp);font-weight:800}
+.bar{height:9px}.bar i{background:linear-gradient(90deg,#2457d6,#6aa0ff)}
+.you{background:var(--goldg);color:#3a2a00;border:0}
+/* controls */
+.btn{background:var(--blueg);border:0;border-radius:10px;padding:10px 18px;box-shadow:0 4px 12px rgba(36,87,214,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+.btn:hover{background:var(--blueg);filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 18px rgba(36,87,214,.35)}
+.btn.g,.btn.danger{box-shadow:none;border:1px solid var(--ln2)}.btn.g:hover,.btn.danger:hover{transform:none;box-shadow:none;filter:none}
+.btn.g{background:#fff}.btn.g:hover{background:#f8fafc}.btn.danger{background:#fff}.btn.danger:hover{background:#fef3f2}
+.btn.s{padding:7px 13px}
+.in{border-radius:10px;padding:11px 14px}
+.mbar{border-radius:12px;padding:4px}.mo{border-radius:9px;padding:8px 18px}.mo.on{background:var(--blueg);color:#fff;box-shadow:0 4px 12px rgba(36,87,214,.3)}.mo.on svg{opacity:1}
+.seg{border-radius:12px}.seg .on{box-shadow:0 2px 6px rgba(15,23,42,.15)}
+dialog{border-radius:16px;box-shadow:0 30px 80px rgba(8,14,38,.5)}dialog::backdrop{backdrop-filter:blur(5px)}
+/* sign-in */
+#gate{background:radial-gradient(800px 480px at 85% -10%,rgba(59,114,234,.7),transparent 60%),radial-gradient(600px 400px at 0% 110%,rgba(217,168,38,.28),transparent 60%),linear-gradient(135deg,#14224a,#070d22)}
+.gc{border-radius:20px;padding:40px 34px 30px;border-top:4px solid var(--gold);box-shadow:0 30px 80px rgba(3,8,24,.55);animation:gin .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gin{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.gc img{box-shadow:0 0 0 3px rgba(217,168,38,.6),0 12px 30px rgba(20,34,74,.35)}
+.gc h1{font-size:24px;font-weight:800}
+/* dark mode */
+html[data-theme=dark] body{background:radial-gradient(900px 480px at 100% -5%,rgba(59,111,224,.16),transparent 60%),radial-gradient(700px 420px at -5% 35%,rgba(217,168,38,.07),transparent 60%),var(--bg)}
+html[data-theme=dark] .k::after{background:radial-gradient(closest-side,rgba(91,141,239,.16),transparent)}
+html[data-theme=dark] .hc h3{color:#7fa6f5}
+html[data-theme=dark] .btn.g,html[data-theme=dark] .btn.danger{background:#18233d}
+html[data-theme=dark] .mbar{background:#0e1730}
+html[data-theme=dark] .sheet tfoot td,html[data-theme=dark] .sheet tfoot .nm{background:#17223c}
+html[data-theme=dark] .rw:hover{background:rgba(91,141,239,.08)}
+@media(max-width:600px){.big{font-size:28px}.wel h2{font-size:23px}.k{padding:14px 16px}.hdr{box-shadow:none}#tabs button{padding:11px 14px}}
+@media(prefers-reduced-motion:reduce){.k,.hc,.pn,.btn,.gc{transition:none;animation:none}.k:hover{transform:none}}
+</style></head><body>
+
+<section id="gate"><button class="btn g s thm" type="button" style="position:fixed;top:14px;right:14px;background:#ffffff1a;color:#fff;border-color:#ffffff40;z-index:5">Dark mode</button><div class="gc"><img src="logo.png" alt="Metro Team emblem"><h1>Metro Team</h1><p class="sub">Agent Register · Sign in to continue</p>
+<div class="seg"><button data-r="agent" class="on">Agent</button><button data-r="admin">Admin</button></div>
+<select class="in" id="who"></select><input class="in" id="pw" type="password" placeholder="Password" autocomplete="off">
+<button class="btn" id="go" style="width:100%">Sign in</button><div id="err"></div><div class="foot">One Team / One Goal</div><p style="margin:12px 0 0;font-size:11px;color:#94a3b8">Authorised Metro Team members only</p></div></section>
+
+<div id="app" hidden>
+<header class="hdr"><div class="top"><div class="brand"><img src="logo.png" alt="Metro Team"><div><div class="bt">Metro Team</div><div class="bs">Agent Register</div></div></div>
+<div class="acro"><span><b>M</b>indset</span><span><b>E</b>xcellence</span><span><b>T</b>eamwork</span><span><b>R</b>esilience</span><span><b>O</b>wnership</span></div>
+<div class="who" id="who2"></div></div>
+<div class="navwrap"><nav id="tabs"></nav></div></header>
+<main><div class="wel" id="wel"></div><div id="main"></div></main>
+<footer class="ft">Metro Team · One Team / One Goal</footer>
+<div id="pop" hidden><button data-v="P" class="sP">P · Present</button><button data-v="A" class="sA">A · Absent</button><button data-v="L" class="sL">L · Leave</button><button data-v="FL" class="sFL">FL · Funeral leave</button><button data-v="SL" class="sSL">SL · Sick leave</button><button data-v="" class="clr">Clear</button></div>
+<input type="file" id="impf" hidden accept=".xlsx,.xls,.csv">
+<dialog id="idlg"><h2>Import CRM file</h2><div id="ibody"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn g" id="ic">Cancel</button><button class="btn" id="ig">Import calls</button></div></dialog>
+<dialog id="dlg"><h2>Connect GitHub</h2><p class="ss">One-time step on this device so your changes save online. Paste your GitHub access token.</p>
+<input class="in" id="tk" type="password" placeholder="github_pat_…"><div id="derr" class="err"></div>
+<div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn g" id="dc">Later</button><button class="btn" id="ds2">Connect</button></div></dialog>
+<dialog id="pdlg"><h2>Change my password</h2><p class="ss">Choose a password you will remember. If you ever forget it, your admin can reset it to the default.</p>
+<input class="in" id="pc" type="password" placeholder="Current password" autocomplete="current-password">
+<input class="in" id="pn" type="password" placeholder="New password (at least 3 characters)" autocomplete="new-password">
+<input class="in" id="pn2" type="password" placeholder="Repeat new password" autocomplete="new-password"><div id="perr" class="err"></div>
+<div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn g" id="pcx">Cancel</button><button class="btn" id="psv">Save password</button></div></dialog>
+</div>
+
+<script>
+const LOGURL='https://script.google.com/macros/s/AKfycby7uzMboyhlS6FTb3KbVaMAcvq6RXehSO--jHhLCybWuQ_OzBHiUzIEZXizYT2IcafB/exec';/* sign-in log: see login-log-script.gs */
+const OWNER='wisekunda21',REPO='teammetro',BR='main',FILE='data.json',DEFPW='m45',ADMIN_HASH='03a4d2322c072c5de7980f8d8565cde0f6424d32c8c5eb3ca92862736b7f5c88';
+const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
+const $=s=>document.querySelector(s),CY=['','P','A','L','FL','SL'],ST={P:'Present',A:'Absent',L:'Leave',FL:'Funeral',SL:'Sick'};
+const MN=['2026-09','2026-10','2026-11','2026-12'],MT={'2026-09':'September','2026-10':'October','2026-11':'November','2026-12':'December'};
+let S={d:null,m:'2026-10',tab:'m',role:'',me:null,sha:null,day:{},ss:['','']},tok='',timer=0,R='agent';
+const ls=(k,v)=>{try{return v===undefined?localStorage.getItem(k):v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+let FMc=null;const sf=(m,k)=>{const mm=S.d.months[m]||{},s=mm.staff?.[k];return s?Object.values(s).reduce((t,v)=>t+v,0):(mm.crm?.[k]?.s||0)};const crc=(m,k)=>{const s=sf(m,k);return `<td>${s?fmtH(s):'—'}</td>`};const crmOnly=a=>a.crm!==undefined?!!a.crm:/tamika|daniell?a/i.test(a.name);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),gr=()=>{const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'};
+const fmtH=sec=>{sec=Math.round(sec||0);return Math.floor(sec/3600)+'h '+String(Math.floor(sec%3600/60)).padStart(2,'0')+'m'},fmtM=sec=>sec?Math.floor(sec/60)+':'+String(Math.round(sec%60)).padStart(2,'0'):'—';
+const fmt=n=>Number(n).toLocaleString('en-US'),pc=p=>p==null?'—':(p*100).toFixed(1)+'%';
+const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+const dim=m=>new Date(+m.slice(0,4),+m.slice(5),0).getDate(),dow=(m,d)=>(new Date(+m.slice(0,4),+m.slice(5)-1,d).getDay()+6)%7,wk=(m,d)=>Math.floor((d-1+dow(m,1))/7);
+const M=m=>S.d.months[m]||(S.d.months[m]={}),bs=(m,k,d)=>{const a=S.d.agents.find(x=>x.k==k),t=a&&a.start||getFM().i[k];return !!t&&m+'-'+String(d).padStart(2,'0')<t},att=(m,k,d)=>dow(m,d)==6||bs(m,k,d)?'OFF':(M(m).att?.[k]?.[d]||''),cl=(m,k,d)=>M(m).calls?.[k]?.[d]||0;
+const cls=p=>p==null?'na':p>=.9?'hi':p>=.75?'mid':'lo',AG=()=>S.d.agents,isA=()=>S.role=='admin';
+async function sha(s){return[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('')}
+const pwh=(k,p)=>sha(k+':'+p.trim().toLowerCase());
+function ref(m){if(S.day[m])return S.day[m];const c=M(m).calls||{},t={};let mx=0;for(const k in c)for(const d in c[k])mx=Math.max(mx,t[d]=(t[d]||0)+c[k][d]);let r=1;for(const d in t)if(t[d]>=mx*.5&&+d>r)r=+d;return r}
+function stat(m,k,r){const o={day:0,week:0,month:0,P:0,A:0,L:0,FL:0,SL:0,pct:null},mm=M(m);
+ if(mm.totals){o.month=mm.totals[k]||0;o.lock=1;return o}
+ for(let d=1;d<=dim(m);d++){const c=cl(m,k,d);o.month+=c;if(d==r)o.day=c;if(wk(m,d)==wk(m,r))o.week+=c;const a=att(m,k,d);if(o[a]!==undefined)o[a]++}
+ const t=o.P+o.A+o.L+o.FL+o.SL;o.pct=t?o.P/t:null;return o}
+const ss=(t,c='')=>{S.ss=[t,c];const e=$('#ss');if(e){e.textContent=t;e.className='ss '+c}};
+
+const LK='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-label="locked"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+/* ---------- views ---------- */
+function sumT(rows){const T={day:0,week:0,month:0,P:0,n:0};rows.forEach(s=>{T.day+=s.day;T.week+=s.week;T.month+=s.month;T.P+=s.P;T.n+=s.P+s.A+s.L+s.FL+s.SL});T.pct=T.n?T.P/T.n:null;return T}
+function kpis(list){const m=S.m,r=ref(m),T=sumT(list.map(a=>stat(m,a.k,r))),lk=!!M(m).totals,f=v=>lk?'—':fmt(v),w=isA()?'Team':'My';
+ return `<div class=kp><div class=k><small>${w} calls on ${lk?'the day':r+' '+MT[m].slice(0,3)}</small><span class=big>${f(T.day)}</span></div><div class=k><small>${w} calls this week</small><span class=big>${f(T.week)}</span></div>
+ <div class=k><small>${w} calls in ${MT[m]}</small><span class=big>${fmt(T.month)}</span></div><div class=k><small>Attendance</small><span class=big>${pc(T.pct)}</span></div></div>`}
+const DY=m=>Array.from({length:dim(m)},(_,i)=>i+1);
+const sumA=k=>{const s=stat(S.m,k,1);return ['P','A','L','FL','SL'].map(x=>`<td class=sm>${s[x]}</td>`).join('')+`<td class=sm><span class="pill ${cls(s.pct)}">${pc(s.pct)}</span></td>`};
+const sumC=k=>{const m=S.m,n=dim(m),w=Array(wk(m,n)+1).fill(0);let t=0;for(let d=1;d<=n;d++){const c=cl(m,k,d);w[wk(m,d)]+=c;t+=c}return w.map(x=>`<td class=sm>${x?fmt(x):'—'}</td>`).join('')+`<td class=tt>${fmt(t)}</td>`};
+function foot(){const m=S.m;return `<tr><td class=nm>Present</td>${DY(m).map(d=>{const a=AG().filter(x=>att(m,x.k,d)=='P').length;return `<td>${a||''}</td>`}).join('')}<td colspan=6></td></tr>`}
+function cfoot(){const m=S.m,n=dim(m),W=wk(m,n)+1,wt=Array(W).fill(0);let g=0,h='';for(let d=1;d<=n;d++){const t=AG().reduce((s,a)=>s+cl(m,a.k,d),0);wt[wk(m,d)]+=t;g+=t;h+=`<td>${t||''}</td>`}return `<tr><td class=nm>Team total</td>${h}${wt.map(x=>`<td>${fmt(x)}</td>`).join('')}<td>${fmt(g)}</td></tr>`}
+const hd=(m,ed,ex)=>`<thead><tr class=h1><th class=nm rowspan=2>Agent</th>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}">${'MTWTFSS'[dow(m,d)]}</th>`).join('')}${ex.map(x=>`<th rowspan=2>${x}</th>`).join('')}</tr><tr class=h2>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}" ${ed&&dow(m,d)<6?`data-d=${d} title="Mark everyone present"`:''}>${d}</th>`).join('')}</tr></thead>`;
+const nmc=a=>`<td class=nm>${esc(a.name)}<small>ID ${a.id}</small></td>`;
+function attReg(list){const m=S.m,ed=isA();
+ return `<div class=sheet><table id=rg>${hd(m,ed,['P','A','L','FL','SL','Att %'])}<tbody>`+list.map(a=>`<tr data-r=${a.k}>${nmc(a)}${DY(m).map(d=>{const v=att(m,a.k,d),e=ed&&v!='OFF';return `<td class="c s${v||'N'}${e?'':' ro'}" ${e?'tabindex=0':''} data-k=${a.k} data-d=${d}>${v}</td>`}).join('')}${sumA(a.k)}</tr>`).join('')+`</tbody>${ed?`<tfoot id=ft>${foot()}</tfoot>`:''}</table></div>`}
+function callReg(list){const m=S.m,ed=isA(),W=wk(m,dim(m))+1;
+ return `<div class=sheet><table id=cg>${hd(m,false,[...Array.from({length:W},(_,i)=>'Wk '+(i+1)),'Total'])}<tbody>`+list.map(a=>`<tr data-r=${a.k}>${nmc(a)}${DY(m).map(d=>{const v=cl(m,a.k,d),x=!v&&!crmOnly(a)?att(m,a.k,d):'',cd=x&&x!='P'&&x!='OFF'?x:'';return `<td class="cc${dow(m,d)==6?' so':''}${cd?' s'+cd:''}">${ed?`<input class=ci type=number min=0 data-k=${a.k} data-d=${d} value="${v||''}"${cd?` placeholder="${cd}"`:''}>`:v||cd||''}</td>`}).join('')}${sumC(a.k)}</tr>`).join('')+`</tbody>${ed?`<tfoot id=ft>${cfoot()}</tfoot>`:''}</table></div>`}
+const CV=[[1028,'Agness Phiri',688],[1030,'Anastasia Banda',667],[1081,'Beauty Kamonga',431],[1039,'Betty H. Numbo',719],[1093,'Blessing M. Phiri',750],[1079,'Blessing Nankamba',697],[1075,'Chaiwe Zulu',760,1],[1092,'Faith Alicia Mvula',663],[1056,'Kaila Simenda',783],[1011,'Loveness Mulongoti',635],[1003,'Lucy Mukaka',675],[1021,'Magaret Kachingwe',null],[1050,'Maureen Liyama',673],[1035,'Micheal Phiri',622],[1017,'Michelle Mutale',768],[1020,'Precious Zulu',742],[1037,'Prudence Mangobwe',749],[1024,'Selifa Phiri',749],[1090,'Tricia M. Chikoka',662],[1010,'Violet Chanka',671],[1063,'Natasha Mwaba',737]];/* September conversions: [User ID, name, conversions, 1 = ID now belongs to someone else] */
+const CVM=Object.fromEntries(CV.map(x=>[x[0],x[2]])),CVL=new Set(CV.filter(x=>x[3]).map(x=>x[0])),
+cvOf=(a,m='2026-09')=>m=='2026-09'?(CVL.has(a.id)?null:(CVM[a.id]??null)):(M(m).conv?.[a.k]??null),
+cvP=v=>v==null?'—':(v*100).toFixed(1)+'%',
+cvRows=m=>m=='2026-09'?CV.map(x=>({id:x[0],name:x[1],v:x[2],left:!!x[3],ag:AG().find(g=>g.id==x[0])})):AG().map(g=>({id:g.id,name:g.name,v:cvOf(g,m),ag:g})),
+rowCalls=(r,m)=>r.ag?stat(m,r.ag.k,1).month:0,
+rowRate=(r,m)=>{const c=rowCalls(r,m);return r.v!=null&&c>0?r.v/c:null},
+teamRate=(rs,m)=>{const q=rs.filter(r=>rowRate(r,m)!=null),c=q.reduce((t,r)=>t+rowCalls(r,m),0);return c?q.reduce((t,r)=>t+r.v,0)/c:null};
+function cvCard(rw){const m='2026-09',rs=cvRows(m),cs=rs.filter(x=>x.v!=null);if(!cs.length)return'';
+ const tot=cs.reduce((t,x)=>t+x.v,0),avg=Math.round(tot/cs.length),srt=cs.slice().sort((x,y)=>y.v-x.v||x.name.localeCompare(y.name));
+ if(isA()){const un=rs.filter(x=>!x.ag).map(x=>x.name+' ('+x.id+')');
+  return `<section class="hc t1"><h3>Top 3 conversions · September</h3>${srt.slice(0,3).map((x,i)=>rw(`<span class="rk r${i+1}">${i+1}</span>`,esc(x.name),fmt(x.v))).join('')}${rw('','Team total',fmt(tot))}${rw('','Average per agent',fmt(avg))}${rw('','Team conversion rate',cvP(teamRate(rs,m)))}<p class=sb>Final September conversions from ${cs.length} agents.${un.length?' Not on your roster, so calls and rate are not shown for: '+esc(un.join(', '))+'.':''}</p></section>`}
+ const me=cs.find(x=>x.ag&&x.ag.k==S.me&&!x.left);
+ if(!me)return `<section class="hc t1"><h3>My conversions · September</h3><p class=sb>There is no September conversion record for you.</p></section>`;
+ const rk=1+cs.filter(x=>x.v>me.v).length;
+ return `<section class="hc t1"><h3>Conversions · September</h3><div class=lab>Top 3</div>${srt.slice(0,3).map((x,i)=>rw(`<span class="rk r${i+1}">${i+1}</span>`,esc(x.name),fmt(x.v))).join('')}<div class=lab>You</div>${rw('','My conversions',fmt(me.v))}${rw('','My position','#'+rk+' of '+cs.length)}${rw('','My conversion rate',cvP(rowRate(me,m)))}${rw('','Team average',fmt(avg))}<p class=sb>Final September conversions. Conversion rate = conversions ÷ total calls.</p></section>`}
+function convv(mb){const m=S.m,ad=isA(),sp=m=='2026-09',all=cvRows(m),rs=all,
+ rk=r=>r.v==null?null:1+all.filter(x=>x.v!=null&&x.v>r.v).length,
+ body=((ad&&!sp)?rs:rs.slice().sort((x,y)=>(y.v??-1)-(x.v??-1)||x.name.localeCompare(y.name))).map(r=>{const c=rowCalls(r,m),k=r.ag?r.ag.k:'',
+  cell=sp?(r.v==null?'<span style="color:var(--mu)">Not with us</span>':fmt(r.v)):(ad?`<input class=ni type=number min=0 step=1 data-cv=${k} value="${r.v??''}" style="width:96px;text-align:right" aria-label="Conversions for ${esc(r.name)}">`:(r.v==null?'—':fmt(r.v)));
+  const mine=!ad&&r.ag&&r.ag.k==S.me&&!r.left;return `<tr${mine?' class=me':''}><td>${rk(r)==null?'—':rk(r)<=3?`<span class="rk r${rk(r)}" style="margin:0">${rk(r)}</span>`:rk(r)}</td><td class=nm>${esc(r.name)}${mine?'<span class=you>You</span>':''}</td><td>${r.id}</td><td class=n>${fmt(c)}</td><td class=n>${cell}</td><td class=n>${cvP(rowRate(r,m))}</td></tr>`}).join(''),
+ note=sp?`<div class="note info">September is locked: final conversions. Magaret Kachingwe was not with the team in September.${ad?' Chaiwe Zulu (1075) worked in September; that ID now belongs to a different agent.':''}</div>`:`<div class=tbar>${ad?'Type each agent\'s conversions for the month. Changes save online automatically.':'Conversions for the whole team. Your row is highlighted.'} Conversion rate = conversions ÷ total calls.</div>`;
+ if(!rs.length)return mb+note+`<div class="note info">There is no ${MT[m]} conversion record yet.</div>`;
+ return mb+note+`<div class=sheet><table><thead><tr><th>#</th><th class=nm>Agent</th><th>User ID</th><th>Total Calls</th><th>Conversions</th><th>Conv. rate</th></tr></thead><tbody>${body}</tbody><tfoot><tr><td></td><td class=nm>TOTAL</td><td></td><td class=n>${fmt(rs.reduce((t,r)=>t+rowCalls(r,m),0))}</td><td class=n>${fmt(rs.reduce((t,r)=>t+(r.v||0),0))}</td><td class=n>${cvP(teamRate(rs,m))}</td></tr></tfoot></table></div>`}
+function sep(list){const t=M('2026-09').totals;return `<div class=sheet><table><thead><tr><th class=nm>Agent</th><th>User ID</th><th>Total Calls</th></tr></thead><tbody>${list.map(a=>`<tr><td class="nm">${esc(a.name)}</td><td>${a.id}</td><td class=n>${fmt(t[a.k]||0)}</td></tr>`).join('')}</tbody><tfoot><tr><td class=nm>TOTAL</td><td></td><td class=n>${fmt(list.reduce((s,a)=>s+(t[a.k]||0),0))}</td></tr></tfoot></table></div>`}
+function perf(mb,dsel,lk){const m=S.m,r=ref(m),ad=isA(),pb=lk?'month':(S.pb||'month'),L={day:lk?'Day':'Day '+r,week:'This week',month:MT[m]},
+ rows=AG().map(x=>({a:x,s:stat(m,x.k,r)})).sort((x,y)=>y.s[pb]-x.s[pb]||x.a.name.localeCompare(y.a.name));
+ rows.forEach((o,i)=>o.r=i&&o.s[pb]==rows[i-1].s[pb]?rows[i-1].r:i+1);
+ const v=o=>o.s[pb],tot=rows.reduce((t,o)=>t+v(o),0),n=rows.length,avg=n?Math.round(tot/n):0,top=n?v(rows[0]):0,mine=rows.find(o=>o.a.k==S.me),
+ card=(l,x)=>`<div class=k><small>${l}</small><span class=big>${x}</span></div>`;let cards;
+ if(ad)cards=card('Team calls · '+L[pb],fmt(tot))+card('Average per agent',fmt(avg))+card('Top performer',top?`<span style="font-size:20px">${esc(rows[0].a.name)}</span>`:'—')+card('Agents on the board',`${rows.filter(o=>v(o)>0).length}<span class=of> of ${n}</span>`);
+ else{const up=rows.filter(o=>v(o)>v(mine)).pop(),lo=rows.find(o=>v(o)<v(mine));
+  cards=card('Your rank · '+L[pb],`#${mine.r}<span class=of> of ${n}</span>`)+card('Your calls',fmt(v(mine)))+(up?card('Calls to pass rank '+up.r,fmt(v(up)-v(mine)+1)):card('Your lead over next agent',lo?'+'+fmt(v(mine)-v(lo)):'—'))+card('Team average per agent',fmt(avg))}
+ const mt=['day','week','month'],
+ th=`<thead><tr><th class=nm>Agent</th>${ad?'<th>User ID</th>':''}<th>${L.day}</th><th>Week</th><th>${MT[m]}</th><th>Staffed</th><th style="min-width:170px">Progress vs leader</th>${ad?'<th>P</th><th>A</th><th>L</th><th>FL</th><th>SL</th><th>Attendance</th>':''}</tr></thead>`,
+ body=rows.map(o=>{const s=o.s,me=o.a.k==S.me,pct=top?Math.round(v(o)/top*100):0;
+  return `<tr${me?' class=me':''}><td class=nm><span class="rk${o.r<4&&v(o)>0?' r'+o.r:''}">${o.r}</span>${esc(o.a.name)}${me?'<span class=you>You</span>':''}</td>${ad?`<td>${o.a.id}</td>`:''}${mt.map(x=>`<td class="n${x==pb?' hl':''}">${lk&&x!='month'?'—':fmt(s[x])}</td>`).join('')}${crc(m,o.a.k)}<td><div class=bar title="${pct}% of leader"><i style="width:${pct}%"></i></div></td>${ad?['P','A','L','FL','SL'].map(x=>`<td>${lk?'—':s[x]}</td>`).join('')+`<td><span class="pill ${cls(s.pct)}">${pc(s.pct)}</span></td>`:''}</tr>`}).join('');
+ return `<div class=kp>${cards}</div>${mb}${lk?'':`<div class=tbar><span>Rank by</span><div class=mbar style="margin:0">${[['day',L.day],['week','This week'],['month',MT[m]]].map(([k,t])=>`<button class="mo${k==pb?' on':''}" data-pb=${k}>${t}</button>`).join('')}</div>${dsel}</div>`}
+ <div class="note info">${ad?'Admin view: includes attendance. Agents see call figures only.':'Team standings are based on call volumes only. Attendance records stay private to you and your admin.'}${!lk&&!tot?' No calls have been recorded for this period yet.':''}</div>
+ <div class=sheet><table>${th}<tbody>${body}</tbody></table></div><p class=note style="padding:10px 2px 0">${lk?'Final call totals for '+MT[m]+'.':'Ranked by '+L[pb].toLowerCase()+' calls · figures as at '+r+' '+MT[m]+' 2026.'}</p>`}
+/* ---------- home: spotlight ---------- */
+function weekP(m,k,r){return DY(m).filter(d=>wk(m,d)==wk(m,r)&&att(m,k,d)=='P').length}
+const TD=300,TW=1800,TM=TD*26,/* 26 working days a month */cfx=()=>'';
+function belowv(){if(!isA())return '';const m=S.m,r=ref(m),B=AG().map(a=>({a,w:stat(m,a.k,r).week})).filter(o=>o.w<TW).sort((x,y)=>x.w-y.w);
+ if(!B.length)return `<div class="note info">✅ Every agent has reached ${fmt(TW)} calls this week.</div>`;
+ return `<div class=tgt style="border-color:#d33"><b style="color:#d33">Below weekly target (${fmt(TW)}): ${B.length} of ${AG().length} agents</b><small>${B.map(o=>`<span style="display:inline-block;margin:3px 6px 0 0;padding:2px 8px;border-radius:99px;background:rgba(220,50,50,.14);color:#c22">${esc(o.a.name)} · ${fmt(o.w)}</span>`).join('')}</small></div>`}
+function zed(){return `<div class=znote role=note><b>Please note: Zedfin days</b><span class=zt>If you are working on Zedfin on a particular day, your calls for that day are not imported from the CRM and are not counted for conversion.</span></div>`}
+function tgt(rows,m,r){const left=DY(m).filter(d=>wk(m,d)==wk(m,r)&&d>r&&dow(m,d)<6).length,
+ when=left==0?'The week closes today.':left==1?'The week closes tomorrow.':left+' working days left this week.';
+ if(isA()){const met=rows.filter(o=>o.s.week>=TW).length,n=rows.length;
+  return `<div class=tgt><b>Target reminder: ${fmt(TD)} calls a day · ${fmt(TW)} a week · ${fmt(TM)} a month</b><small>${when} ${met} of ${n} agents have reached ${fmt(TW)} this week, ${n-met} still to go. ${rows.filter(o=>o.s.month>=TM).length} of ${n} have reached the monthly ${fmt(TM)}. Each agent sees their own reminder on their Home page.</small></div>`}
+ const o=rows.find(x=>x.a.k==S.me);if(!o)return'';const w=o.s.week,need=Math.max(0,TW-w),mo=o.s.month,mt=mo>=TM?`Monthly target of ${fmt(TM)} reached!`:`Monthly target ${fmt(TM)}: you are on ${fmt(mo)}, ${fmt(TM-mo)} to go.`;
+ if(need==0)return `<div class="tgt ok"><b>Weekly target achieved: ${fmt(TW)} calls</b><small>${fmt(w)} calls this week. ${mt} Thank you for your consistent effort.</small></div>`;
+ return `<div class=tgt><b>Reminder: your target is ${fmt(TD)} calls a day, ${fmt(TW)} a week and ${fmt(TM)} a month.</b><small>You are on ${fmt(w)} calls this week, ${fmt(need)} to go. ${when} Day ${r}: ${fmt(o.s.day)} of ${fmt(TD)}. ${mt}</small></div>`}
+function lastWk(){const t=new Date(),n=(t.getDay()+6)%7,mon=new Date(t.getFullYear(),t.getMonth(),t.getDate()-n-7),tot={},pr={};let any=0,a,b;
+ for(let i=0;i<7;i++){const x=new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i),mk=x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0'),c=S.d.months[mk]?.calls;if(i==0)a=x;if(i==5)b=x;const at=S.d.months[mk]?.att;if(at)for(const k in at)if(at[k][x.getDate()]=='P')pr[k]=(pr[k]||0)+1;if(!c)continue;
+  for(const k in c){const v=c[k][x.getDate()]||0;if(v){tot[k]=(tot[k]||0)+v;any=1}}}
+ const L=x=>x.getDate()+' '+MT_S[x.getMonth()];return{any,tot,pr,label:L(a)+' – '+L(b)}}
+const MT_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const NOLOW=/wisdom|daniell?a\s+kaseba|christina/i;/* agents with no calls: never shown as lowest performer */
+function lastTop(){const w=lastWk(),hasP=Object.keys(w.pr).length>0,all=AG().map(a=>({a,v:w.tot[a.k]||0,p:w.pr[a.k]||0})),
+ top=all.filter(o=>o.v>0).sort((x,y)=>y.v-x.v||x.a.name.localeCompare(y.a.name)),
+ el=all.filter(o=>!NOLOW.test(o.a.name)&&(!hasP||o.p>0)).sort((x,y)=>x.v-y.v||x.a.name.localeCompare(y.a.name)),
+ yo=o=>o.a.k==S.me?'<span class=you>You</span>':'',
+ row=(o,r,c)=>`<div class=rw><span class="rk${c?' r'+c:''}">${r}</span><b>${esc(o.a.name)}${yo(o)}</b><span class=dy>${o.p} day${o.p==1?'':'s'} present</span><span class=v>${fmt(o.v)}</span></div>`,
+ trn=AG().filter(a=>/daniell?a\s+kaseba|christina/i.test(a.name)).map(a=>a.name),
+ tm=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+ if(!top.length)return `<section class=pn><div class=pnh><h3>Last week performance</h3><small>${w.label}</small><span class=live><i></i>Live</span></div><div class=pnc><p class=sb style="margin:0 0 10px;color:var(--mu)">No calls were recorded for this period.</p></div></section>`;
+ const lo=el.slice(0,3),n=el.length;
+ return `<section class=pn><div class=pnh><h3>Last week performance</h3><small>${w.label} · Updated ${tm}</small><span class=live><i></i>Live</span></div><div class=png>
+<div class=pnc><div class=lab>Top 3 by calls</div>${top.slice(0,3).map((o,i)=>row(o,i+1,i+1)).join('')}</div>
+<div class=pnc><div class=lab>Lowest 3 by calls</div>${lo.map((o,i)=>row(o,n-i,0)).join('')}</div></div>
+<p class=foot>Ranked by total calls, Monday to Saturday.${trn.length?` <b>Please note:</b> ${trn.map(esc).join(' and ')} ${trn.length>1?'are':'is'} not included in the lowest list, as ${trn.length>1?'they':'they'} started training and ${trn.length>1?'have':'has'} not yet made enough calls to be compared.`:''}</p></section>`}
+function dayTop(){const m=S.m,mm=M(m);if(mm.totals||!mm.calls)return'';const r=ref(m),at=mm.att||{},hasAtt=AG().some(a=>at[a.k]&&at[a.k][r]),
+ all=AG().map(a=>({a,v:cl(m,a.k,r),p:at[a.k]?.[r]||'',st:mm.staff?.[a.k]?.[r]||0})).filter(o=>o.v>0),
+ top=all.slice().sort((x,y)=>y.v-x.v||x.a.name.localeCompare(y.a.name)),
+ el=all.filter(o=>!NOLOW.test(o.a.name)&&(!hasAtt||o.p=='P')).sort((x,y)=>x.v-y.v||x.a.name.localeCompare(y.a.name)),
+ yo=o=>o.a.k==S.me?'<span class=you>You</span>':'',
+ row=(o,i,c)=>`<div class=rw><span class="rk${c?' r'+c:''}">${i}</span><b>${esc(o.a.name)}${yo(o)}</b>${o.st?`<span class=dy>${fmtH(o.st)} staffed</span>`:''}<span class=v>${fmt(o.v)}</span></div>`,
+ dt=new Date(+m.slice(0,4),+m.slice(5)-1,r),lbl=dt.toLocaleDateString([],{weekday:'long'})+' '+r+' '+MT[m].slice(0,3),n=el.length,lo=el.slice(0,3),nw=new Date(),dd=Math.round((new Date(nw.getFullYear(),nw.getMonth(),nw.getDate())-dt)/864e5),ttl=dd==0?"Today's performance":dd==1?"Yesterday's performance":dt.toLocaleDateString([],{weekday:'long'})+"'s performance";
+ if(!top.length)return'';
+ return `<section class=pn><div class=pnh><h3>${ttl}</h3><small>${lbl} · from the CRM report · ${all.length} agents with calls</small></div><div class=png>
+<div class=pnc><div class=lab>Top 3 by calls</div>${top.slice(0,3).map((o,i)=>row(o,i+1,i+1)).join('')}</div>
+<div class=pnc><div class=lab>Lowest 3 by calls</div>${lo.length?lo.map((o,i)=>row(o,n-i,0)).join(''):'<p class=sb style="margin:0 0 10px;color:var(--mu)">No eligible agents.</p>'}</div></div>
+<p class=foot>Ranked by wrapped calls on this day. Lowest list only counts agents marked present with calls in the report; trainees and agents on leave are left out.</p></section>`}
+function dmsg(){const n=new Date().getDay();if(n==0)return'';const D=['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][n];return `<div class=dmsg role=note><b>It's a beautiful ${D} guys, let's try to push numbers</b></div>`}
+function home(lk){const m=S.m,r=ref(m),mo=MT[m].slice(0,3),rows=AG().map(a=>({a,s:stat(m,a.k,r)})),yo=o=>o.a.k==S.me?'<span class=you>You</span>':'',
+ nm=g=>esc(g[0].a.name)+(g.length>1?` <small style="color:var(--mu)">+${g.length-1} more</small>`:''),
+ rw=(rk,t,v)=>`<div class=rw>${rk}<b>${t}</b><span class=v>${v}</span></div>`,
+ t3=rows.slice().sort((x,y)=>y.s.month-x.s.month||x.a.name.localeCompare(y.a.name)).filter(o=>o.s.month>0).slice(0,3);
+ const c1=`<section class="hc t1"><h3>Top 3 · ${MT[m]}</h3>${t3.length?t3.map((o,i)=>rw(`<span class="rk r${i+1}">${i+1}</span>`,esc(o.a.name)+yo(o),fmt(o.s.month))).join(''):'<p class=sb>No calls recorded yet.</p>'}<p class=sb>Ranked by total calls in ${MT[m]}.</p></section>`;
+ let c2,ban='',tb='';
+ if(lk)c2=`<section class="hc t2"><h3>Week highlights</h3><p class=sb>Weekly figures are not tracked for ${MT[m]}.</p></section>`;
+ else{const ds=DY(m).filter(d=>wk(m,d)==wk(m,r)),any=rows.some(o=>weekP(m,o.a.k,r)>0),el=rows.filter(o=>!any||weekP(m,o.a.k,r)>0),
+  mx=el.length?Math.max(...el.map(o=>o.s.week)):0,mn=el.length?Math.min(...el.map(o=>o.s.week)):0,hi=el.filter(o=>o.s.week==mx),lo=el.filter(o=>o.s.week==mn);
+  tb=tgt(rows,m,r);
+  c2=`<section class="hc t2"><h3>Week highlights</h3><p class=sb style="margin:0">${ds[0]}–${ds[ds.length-1]} ${mo}</p>`+(mx>0?`<div class=lab>Leading by calls</div>${rw('',nm(hi)+yo(hi[0]),fmt(mx))}`+(el.length>1&&mn<mx?`<div class=lab>Lowest this week</div>${rw('',nm(lo)+yo(lo[0]),fmt(mn))}`:''):'<p class=sb>No calls recorded this week yet.</p>')+`<p class=sb>Calls this week. Agents on leave are not counted as lowest.</p></section>`}
+ const pv=MN[MN.indexOf(m)-1];let c3;
+ if(!pv)c3=`<section class="hc t3"><h3>Most improved</h3><p class=sb>Available from the second month, once there is a previous month to compare with.</p></section>`;
+ else if(lk)c3=`<section class="hc t3"><h3>Most improved</h3><p class=sb>Not tracked for ${MT[m]}.</p></section>`;
+ else{const f=r/dim(pv),c=rows.map(o=>{const b=stat(pv,o.a.k,1).month*f;return{o,b,g:o.s.month-b}}).filter(x=>x.b>=20&&x.g>0).sort((x,y)=>y.g/y.b-x.g/x.b||y.g-x.g),w=c[0];
+  c3=`<section class="hc t3"><h3>Most improved · ${MT[m]}</h3>`+(w?`${rw('',esc(w.o.a.name)+yo(w.o),`<span class=gain>+${Math.round(w.g/w.b*100)}%</span>`)}<p class=sb>${fmt(w.o.s.month)} calls so far, against about ${fmt(Math.round(w.b))} at ${MT[pv]}'s pace.</p>`:'<p class=sb>No agent is ahead of last month\'s pace yet.</p>')+`<p class=sb>Compares this month's calls with the previous month's pace.</p></section>`}
+let c4='';const T=rows.reduce((t,o)=>t+sf(m,o.a.k),0);
+ if(T>0){const ad=isA(),mine=sf(m,S.me);
+  c4=`<section class="hc t2"><h3>${ad?'Team staffed time':'My staffed time'} · ${MT[m]}</h3>`+(ad?rw('','Total staffed',fmtH(T)):(mine?rw('','My staffed time',fmtH(mine))+rw('','Team staffed time',fmtH(T)):'<p class=sb>No staffed time for you yet.</p>'))+`<p class=sb>From the CRM report.</p></section>`}
+ return `${dmsg()}${dayTop()}${lastTop()}${ban}${tb}<div class=hg>${c1}${c2}${c3}${c4}${cvCard(rw)}</div>`}
+/* blank register days before an agent's first mark (while colleagues were already marked) = not started yet */
+function getFM(){if(FMc)return FMc;const f={};let tf='9';
+ AG().forEach(a=>{let b=null;for(const m of MN){const o=M(m).att?.[a.k];if(!o)continue;for(const d in o){if(!o[d])continue;const t=m+'-'+String(d).padStart(2,'0');if(b==null||t<b)b=t}}if(b){f[a.k]=b;if(b<tf)tf=b}});
+ const i={};for(const k in f)if(f[k]>tf)i[k]=f[k];return FMc={i}}
+/* ---------- sign-in log (Google Sheet via Apps Script) ---------- */
+const lgOn=()=>/^https:/.test(LOGURL),td=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function logIn(a){if(!lgOn())return;try{fetch(LOGURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({id:a.id,name:a.name}),keepalive:true}).catch(()=>{})}catch(e){}}
+/* ---------- agent-changed passwords (stored in the Google Sheet, admin reset wins) ---------- */
+async function ovLoad(){S.ov=S.ov||{};if(!lgOn())return;try{const r=await fetch(LOGURL+'?action=pw'),j=await r.json();if(j&&j.rows){const o={};j.rows.forEach(x=>o[x.id]={hash:x.hash,ts:+x.ts});S.ov=o;S.now=+j.now||0}}catch(e){}}
+const ovOn=a=>{const o=S.ov&&S.ov[a.id];return !!o&&o.ts>(a.rs||0)};
+async function effHash(a){return ovOn(a)?S.ov[a.id].hash:(a.pw||await pwh(a.k,DEFPW))}
+async function srvNow(){S.now=0;await ovLoad();return S.now||Date.now()}
+async function changePw(){const e=$('#perr'),b=$('#psv'),a=AG().find(x=>x.k==S.me);if(!a||isA())return;e.textContent='';
+ const c=$('#pc').value,n=$('#pn').value.trim(),n2=$('#pn2').value.trim();
+ if(!lgOn())return e.textContent='Password changes are not switched on yet. Ask your admin.';
+ if(!c)return e.textContent='Type your current password.';
+ if(n.length<3)return e.textContent='Use at least 3 characters for the new password.';
+ if(n!=n2)return e.textContent='The two new passwords do not match.';
+ if(n.toLowerCase()==c.trim().toLowerCase())return e.textContent='Choose a password that is different from your current one.';
+ b.disabled=true;e.textContent='Saving…';
+ try{await ovLoad();const old=await pwh(a.k,c);if(old!=await effHash(a)){e.textContent='Your current password is not correct.';b.disabled=false;return}
+  const hash=await pwh(a.k,n),r=await fetch(LOGURL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({type:'pw',id:a.id,old,hash})}),j=await r.json();
+  if(j.error)throw{m:j.error=='wrong'?'Your current password is not correct.':j.error=='data'?'Could not check right now. Try again in a minute.':'The password could not be saved. Try again.'};
+  S.ov=S.ov||{};S.ov[a.id]={hash,ts:+j.ts};$('#pdlg').close();alert('Password changed. Use your new password next time you log in.')}
+ catch(x){e.textContent=x&&x.m||'Could not reach the server. Check your internet and try again.'}b.disabled=false}
+async function loadLog(key){const g=S.lg;g.busy=true;try{const r=await fetch(LOGURL+'?key='+encodeURIComponent(key)),j=await r.json();if(j.error)throw new Error(j.error=='denied'?'That key was not accepted. It must match READ_KEY in your script.':j.error);g.rows=j.rows||[]}catch(e){g.err=e.message||'Could not load the log.'}g.busy=false;if(S.tab=='log')render()}
+function logv(){const g=S.lg??={rows:null,err:'',busy:false,date:td()};
+ if(!lgOn())return '<div class="note info">The login log is not switched on yet. Paste your Google Apps Script web app address into <b>LOGURL</b> in the page code, then upload the page again.</div>';
+ const key=ls('lgk')||'';
+ if(!key)return '<div class=tbar>Enter the read key you set in your script (saved on this device only).<input class=in id=lgkey type=password placeholder="Read key" style="max-width:220px"><button class=btn id=lgk>Save key</button></div>';
+ if(g.err)return `<div class="note info">${esc(g.err)}</div><div class=tbar><button class=btn id=lgr>Try again</button><button class="btn g" id=lgx>Change key</button></div>`;
+ if(!g.rows){if(!g.busy)loadLog(key);return '<div class="note info">Loading sign-ins…</div>'}
+ const by={};g.rows.filter(r=>r[1]==g.date).forEach(r=>(by[r[2]]??=[]).push(r[0]));
+ const li=AG().map(a=>({a,t:(by[a.id]||[]).slice().sort()})).sort((x,y)=>(x.t.length?0:1)-(y.t.length?0:1)||(x.t[0]||'').localeCompare(y.t[0]||'')||x.a.name.localeCompare(y.a.name)),n=li.filter(o=>o.t.length).length,tm=x=>x.slice(11,16);
+ return `<div class=tbar><span>Date</span><input class=in type=date id=lgd value="${g.date}" style="max-width:170px"><span class=sp></span><button class="btn g s" id=lgr>Refresh</button><button class="btn g s" id=lgx>Change key</button></div>
+<div class="note info"><b>${n}</b> of ${li.length} agents signed in on this date. Times are Lusaka time, recorded when the agent signs in.</div>
+<div class=sheet><table><thead><tr><th class=nm>Agent</th><th>First sign-in</th><th>Last sign-in</th><th>Sign-ins</th></tr></thead><tbody>${li.map(o=>`<tr><td class=nm>${esc(o.a.name)}</td>${o.t.length?`<td>${tm(o.t[0])}</td><td>${tm(o.t[o.t.length-1])}</td><td>${o.t.length}</td>`:'<td colspan=3 style="color:var(--mu)">Not signed in</td>'}</tr>`).join('')}</tbody></table></div>`}
+function summ(list){const T=a=>MN.map(m=>stat(m,a.k,1).month),tot=MN.map(()=>0);
+ return `<div class=sheet><table><thead><tr><th class=nm>Agent</th><th>User ID</th>${MN.map(m=>`<th>${MT[m].slice(0,3)}</th>`).join('')}<th>Total</th></tr></thead><tbody>`+list.map(a=>{const t=T(a);t.forEach((v,i)=>tot[i]+=v);return `<tr><td class=nm>${esc(a.name)}</td><td>${a.id}</td>${t.map(v=>`<td class=n>${v?fmt(v):'—'}</td>`).join('')}<td class=n><b>${fmt(t.reduce((s,v)=>s+v,0))}</b></td></tr>`}).join('')+
+ `</tbody>${list.length>1?`<tfoot><tr><td class=nm colspan=2>TOTAL</td>${tot.map(v=>`<td class=n>${fmt(v)}</td>`).join('')}<td class=n>${fmt(tot.reduce((s,v)=>s+v,0))}</td></tr></tfoot>`:''}</table></div>`}
+function pwv(){return `<h3 class=sh>Add an agent</h3><div class=tbar><input class=in id=an placeholder="Full name" style="max-width:240px"><input class=in id=ai type=number min=1 placeholder="User ID" style="max-width:130px"><input class=in id=ap placeholder="Password (blank = ${DEFPW})" style="max-width:210px"><button class=btn id=add>Add agent</button></div>
+ <p class=note style="padding:0 0 14px">Default agent password is <b>${DEFPW}</b>. One person per User ID: when someone leaves, change the name on their row (or add the new name with the same ID to replace them). Calls stay on the ID, and the CRM import keeps matching it. Edit a name or ID directly in the table. Days before a new joiner's first register mark show as OFF (not started yet). <b>CRM only</b> agents (calls loaded from the CRM file) show no register letters on the Calls tab. Agents can change their own password with the <b>Change password</b> button at the top of their page. <b>Reset</b> puts an agent back on the default (<b>${DEFPW}</b>), even if they changed it themselves, so use it when someone forgets. Passwords are stored as hashes, so existing ones can't be shown.</p>
+ <div class=sheet><table><thead><tr><th class=nm>Agent</th><th>User ID</th><th>CRM only</th><th>Password</th><th>New password</th><th>Actions</th></tr></thead><tbody>`+AG().map(a=>`<tr><td class=nm><input class=ni data-nk=${a.k} value="${esc(a.name)}"></td><td><input class=ni data-ik=${a.k} type=number value=${a.id} style="width:90px"></td><td><input type=checkbox data-ck=${a.k}${crmOnly(a)?' checked':''} title="Calls come from the CRM import: no register letters on the Calls tab"></td><td>${a.pw||ovOn(a)?'<b>Custom</b>':'Default ('+DEFPW+')'}</td><td><input class=ni id=np-${a.k} placeholder="Type new password" style="width:170px"></td><td><button class="btn s" data-set=${a.k}>Save</button> <button class="btn g s" data-rs=${a.k}>Reset</button> <button class="btn danger s" data-rm=${a.k}>Remove</button></td></tr>`).join('')+`</tbody></table></div><h3 class="sh dz">Start afresh</h3><div class=tbar>Clears all marked attendance and call entries for Oct–Dec. Agents and passwords stay.<label><input type=checkbox id=csep> Also clear September's locked totals</label><button class="btn danger s" id=clr>Clear calls & attendance</button></div>`}
+async function addAgent(){const n=$('#an').value.trim(),id=parseInt($('#ai').value),p=$('#ap').value.trim();
+ if(!n||!(id>0))return alert('Enter the agent\'s full name and User ID.');
+ if(p&&p.length<3)return alert('Use at least 3 characters for the password.');
+ const ex=AG().find(a=>a.id==id);
+ if(ex){if(!confirm('User ID '+id+' belongs to '+ex.name+'. Replace '+ex.name+' with '+n+' on this ID? The ID and its calls stay. '+n+' will log in with '+(p||DEFPW)+'.'))return;
+  ex.name=n;if(p)ex.pw=await pwh(ex.k,p);else delete ex.pw;ex.rs=await srvNow();S.d.agents.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));dirty();render();return}
+ const k='k'+String(Math.max(-1,...AG().map(a=>+a.k.slice(1)))+1).padStart(2,'0'),a={k,id,name:n};if(p)a.pw=await pwh(k,p);
+ S.d.agents.push(a);S.d.agents.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));dirty();render()}
+function clearAll(){if(!isA())return;if(prompt('This deletes all marked attendance and call entries. Type CLEAR to confirm.')!=='CLEAR')return;
+ const sep=$('#csep').checked;MN.forEach(m=>{if(M(m).totals){if(sep)S.d.months[m]={locked:true,totals:{}}}else S.d.months[m]={}});dirty();render()}
+function rmAgent(k){const a=AG().find(x=>x.k==k);if(!a||!confirm('Remove '+a.name+'? They disappear from the register, logins and totals. Their past entries stay in the saved file.'))return;
+ S.d.agents=AG().filter(x=>x.k!=k);dirty();render()}
+
+function render(){FMc=null;const a=isA(),m=S.m,me=AG().find(x=>x.k==S.me),list=a?AG():[me],lk=!!M(m).totals;
+ $('#who2').innerHTML=(a?`<span id=ss role=status aria-live=polite class="ss ${S.ss[1]}">${S.ss[0]}</span><button class="btn g s" id=xl>Export Excel</button><button class="btn g s" id=gh>GitHub</button>`:'')+`<span class=usr><b>${a?'Admin':esc(me.name)}</b><small>${a?'Administrator':'ID '+me.id}</small></span>${a?'':'<button class="btn g s" id=cpw>Change password</button>'}<button class="btn g s thm" type=button>Dark mode</button><button class="btn g s" id=out>Log out</button>`;
+ $('#wel').innerHTML=`<h2>${gr()}, ${a?'Admin':esc(me.name)}</h2><p>${a?'Mark attendance, enter calls and set passwords. Changes save online automatically.':`User ID ${me.id} · your attendance, your calls and the team standings`}</p>`;
+ const T=[['home','Home'],['att','Attendance'],['calls','Calls'],['perf','Team performance'],['quiz','Quiz'],['sum',a?'Summary':'My summary'],...(a?[['log','Login log'],['pw','Agents']]:[])];
+ $('#tabs').innerHTML=T.map(([k,t])=>`<button data-t="${k}" class="${k==S.tab?'on':''}"${k==S.tab?' aria-current=page':''}>${t}</button>`).join('');
+ const cm=td().slice(0,7),vis=MN.filter(x=>a||x>=cm||!MN.includes(cm));if(!vis.includes(S.m))S.m=vis[0];
+ const mb=`<div class=mbar>${vis.map(x=>`<button class="mo${x==m?' on':''}" data-mo=${x}>${MT[x]}<span class=yr> 2026</span>${M(x).totals?LK:''}</button>`).join('')}</div>`,
+ dsel=!lk?`<span class=sp></span><select id=ds>${Array.from({length:dim(m)},(_,i)=>`<option value=${i+1}${i+1==ref(m)?' selected':''}>Day ${i+1}</option>`).join('')}</select>`:'',
+ K=`<div id=kpi>${kpis(list)}</div>`;let h='';
+ if(S.tab=='home')h=K+mb+home(lk)+podium();
+ else if(S.tab=='att')h=K+mb+(lk?'<div class="note info">September is locked. Attendance is not tracked for this month, only call totals.</div>':`<div class=tbar><span class=lg>${Object.keys(ST).map(x=>`<i class=s${x}>${x}</i>${ST[x]} `).join('')}<i class=sOFF>OFF</i>Sunday or before start date</span>${dsel}</div>`+(a?`<div class=tbar>Tap a cell and pick from the list. Tap a date number to mark everyone present.</div>`:'')+attReg(list));
+ else if(S.tab=='calls')h=K+mb+zed()+(lk?'':belowv())+(lk?`<div class="note info">September is locked: final call totals only.</div>`+sep(list):`<div class=tbar>${a?'Type each agent\'s calls for the day. Weeks (Mon–Sun) and totals add up automatically. On days with no calls, a letter (A, L, FL, SL) shows from the attendance register.':'Your calls per day, week and month. A letter on a day with no calls comes from the attendance register.'}${a?'<button class="btn s" id=imp>Import CRM file</button>':''}${dsel}</div>`+callReg(list));
+ else if(S.tab=='perf')h=perf(mb,dsel,lk)+'<h3 style="margin:22px 0 8px">Conversion</h3>'+convv('');
+ else if(S.tab=='quiz')h=quizv(a,me);
+ else if(S.tab=='sum')h=summ(list);else if(S.tab=='pw'&&a)h=pwv();else if(S.tab=='log'&&a)h=logv();
+ if(S.tab=='quiz'&&h.includes('id=qz')&&$('#main').querySelector('#qz'))return thBtn();/* keep a running quiz from restarting */
+ $('#main').innerHTML=h;thBtn()}
+function quizv(a,me){if(!a&&me){try{localStorage.setItem('mt_quiz_name',me.name)}catch(e){}}
+ const g=S.qz??={rows:null,err:'',busy:false,view:'play'};
+ const fr=`<iframe id=qz src="quiz.html" title="Quiz" style="display:block;width:100%;height:calc(100vh - 260px);min-height:780px;border:0;border-radius:16px"></iframe>`;
+ const bar=`<div class=tbar><button class="btn${g.view=='play'?'':' g'} s" data-qv=play>Play quiz</button><button class="btn${g.view=='board'?'':' g'} s" data-qv=board>Leaderboard</button>${a?`<button class="btn${g.view=='res'?'':' g'} s" data-qv=res>Results</button>`:''}</div>`;
+ if(g.view=='board')return bar+boardv(me);
+ if(!a||g.view=='play')return bar+fr;
+ if(!lgOn())return bar+'<div class="note info">Results need your Google Apps Script address in <b>LOGURL</b>.</div>';
+ const key=ls('lgk')||'';
+ if(!key)return bar+'<div class=tbar>Enter the read key you set in your script (saved on this device only).<input class=in id=qkey type=password placeholder="Read key" style="max-width:220px"><button class=btn id=qk>Save key</button></div>';
+ if(g.err)return bar+`<div class="note info">${esc(g.err)}</div><div class=tbar><button class=btn id=qr>Try again</button><button class="btn g" id=qx>Change key</button></div>`;
+ if(!g.rows){if(!g.busy)loadQuiz(key);return bar+'<div class="note info">Loading quiz results…</div>'}
+ const by={};g.rows.forEach(r=>{(by[r[1]]??=[]).push({t:r[0],s:+r[3]||0,ok:+r[4]||0,n:+r[5]||10})});
+ const li=AG().map(x=>{const p=(by[x.id]||[]).slice().sort((u,v)=>u.t.localeCompare(v.t));const best=p.reduce((m,o)=>Math.max(m,o.s),0),l=p[p.length-1];return{x,p,best,l}}).sort((u,v)=>(v.p.length?1:0)-(u.p.length?1:0)||v.best-u.best||u.x.name.localeCompare(v.x.name)),n=li.filter(o=>o.p.length).length;
+ return bar+`<div class=tbar><span class=sp></span><button class="btn g s" id=qr>Refresh</button><button class="btn g s" id=qx>Change key</button></div>
+<div class="note info"><b>${n}</b> of ${li.length} agents have played. Ranked by best score. Times are Lusaka time.</div>
+<div class=sheet><table><thead><tr><th>#</th><th class=nm>Agent</th><th>Games</th><th>Best score</th><th>Latest score</th><th>Latest correct</th><th>Last played</th></tr></thead><tbody>${li.map((o,k)=>o.p.length?`<tr><td>${k+1}</td><td class=nm>${esc(o.x.name)}</td><td>${o.p.length}</td><td><b>${o.best}</b></td><td>${o.l.s}</td><td>${o.l.ok}/${o.l.n}</td><td>${esc(String(o.l.t).slice(0,16))}</td></tr>`:`<tr><td>${k+1}</td><td class=nm>${esc(o.x.name)}</td><td colspan=5 style="color:var(--mu)">Not played yet</td></tr>`).join('')}</tbody></table></div>`}
+const wkStart=()=>{const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')},
+ bAgg=per=>{const g=S.qz,from=per=='week'?wkStart():per=='month'?td().slice(0,7):'',m={};(g.games||[]).forEach(r=>{if(String(r[0])<from)return;const o=m[r[1]]||(m[r[1]]={id:r[1],name:r[2],best:0,games:0,last:'',ok:0,n:10}),sc=+r[3]||0;o.games++;if(sc>o.best)o.best=sc;if(String(r[0])>=o.last){o.last=String(r[0]);o.ok=+r[4]||0;o.n=+r[5]||10;o.name=r[2]}});return Object.values(m).sort((a,b)=>b.best-a.best||a.last.localeCompare(b.last))},
+ qzS=()=>S.qz??={rows:null,err:'',busy:false,view:'play'};
+function podium(){const g=qzS();if(g.berr||!lgOn())return '';if(!g.games){if(!g.bbusy)loadBoard();return ''}const L=bAgg('week').slice(0,3);if(!L.length)return `<div class="note info">🏆 No quiz scores this week yet. Be the first on the podium! Open the <b>Quiz</b> tab.</div>`;
+ return `<div class=sheet style="padding:12px 16px"><b>🏆 This week's quiz top ${L.length}</b>${L.map((o,k)=>`<div class=rw>${['🥇','🥈','🥉'][k]}<b>${esc(o.name)}${String(o.id)==String((AG().find(x=>x.k==S.me)||{}).id)?' (you)':''}</b><span class=v>${+o.best||0} pts</span></div>`).join('')}</div>`}
+function boardv(me){const g=S.qz,per=g.per||'week';
+ if(g.berr)return `<div class="note info">${esc(g.berr)}</div><div class=tbar><button class=btn id=qbr>Try again</button></div>`;
+ if(!g.games){if(!g.bbusy)loadBoard();return '<div class="note info">Loading leaderboard…</div>'}
+ const L=bAgg(per),tot=AG().length,mine=me?String(me.id):'',medal=k=>k==0?'🥇':k==1?'🥈':k==2?'🥉':k+1,
+ pb=[['week','This week'],['month','This month'],['all','All time']].map(([k,t])=>`<button class="btn${per==k?'':' g'} s" data-per=${k}>${t}</button>`).join('');
+ return `<div class=tbar>${pb}<span class=sp></span><button class="btn g s" id=qbr>Refresh</button></div>
+<div class="note info"><b>${L.length}</b> of ${tot} agents have played ${per=='week'?'this week':per=='month'?'this month':'so far'}. Ranked from highest to lowest best score.${per=='week'?' The week starts on Monday.':''}</div>
+<div class=sheet><table><thead><tr><th>#</th><th class=nm>Agent</th><th>Best score</th><th>Games</th><th>Latest correct</th><th>Last played</th></tr></thead><tbody>${L.length?L.map((o,k)=>`<tr${String(o.id)==mine?' style="font-weight:700;background:rgba(0,120,255,.10)"':''}><td>${medal(k)}</td><td class=nm>${esc(o.name)}${String(o.id)==mine?' (you)':''}</td><td><b>${+o.best||0}</b></td><td>${+o.games||0}</td><td>${+o.ok||0}/${+o.n||10}</td><td>${esc(String(o.last).slice(0,16))}</td></tr>`).join(''):'<tr><td colspan=6 style="color:var(--mu)">No scores in this period yet.</td></tr>'}</tbody></table></div>`}
+async function loadBoard(){const g=qzS();g.bbusy=true;try{if(!lgOn())throw new Error('The leaderboard needs your Google Apps Script address in LOGURL.');const r=await fetch(LOGURL+'?action=board'),j=await r.json();if(!Array.isArray(j.games))throw new Error('The script did not return leaderboard data. Paste the new script and redeploy: Deploy > Manage deployments > Edit > New version > Deploy.');g.games=j.games}catch(e){g.berr=/JSON|Unexpected token/i.test(e.message||'')?'The script address did not return data. Redeploy the web app with access set to Anyone.':(e.message||'Could not load the leaderboard.')}g.bbusy=false;if(S.tab=='quiz'||S.tab=='home')render()}
+async function loadQuiz(key){const g=S.qz;g.busy=true;try{const r=await fetch(LOGURL+'?action=quiz&key='+encodeURIComponent(key)),j=await r.json();if(j.error)throw new Error(j.error=='denied'?'That key was not accepted. It must match READ_KEY in your script.':j.error);if(!Array.isArray(j.rows))throw new Error('Your script did not return quiz data. Check that doGet has the action=quiz line at the very top, then Deploy > Manage deployments > Edit > New version > Deploy.');g.rows=j.rows}catch(e){g.err=/JSON|Unexpected token/i.test(e.message||'')?'The script address did not return data. Redeploy the web app with access set to Anyone, and confirm LOGURL is the /exec address.':(e.message||'Could not load quiz results.')}g.busy=false;if(S.tab=='quiz')render()}
+addEventListener('message',e=>{const d=e.data;if(e.origin!==location.origin||!d||d.type!=='mt-quiz'||isA()||!lgOn())return;const a=(S.d&&S.d.agents||[]).find(x=>x.k==S.me);if(!a)return;try{fetch(LOGURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({type:'quiz',id:a.id,name:a.name,score:+d.score||0,ok:+d.ok||0,n:+d.n||0}),keepalive:true}).catch(()=>{})}catch(x){}});
+
+/* ---------- editing + saving ---------- */
+function dirty(){S.pend=1;if(!tok&&!ls('mt')){ss('Not saved: connect GitHub','bad');$('#derr').textContent='';$('#dlg').showModal();return}tok=tok||ls('mt');ss('Saving…');clearTimeout(timer);timer=setTimeout(save,1200)}
+function setAtt(k,d,v){FMc=null;const mm=M(S.m);((mm.att??={})[k]??={});v?mm.att[k][d]=v:delete mm.att[k][d]}
+function upd(k){const tr=document.querySelector(`tr[data-r=${k}]`),at=S.tab=='att';tr.querySelectorAll('.sm,.tt').forEach(e=>e.remove());tr.insertAdjacentHTML('beforeend',at?sumA(k):sumC(k));$('#ft').innerHTML=at?foot():cfoot();$('#kpi').innerHTML=kpis(AG())}
+const H=()=>({Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'});
+async function save(){if(!isA())return;ss('Saving…');
+ try{for(let i=0;i<3;i++){if(!S.sha){const g=await fetch(API+'?ref='+BR+'&t='+Date.now(),{headers:H()});if(g.ok)S.sha=(await g.json()).sha}
+  const r=await fetch(API,{method:'PUT',headers:H(),body:JSON.stringify({message:'Update register',branch:BR,sha:S.sha||undefined,content:enc(JSON.stringify(S.d,null,1))})}),j=await r.json();
+  if(r.ok){S.sha=j.content.sha;S.pend=0;return ss('Saved online ✓','ok')}
+  if(r.status==409||r.status==422){S.sha=null;continue}if(r.status==401){tok='';ls('mt',null);$('#dlg').showModal();throw 'token rejected'}throw j.message}throw 'conflict'}catch(e){ss('Not saved: '+e,'bad')}}
+addEventListener('beforeunload',e=>{if(S.pend){e.preventDefault();e.returnValue=''}});
+async function connect(t){const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}`,{headers:{Authorization:'Bearer '+t}}),j=await r.json();
+ if(!r.ok||!j.permissions?.push)throw 'This token cannot edit '+OWNER+'/'+REPO;tok=t;ls('mt',t);if(S.pend)save();else ss('GitHub connected','ok')}
+async function load(){let t;try{const r=await fetch(API+'?ref='+BR+'&t='+Date.now(),{headers:{Accept:'application/vnd.github.raw+json'}});if(r.ok)t=await r.text()}catch(e){}
+ if(!t)t=await(await fetch(FILE+'?t='+Date.now())).text();S.d=JSON.parse(t)}
+
+const lib=()=>window.XLSX?0:new Promise((r,j)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=r;s.onerror=()=>j('Could not load the Excel reader. Check your internet.');document.head.append(s)});
+/* ---------- Excel export (same layout as your register, live formulas) ---------- */
+async function xl(){const m=S.m;if(M(m).totals)return alert('September is locked (totals only). Choose Oct, Nov or Dec.');
+ await lib();
+ const n=dim(m),W=wk(m,n)+1,A=AG(),N=A.length,E=XLSX.utils,C=E.encode_col,D=DY(m),wb=E.book_new(),F=N+3;
+ const aw=E.aoa_to_sheet([['Agent','User ID',...D,'P','A','L','FL','SL','Attendance %'],...A.map(a=>[a.name,a.id,...D.map(d=>att(m,a.k,d)||null)])]);
+ A.forEach((a,i)=>{const r=i+2,g=`${C(2)}${r}:${C(n+1)}${r}`;['P','A','L','FL','SL'].forEach((x,j)=>aw[C(n+2+j)+r]={t:'n',f:`COUNTIF(${g},"${x}")`});aw[C(n+7)+r]={t:'n',z:'0.0%',f:`IFERROR(${C(n+2)}${r}/SUM(${C(n+2)}${r}:${C(n+6)}${r}),0)`}});
+ aw['A'+F]={t:'s',v:'Present'};for(let c=2;c<=n+1;c++)aw[C(c)+F]={t:'n',f:`COUNTIF(${C(c)}2:${C(c)}${N+1},"P")`};
+ aw['!ref']=`A1:${C(n+7)}${F}`;aw['!cols']=[{wch:22}];E.book_append_sheet(wb,aw,'Attendance');
+ const fw=[],lw=[];D.forEach(d=>{const w=wk(m,d);if(fw[w]==null)fw[w]=d;lw[w]=d});
+ const cw=E.aoa_to_sheet([['Agent','User ID',...D,...fw.map((_,i)=>'Week '+(i+1)),'Month total'],...A.map(a=>[a.name,a.id,...D.map(d=>cl(m,a.k,d)||null)])]);cw['A'+F]={t:'s',v:'Team total'};
+ for(let c=2;c<=n+W+2;c++){if(c>=n+2&&c<n+2+W){const w=c-n-2;A.forEach((a,i)=>cw[C(c)+(i+2)]={t:'n',f:`SUM(${C(1+fw[w])}${i+2}:${C(1+lw[w])}${i+2})`})}
+  if(c==n+2+W)A.forEach((a,i)=>cw[C(c)+(i+2)]={t:'n',f:`SUM(${C(2)}${i+2}:${C(n+1)}${i+2})`});cw[C(c)+F]={t:'n',f:`SUM(${C(c)}2:${C(c)}${N+1})`}}
+ cw['!ref']=`A1:${C(n+W+2)}${F}`;cw['!cols']=[{wch:22}];E.book_append_sheet(wb,cw,'Calls');
+ XLSX.writeFile(wb,`Metro_Register_${MT[m]}_2026.xlsx`)}
+
+
+/* ---------- CRM import ---------- */
+let IM=null;
+function dparse(v){if(v==null||v==='')return null;let d;
+ if(v instanceof Date)d=new Date(v.getTime()+432e5);else if(typeof v=='number'&&v>30000)d=new Date(Math.round((v-25569)*864e5)+432e5);
+ else{const t=String(v).trim();let x=t.match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);if(x)return{y:+x[1],m:+x[2],d:+x[3]};x=t.match(/(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/);return x?{y:+x[3],m:+x[2],d:+x[1]}:null}
+ return{y:d.getUTCFullYear(),m:d.getUTCMonth()+1,d:d.getUTCDate()}}
+const hms=v=>{if(v==null||v==='')return 0;if(typeof v=='number')return v<1?Math.round(v*86400):v;const x=String(v).trim().split(':').map(Number);return x.some(isNaN)?0:x.length==3?x[0]*3600+x[1]*60+x[2]:x.length==2?x[0]*60+x[1]:x[0]};
+function impCalc(){const g=id=>+$('#'+id).value,idc=g('i-id'),cc=g('i-cl'),sc=g('i-st'),dc=IM.dc,day=$('#i-dy')?g('i-dy'):0,m=S.m,out={},stf={},miss=new Set();let skip=0;
+ IM.data.forEach(r=>{const id=parseInt(r[idc]);if(!(id>0)){skip++;return}let d=day;
+  if(dc>=0){const p=dparse(r[dc]);if(!p||p.y+'-'+String(p.m).padStart(2,'0')!=m){skip++;return}d=p.d}
+  const c=cc>=0?Number(r[cc]):1;if(!isFinite(c)||c<0){skip++;return}
+  const a=AG().find(x=>x.id==id);if(!a){miss.add(id);return}
+  (out[a.k]??={});out[a.k][d]=(out[a.k][d]||0)+Math.round(c);
+  if(sc>=0){(stf[a.k]??={});stf[a.k][d]=(stf[a.k][d]||0)+hms(r[sc])}});return{out,stf,miss:[...miss],skip}}
+function impSum(){const{out,stf,miss,skip}=impCalc(),ks=Object.keys(out),days=new Set(),tot=ks.reduce((t,k)=>t+Object.entries(out[k]).reduce((u,[d,v])=>(days.add(d),u+v),0),0),st=Object.values(stf).reduce((t,o)=>t+Object.values(o).reduce((u,v)=>u+v,0),0);
+ $('#isum').innerHTML=`<b>${ks.length}</b> agents · <b>${days.size}</b> day(s) · <b>${fmt(tot)}</b> wrapped calls`+(st?` · <b>${fmtH(st)}</b> staffed`:'')+` will go into ${MT[S.m]}. Existing calls and staffed time for those agents and days are replaced.`+(miss.length?`<br>IDs not on your roster (skipped): ${miss.slice(0,12).join(', ')}${miss.length>12?'…':''}`:'')+(skip?`<br>${skip} row(s) skipped (no valid ID, calls, or a date outside ${MT[S.m]}).`:'');$('#ig').disabled=!ks.length}
+async function impOpen(f){if(!f)return;try{await lib();const wb=XLSX.read(await f.arrayBuffer(),{cellDates:true}),rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true,defval:null}),re=/user\s*_?id|agent\s*id|^id$/i;
+ let hi=rows.findIndex(r=>r.some(c=>re.test(String(c??'').trim())));if(hi<0)hi=0;
+ const head=(rows[hi]||[]).map((c,i)=>String(c??'').trim()||'Column '+(i+1)),data=rows.slice(hi+1).filter(r=>r.some(c=>c!=null&&c!=='')),f1=x=>head.findIndex(h=>x.test(h));
+ let idc=f1(re);if(idc<0)idc=0;let cc=f1(/wrapped/i);if(cc<0)cc=f1(/total.*calls?|calls?/i);IM={head,data,dc:f1(/date/i)};
+ const o=(sel)=>head.map((h,i)=>`<option value=${i}${i==sel?' selected':''}>${esc(h)}</option>`).join(''),now=new Date(),n=dim(S.m),dd=(now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')==S.m)?now.getDate():ref(S.m);
+ $('#ibody').innerHTML=`<p class=ss>${esc(f.name)} · ${data.length} rows. Check the columns, then import.</p>
+ <label class=ss>User ID column</label><select class=in id=i-id>${o(idc)}</select>
+ <label class=ss>Wrapped calls column</label><select class=in id=i-cl>${o(cc)}<option value=-1${cc<0?' selected':''}>(count rows instead)</option></select>
+ <label class=ss>Staffed duration column</label><select class=in id=i-st><option value=-1>(none)</option>${o(f1(/staffed/i))}</select>
+ ${IM.dc>=0?'<p class=ss style="margin-top:10px">Days are taken from the date column in the file.</p>':`<label class=ss>Day this report is for</label><select class=in id=i-dy>${Array.from({length:n},(_,i)=>`<option value=${i+1}${i+1==dd?' selected':''}>${i+1} ${MT[S.m]}</option>`).join('')}</select>`}
+ <div id=isum style="margin-top:6px"></div>`;
+ document.querySelectorAll('#ibody select').forEach(x=>x.style.marginBottom='8px');impSum();$('#idlg').showModal()}catch(e){alert('Could not read that file: '+(e.message||e))}}
+function impGo(){const{out,stf}=impCalc(),mm=M(S.m);
+ for(const k in out){(mm.calls??={});(mm.calls[k]??={});for(const d in out[k]){if(out[k][d]>0)mm.calls[k][d]=out[k][d];else delete mm.calls[k][d]}}
+ for(const k in stf){(mm.staff??={});(mm.staff[k]??={});for(const d in stf[k]){if(stf[k][d]>0)mm.staff[k][d]=stf[k][d];else delete mm.staff[k][d]}}
+ $('#idlg').close();dirty();render()}
+/* ---------- theme ---------- */
+function thBtn(){const d=document.documentElement.dataset.theme=='dark';document.querySelectorAll('.thm').forEach(x=>{x.textContent=d?'Light mode':'Dark mode';x.setAttribute('aria-pressed',d)});const m=document.querySelector('meta[name=theme-color]');if(m)m.content=d?'#0b1220':'#14224a'}
+function toggleTheme(){const t=document.documentElement.dataset.theme=='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('mtheme',t)}catch(e){}thBtn()}
+thBtn();
+/* ---------- events ---------- */
+function put(td,v){if(td.textContent=='OFF'||!isA())return;setAtt(td.dataset.k,td.dataset.d,v);td.textContent=v;td.className='c s'+(v||'N');td.tabIndex=0;upd(td.dataset.k);dirty()}
+const hidePop=()=>{$('#pop').hidden=true};
+function showPop(td){const p=$('#pop'),r=td.getBoundingClientRect();S.pt=td;p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight;p.style.left=Math.min(Math.max(8,r.left),innerWidth-w-8)+'px';p.style.top=(r.bottom+h+8>innerHeight-56?Math.max(8,r.top-h-4):r.bottom+4)+'px'}
+addEventListener('scroll',hidePop,true);
+document.addEventListener('click',async e=>{if(!e.target.closest('#pop,.c'))hidePop();const b=e.target.closest('button,th[data-d],.c[data-k]');if(!b)return;
+ if(b.closest('#pop')){if(S.pt)put(S.pt,b.dataset.v);hidePop()}
+ else if(b.dataset.t){S.tab=b.dataset.t;render()}
+ else if(b.dataset.mo){S.m=b.dataset.mo;render()}
+ else if(b.dataset.pb){S.pb=b.dataset.pb;render()}
+ else if(b.classList.contains('c')){if(isA()&&b.textContent.trim()!='OFF')showPop(b)}
+ else if(b.tagName=='TH'){if(!isA())return;const d=b.dataset.d;AG().forEach(a=>{if(!att(S.m,a.k,d))setAtt(a.k,d,'P')});dirty();render()}
+ else if(b.id=='xl')xl();else if(b.id=='gh'){$('#derr').textContent='';$('#dlg').showModal()}else if(b.id=='dc')$('#dlg').close();
+ else if(b.id=='out'){try{sessionStorage.removeItem('ms')}catch(x){}location.reload()}
+ else if(b.id=='cpw'){['#pc','#pn','#pn2'].forEach(i=>$(i).value='');$('#perr').textContent='';$('#pdlg').showModal()}else if(b.id=='pcx')$('#pdlg').close();else if(b.id=='psv')changePw();
+ else if(b.id=='ds2'){b.disabled=1;try{await connect($('#tk').value.trim());$('#tk').value='';$('#dlg').close()}catch(x){$('#derr').textContent=x.message||x}b.disabled=0}
+ else if(b.dataset.qv){S.qz.view=b.dataset.qv;if(b.dataset.qv=='board'){S.qz.games=null;S.qz.berr=''}render()}
+ else if(b.id=='qbr'){S.qz.games=null;S.qz.berr='';render()}
+ else if(b.dataset.per){S.qz.per=b.dataset.per;render()}
+ else if(b.id=='qr'){S.qz.rows=null;S.qz.err='';render()}
+ else if(b.id=='qx'){ls('lgk',null);S.qz.rows=null;S.qz.err='';render()}
+ else if(b.id=='qk'){const v=$('#qkey').value.trim();if(v){ls('lgk',v);S.qz.rows=null;S.qz.err='';render()}}
+ else if(b.id=='lgr'){S.lg.rows=null;S.lg.err='';render()}
+ else if(b.id=='lgx'){ls('lgk',null);S.lg.rows=null;S.lg.err='';render()}
+ else if(b.id=='lgk'){const v=$('#lgkey').value.trim();if(v){ls('lgk',v);S.lg.rows=null;S.lg.err='';render()}}
+ else if(b.id=='imp')$('#impf').click();else if(b.id=='ic')$('#idlg').close();else if(b.id=='ig')impGo();
+ else if(b.id=='add')addAgent();else if(b.id=='clr')clearAll();else if(b.dataset.rm){if(isA())rmAgent(b.dataset.rm)}
+ else if(b.dataset.set||b.dataset.rs){if(!isA())return;const k=b.dataset.set||b.dataset.rs,a=AG().find(x=>x.k==k),v=$('#np-'+k).value.trim();
+  if(b.dataset.set){if(v.length<3)return alert('Use at least 3 characters.');a.pw=await pwh(k,v)}else delete a.pw;a.rs=await srvNow();dirty();render()}
+ else if(b.dataset.r){R=b.dataset.r;document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x==b));$('#who').hidden=R=='admin';$('#err').textContent=''}
+ else if(b.id=='go')login();else if(b.classList.contains('thm'))toggleTheme()});
+document.addEventListener('keydown',e=>{const t=e.target;if(e.key=='Enter'&&t.id=='pw')return login();if(e.key=='Escape')hidePop();
+ if((e.key=='Enter'||e.key==' ')&&t.classList?.contains('c')&&isA()){e.preventDefault();t.click()}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.cv!==undefined){if(!isA()||M(S.m).totals)return;const mm=M(S.m),v=t.value.trim();(mm.conv??={});if(v==='')delete mm.conv[t.dataset.cv];else mm.conv[t.dataset.cv]=Math.max(0,Math.round(+v)||0);dirty();render();return}if(t.id=='impf'){impOpen(t.files[0]);t.value='';return}if(t.id?.startsWith('i-')){impSum();return}if(t.id=='lgd'){S.lg.date=t.value;render();return}if(t.id=='ds'){S.day[S.m]=+t.value;render()}
+ else if(t.dataset.ck&&isA()){AG().find(x=>x.k==t.dataset.ck).crm=t.checked;dirty()}
+
+ else if((t.dataset.nk||t.dataset.ik)&&isA()){const a=AG().find(x=>x.k==(t.dataset.nk||t.dataset.ik));if(t.dataset.nk){const v=t.value.trim();if(v)a.name=v;else t.value=a.name}else{const v=parseInt(t.value);if(v>0&&!AG().some(x=>x!==a&&x.id==v))a.id=v;else{t.value=a.id;if(v>0)alert('User ID '+v+' is already used by another agent.')}}dirty()}
+ else if(t.classList.contains('ci')&&isA()){const mm=M(S.m),v=Math.max(0,parseInt(t.value)||0),{k,d}=t.dataset;((mm.calls??={})[k]??={});v?mm.calls[k][d]=v:delete mm.calls[k][d];t.value=v||'';upd(k);dirty()}});
+
+/* ---------- login ---------- */
+async function login(){const p=$('#pw').value;$('#err').textContent='';
+ if(R=='admin'){if(await sha('admin:'+p.trim().toLowerCase())==ADMIN_HASH)return enter({role:'admin'});return $('#err').textContent='Wrong admin password.'}
+ const k=$('#who').value;if(!k)return $('#err').textContent='Choose your name.';
+ const a=AG().find(x=>x.k==k);await S.ovp;const h=await pwh(k,p);let ok=h==await effHash(a);if(!ok&&lgOn()){await ovLoad();ok=h==await effHash(a)}if(ok){logIn(a);return enter({role:'agent',me:k})}$('#err').textContent='Wrong password. Ask your admin if you forgot it.'}
+function enter(s){try{sessionStorage.setItem('ms',JSON.stringify(s))}catch(e){}S.role=s.role;S.me=s.me||null;S.tab='home';$('#gate').hidden=true;$('#app').hidden=false;tok=ls('mt')||'';render()}
+(async()=>{try{await load()}catch(e){$('#err').textContent='Could not load team data. Refresh the page.';return}S.ovp=ovLoad();
+ $('#who').innerHTML='<option value="">Select your name…</option>'+AG().map(a=>`<option value=${a.k}>${esc(a.name)} · ${a.id}</option>`).join('');
+ try{const s=JSON.parse(sessionStorage.getItem('ms'));if(s&&(s.role=='admin'||AG().some(a=>a.k==s.me)))enter(s)}catch(e){}})();
+/* ---------- live refresh ---------- */
+setInterval(async()=>{if($('#app').hidden||S.tab!='home'||document.hidden||document.querySelector('dialog[open]'))return;S.lt=(S.lt||0)+1;
+ if(!isA()&&S.lt%5==0){try{const r=await fetch(API+'?ref='+BR+'&t='+Date.now(),{headers:{Accept:'application/vnd.github.raw+json'}});if(r.ok){S.d=JSON.parse(await r.text());FMc=null}}catch(e){}}
+ render()},60000);
+</script></body></html>
