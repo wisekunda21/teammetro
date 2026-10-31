@@ -1,0 +1,211 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Metro Team · Games</title>
+<style>
+/* Metro Team practice room — visual layer only. */
+:root{
+  color-scheme:light;
+  --navy:#14224a;--gold:#d9a826;--gold2:#8a6206;--ac:#2457d6;
+  --ok:#13754d;--bad:#b42335;--mu:#5d6c83;--tx:#18263e;
+  --bg:#f3f5f9;--card:#fff;--bd:#dce3ee;--soft:#f7f9fc;
+  --hover:#f0f5ff;--focus:#2457d6;--shadow:0 3px 12px rgba(20,34,74,.035);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{scroll-behavior:smooth}
+body{font:15px/1.55 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--tx);background:var(--bg);min-height:100vh;padding:24px; -webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;color:var(--tx);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+button:disabled{cursor:default}
+.w{max-width:1000px;margin:0 auto}
+.practice-hero{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--navy);border:1px solid #263a65;border-radius:18px;padding:27px 30px;margin-bottom:22px;position:relative;overflow:hidden}
+.practice-hero:after{content:'';position:absolute;right:-74px;top:-100px;width:270px;height:270px;border:1px solid rgba(217,168,38,.2);border-radius:50%;pointer-events:none}
+.practice-hero:before{content:'';position:absolute;right:-40px;top:-66px;width:202px;height:202px;border:1px solid rgba(217,168,38,.13);border-radius:50%;pointer-events:none}
+.hero-copy{position:relative;z-index:1}
+.eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 10px;color:#e9c977;font-size:10px;font-weight:750;letter-spacing:.15em;text-transform:uppercase}
+.eyebrow:before{content:'';height:6px;width:6px;border-radius:2px;background:#e9c977;flex:none}
+h1{font-size:clamp(23px,3.2vw,31px);line-height:1.15;letter-spacing:-.045em;font-weight:700;margin:0 0 9px;color:#fff}
+.practice-hero p{max-width:550px;margin:0;color:#becbe2;font-size:13px;line-height:1.6}
+.hero-mark{position:relative;z-index:1;display:grid;place-items:center;width:64px;height:64px;flex:none;border:1px solid #6b5c34;background:#263047;border-radius:18px;color:#e9c977}
+.hero-mark svg{width:31px;height:31px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:5px;background:#e8edf5;border:1px solid #dce3ee;border-radius:12px;margin-bottom:20px}
+.tab{flex:1;white-space:nowrap;min-height:44px;background:transparent;border:1px solid transparent;border-radius:8px;padding:10px 14px;font-weight:650;font-size:13px;color:#52617a;transition:background .15s,color .15s,border-color .15s}
+.tab:hover{background:var(--card);color:var(--ac);border-color:var(--bd);box-shadow:var(--shadow)}
+.tab.on{background:var(--card);color:var(--ac);border-color:var(--bd)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.chip{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:17px 20px;font-size:12px;font-weight:550;color:var(--mu);box-shadow:var(--shadow);position:relative;min-width:0}
+.chip:after{position:absolute;right:18px;top:20px;display:grid;place-items:center;min-width:28px;height:25px;padding:0 5px;border:1px solid #e6d8ad;border-radius:7px;background:#fcf6e7;color:#8a6206;font-size:9px;font-weight:750;letter-spacing:.03em;content:'DAY'}
+.chip:nth-child(2):after{content:'BEST';background:#f0f4ff;border-color:#d7e1f6;color:#345dba}
+.chip:nth-child(3):after{content:'XP';background:#eaf6ef;border-color:#cfe7d8;color:#217448}
+.chip b{display:block;font-size:28px;font-weight:700;line-height:1.1;letter-spacing:-.04em;color:var(--navy);padding-right:35px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:28px;margin-bottom:18px;box-shadow:var(--shadow)}
+h2{margin:0 0 18px;font-size:20px;line-height:1.25;letter-spacing:-.035em;color:var(--tx)}
+p{margin:0 0 16px;color:var(--mu)}
+.card:has(>h2):has(>.opt){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card:has(>h2):has(>.opt)>h2{grid-column:1/-1;margin-bottom:5px}
+.opt{display:flex;gap:13px;align-items:flex-start;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:10px;min-height:56px;color:var(--tx);line-height:1.55;transition:border-color .15s,background .15s,box-shadow .15s}
+.opt:hover:not(:disabled){border-color:var(--ac);background:var(--hover);box-shadow:0 0 0 1px var(--ac)}
+.opt:active:not(:disabled){background:var(--hover)}
+.opt i{display:grid;place-items:center;flex:none;font-style:normal;font-weight:700;font-size:12px;color:#45629b;min-width:29px;height:29px;margin-top:-2px;background:#eff3fb;border:1px solid #dde5f2;border-radius:7px;line-height:1}
+.opt>span{min-width:0;overflow-wrap:anywhere}
+.card:has(>h2)>.opt{flex-direction:column;gap:18px;min-height:194px;margin:0;padding:20px;position:relative;background:var(--soft)}
+.card:has(>h2)>.opt:before{content:'01';display:grid;place-items:center;width:35px;height:35px;background:#fcf5e3;border:1px solid #edddb3;border-radius:10px;color:#8a6206;font-size:12px;font-weight:750;font-variant-numeric:tabular-nums}
+.card:has(>h2)>.opt:nth-of-type(2):before{content:'02';background:#edf2ff;border-color:#d7e1fa;color:#2457d6}
+.card:has(>h2)>.opt:nth-of-type(3):before{content:'03';background:#eaf6ef;border-color:#cfe7d8;color:#217448}
+.card:has(>h2)>.opt:after{content:'\2197';position:absolute;right:19px;top:22px;color:#71819b;font-size:20px;line-height:1}
+.card:has(>h2)>.opt:hover:not(:disabled){background:var(--hover)}
+.opt b{display:inline-block;color:var(--tx);font-size:16px;font-weight:700;line-height:1.3;margin-bottom:8px;letter-spacing:-.025em}
+.opt small{display:inline-block;color:var(--mu);font-size:12px;line-height:1.7}
+.opt.ok{border-color:var(--ok);background:#edf8f2;color:#124a34}
+.opt.ok i{background:#d6efdf;border-color:#a8d7bd;color:#13754d}
+.opt.bad{border-color:var(--bad);background:#fff2f3;color:#792737}
+.opt.bad i{background:#f8dfe2;border-color:#eeb7c0;color:#a42336}
+.q{font-size:clamp(17px,2.3vw,21px);font-weight:650;line-height:1.45;letter-spacing:-.025em;color:var(--tx);margin:4px 0 12px;max-width:760px}
+.ctx{color:var(--mu);line-height:1.7;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--bd);font-size:14px}
+.fb{background:#fbf7ec;border:1px solid #e9dfc2;border-left:3px solid var(--gold);border-radius:9px;padding:15px 17px;margin:20px 0 16px;color:#5a4b2a;font-size:14px;line-height:1.7}
+.bar{height:6px;background:#e9edf5;border-radius:99px;margin:0 0 25px;overflow:hidden}
+.bar div{height:100%;background:var(--ac);border-radius:99px;transition:width .2s ease}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:45px;background:var(--card);border:1px solid var(--bd);border-radius:9px;padding:11px 20px;font-weight:650;font-size:14px}
+.btn.p{background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 3px 8px rgba(36,87,214,.13)}
+.btn.p:hover{background:#1c46b0;border-color:#1c46b0}
+small{color:var(--mu)}
+.card>small{display:block;font-size:11px;margin-top:14px;line-height:1.6}
+.practice-footer{padding:0 4px 8px;color:var(--mu);line-height:1.7}
+.practice-footer small{font-size:10px}
+@media(max-width:700px){
+  body{padding:18px}
+  .practice-hero{padding:23px;margin-bottom:18px}
+  .hero-mark{width:50px;height:50px;border-radius:14px}
+  .hero-mark svg{width:27px;height:27px}
+  .card{padding:23px}
+  .card:has(>h2):has(>.opt){grid-template-columns:1fr}
+  .card:has(>h2)>.opt{min-height:0;display:grid;grid-template-columns:35px minmax(0,1fr);gap:15px;padding:18px 44px 18px 18px;align-items:start}
+  .card:has(>h2)>.opt:after{right:16px;top:23px}
+  .opt b{margin-bottom:5px}
+}
+@media(max-width:440px){
+  body{padding:12px}
+  .practice-hero{padding:22px 20px;border-radius:14px;gap:12px}
+  .hero-mark{display:none}
+  .practice-hero p{font-size:12px}
+  .eyebrow{font-size:9px;letter-spacing:.13em}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:16px}
+  .tab{padding:10px 8px}
+  .stats{gap:8px;margin-bottom:16px}
+  .chip{padding:15px 12px;font-size:10px;line-height:1.35;border-radius:10px}
+  .chip b{font-size:24px;padding-right:0;margin-bottom:7px}
+  .chip:after{display:none}
+  .card{padding:20px 16px;border-radius:13px}
+  .opt{padding:13px;gap:10px;font-size:13px}
+  .card:has(>h2)>.opt{padding-left:14px;gap:12px}
+  .ctx{font-size:13px;margin-bottom:17px;padding-bottom:17px}
+  .fb{font-size:13px;padding:13px}
+}
+@media(prefers-color-scheme:dark){
+  :root{color-scheme:dark;--navy:#dfe8fc;--gold:#d9ad4b;--gold2:#eed28f;--ac:#93b3ff;--ok:#72d8a6;--bad:#ff9fae;--mu:#a3b2ca;--tx:#e5ebf7;--bg:#0b1220;--card:#141f33;--bd:#2a3953;--soft:#101b2e;--hover:#192b47;--focus:#a9c3ff;--shadow:none}
+  .practice-hero{background:#14224a;border-color:#30466d}
+  .tabs{background:#0e182a;border-color:var(--bd)}
+  .tab{color:#adbbd3}
+  .chip:after{background:#322b1b;color:#eed28f;border-color:#584a2a}
+  .chip:nth-child(2):after{background:#192d50;border-color:#2b4772;color:#b0c9ff}
+  .chip:nth-child(3):after{background:#153628;border-color:#295440;color:#a2e3bc}
+  .card:has(>h2)>.opt:before{background:#322b1b;color:#eed28f;border-color:#584a2a}
+  .card:has(>h2)>.opt:nth-of-type(2):before{background:#192d50;border-color:#2b4772;color:#b0c9ff}
+  .card:has(>h2)>.opt:nth-of-type(3):before{background:#153628;border-color:#295440;color:#a2e3bc}
+  .opt i{background:#1c2d49;border-color:#344a6c;color:#b5ccf8}
+  .opt.ok{background:#173729;color:#b3eed0}
+  .opt.ok i{background:#214a36;border-color:#357250;color:#b4f0ce}
+  .opt.bad{background:#3a202a;color:#ffd0d7}
+  .opt.bad i{background:#522a34;border-color:#874150;color:#ffd0d7}
+  .fb{background:#29271f;border-color:#51482e;border-left-color:var(--gold);color:#e7d9b6}
+  .bar{background:#26344d}
+  .btn.p{background:#315fc4;border-color:#315fc4;color:#fff;box-shadow:none}
+  .btn.p:hover{background:#3d6ed5;border-color:#3d6ed5}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{transition:none!important;animation:none!important}
+}
+@media print{
+  body{background:#fff;color:#18263e;padding:0}
+  .tabs,.hero-mark{display:none}
+  .practice-hero{background:#fff;border-color:#dce3ee}
+  .practice-hero h1{color:#14224a}
+  .practice-hero p,.eyebrow{color:#52617a}
+  .card,.chip{box-shadow:none;break-inside:avoid}
+}
+</style></head><body><div class="w">
+<header class="practice-hero">
+  <div class="hero-copy"><div class="eyebrow">Metro Team · Practice room</div><h1>Small practice. Stronger skills.</h1><p>Sharpen your customer service skills, one quick round at a time.</p></div>
+  <div class="hero-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5h12v6a6 6 0 0 1-12 0V5Z"/><path d="M10 7H5v3a5 5 0 0 0 5 5m12-8h5v3a5 5 0 0 1-5 5M16 17v7m-5 3h10m-8-3h6v3h-6v-3Z"/></svg></div>
+</header>
+<nav class="tabs" id="tabs" aria-label="Game modes"></nav>
+<section class="stats" id="stats" aria-label="Your game progress"></section>
+<main id="main" aria-label="Practice games"></main>
+<footer class="practice-footer"><small>Store hours and USSD codes are from mtn.zm (October 2026). Streaks and scores are saved on this device only.</small></footer></div>
+<script>
+const $=id=>document.getElementById(id);
+function h(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+/* storage */
+let SV={last:'',streak:0,best:0,xp:0,done:{}};
+try{SV=Object.assign(SV,JSON.parse(localStorage.getItem('mtg')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('mtg',JSON.stringify(SV))}catch(e){}};
+const dk=off=>new Date(Date.now()+2*36e5-(off||0)*864e5).toISOString().slice(0,10); /* Lusaka time */
+/* seeded random */
+function rngOf(s){let a=0;for(const c of s)a=(a*31+c.charCodeAt(0))>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+const pick=(r,a)=>a[Math.floor(r()*a.length)];
+function shuf(r,a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+/* MTN Zambia service centres: name, town, Mon-Fri, Sat, Sun hours (null = closed) */
+const ST=[["Airport (KKIA)","Lusaka",[8,21],[8,21],[8,21]],["Chinsali","Chinsali",[8,17],[9,14],null],["Nakonde","Nakonde",[8,17],[8,13],null],["Barotse Mall","Mongu",[8,18],[9,16],[9,14]],["Town Centre","Mansa",[8,17],[9,13],null],["Chingola","Chingola",[8,17],[9,13],null],["Kafubu Mall","Ndola",[8,17],[9,15],[10,14]],["Kapiji Mall","Solwezi",[8,17],[9,15],[9,13]],["Mukuba Mall","Kitwe",[8,18],[9,15],[9,14]],["Town Centre","Kitwe",[8,17],[9,13],null],["Town Centre","Kasama",[8,17],[9,13],null],["Town Centre","Kabwe",[8,17],[9,14],null],["Crossroads Mall","Lusaka",[8,19],[9,16],[9,15]],["Mandahill Mall","Lusaka",[9,20],[9,16],[9,15]],["Town Centre","Choma",[8,17],[8,13],null],["Makeni Mall","Lusaka",[9,18],[9,16],[10,15]],["Cairo Mall","Lusaka",[8,17],[9,16],[9,14]],["Yello House (HQ)","Lusaka",[9,18],[9,14],null],["Centro Mall, Kabulonga","Lusaka",[9,20],[9,16],[10,15]],["Town Centre","Livingstone",[8,17],[8,14],null],["Chipata Mall","Chipata",[8,17],[9,14],null],["East Park Mall","Lusaka",[8,18],[9,17],[10,15]],["Levy Mall","Lusaka",[9,18],[9,16],[9,15]]];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fm=x=>String(Math.floor(x)).padStart(2,'0')+':'+(x%1?'30':'00');
+const hrs=(s,d)=>d==0?s[4]:d==6?s[3]:s[2];
+const isOpen=(s,d,t)=>{const o=hrs(s,d);return !!o&&t>=o[0]&&t<o[1]};
+const sname=s=>s[1]+' · '+s[0];
+const rng2=(s,d)=>{const o=hrs(s,d);return o?fm(o[0])+' to '+fm(o[1]):'closed all day'};
+function storeQ(r){for(let n=0;n<60;n++){const d=Math.floor(r()*7),t=pick(r,[8.5,9.5,12,14.5,16,17.5,18.5,19.5,20.5]),op=ST.filter(s=>isOpen(s,d,t)),cl=ST.filter(s=>!isOpen(s,d,t));if(!op.length||cl.length<3)continue;const c=pick(r,op),ds=shuf(r,cl).slice(0,3),x=ds[0],all=shuf(r,[c,...ds]);
+return{k:'store',t:`It is ${DAYS[d]} at ${fm(t)}. A customer wants to visit a service centre right now to sort out a complaint. Which one is open?`,c:'Pick the centre that is open at this time.',o:all.map(sname),a:all.indexOf(c),why:`${sname(c)} is open ${rng2(c,d)} on ${DAYS[d]}s. ${sname(x)} is not: ${rng2(x,d)}.`}}return null}
+/* Fix the Note */
+const TIP='A good note has three parts: the reason, what the customer said, and what happens next.';
+const NOTES=[
+["The customer says her signal drops at home in Chilanga, so mobile money payments fail.",["network","Weak signal at home in Chilanga, so MoMo fails. Advised her to transact when in town and she will retry.","NETWORK BARRIER","Customer has a problem"],1],
+["The phone belongs to the customer's brother, who is out of town until Monday.",["not owner","owner of the sim is not around","Phone belongs to the customer's brother, away until Monday. Call back Monday to speak to him.","wrong person"],2],
+["The customer accepted the offer and will activate after payday on the 28th.",["HE WILL ACTIVATE","Accepted the offer. Will activate after payday on the 28th. Follow up on the 29th.","offer accepted","customer is fine"],1],
+["The customer stopped using MoMo because cash-out agents near him are often out of float.",["no reason given","agents","Stopped using MoMo: agents near him often lack float. Advised him to cash out at a service centre.","customer says money goes back"],2],
+["The customer forgot her MoMo PIN and is afraid of being locked out if she tries again.",["Forgot PIN and fears a lockout. Explained the PIN reset steps and told her the nearest service centre.","pin","customer forgot","she will try"],0],
+["The customer says cash-out fees are higher than on another network he uses.",["fees","Says cash-out fees are higher than the other network. Explained the current fees; he will think about it.","not interested","customer complaining"],1],
+["The customer lost her SIM two weeks ago and has not replaced it.",["lost sim","Lost her SIM two weeks ago. Told her a service centre can help with SIM registration. She will visit this weekend.","SIM problem","customer will come"],1],
+["The customer says he rarely has money in his wallet, so he is not interested.",["not interested","NOT INTERESTED","Not interested: rarely has money in his wallet. Thanked him and closed. Dispose the call.","customer busy"],2]];
+const noteQ=(r,i)=>{const n=NOTES[i??Math.floor(r()*NOTES.length)],c=n[1][n[2]],o=shuf(r,n[1]);return{k:'note',t:'Which note should the agent write for this call?',c:n[0],o,a:o.indexOf(c),why:TIP}};
+/* Facts */
+const FACTS=[["A customer wants to check their main account balance. Which code?",["*114#","*115#","*117#","*292#"],0],["Which code buys a Home or Mifi data bundle?",["*115#","*292#","*114#","*117#"],1],["Can a postpaid customer buy 1Zed bundles?",["No, 1Zed bundles are for prepaid customers only","Yes, any customer","Only on weekends","Only with MoMo"],0],["Can a customer share a UniK bundle with another number?",["Yes, with any MTN number","No, UniK bundles cannot be shared","Only to family","Only monthly bundles"],1],["What is MTN's toll-free customer care number?",["111","114","117","115"],0]];
+const factQ=r=>{const f=pick(r,FACTS),c=f[1][f[2]],o=shuf(r,f[1]);return{k:'fact',t:f[0],c:'Codes as listed on mtn.zm.',o,a:o.indexOf(c),why:'Answer: '+c+'.'}};
+/* Engine */
+let G=null;
+function start(mode){
+ const day=dk(),r=mode=='daily'?rngOf(day):rngOf(String(Math.random()));let q=[];
+ if(mode=='daily'){if(SV.done[day]!=null){show();return}q=[storeQ(r),storeQ(r),noteQ(r),noteQ(r),factQ(r)]}
+ else if(mode=='note')q=shuf(r,NOTES.map((_,i)=>i)).slice(0,6).map(i=>noteQ(r,i));
+ else for(let i=0;i<6;i++)q.push(storeQ(r));
+ G={mode,q:q.filter(Boolean),i:0,ok:0,lock:false};show()}
+function show(){const m=$('main');m.replaceChildren();
+ if(!G){home(m);return}
+ if(G.i>=G.q.length){end(m);return}
+ const q=G.q[G.i],c=h('div','card');
+ const b=h('div','bar');const f=h('div');f.style.width=(G.i/G.q.length*100)+'%';b.append(f);c.append(b,h('div','q',`${G.i+1}/${G.q.length}. ${q.t}`),h('div','ctx',q.c));
+ q.o.forEach((t,j)=>{const o=h('button','opt');o.append(h('i','','ABCD'[j]),h('span','',t));o.onclick=()=>ans(j,c);c.append(o)});
+ c.append(h('small','','Tip: press A to D or 1 to 4 to answer.'));m.append(c)}
+function ans(j,c){if(G.lock)return;G.lock=true;const q=G.q[G.i],bs=c.querySelectorAll('.opt');bs.forEach((b,k)=>{b.disabled=true;if(k==q.a)b.classList.add('ok');else if(k==j)b.classList.add('bad')});
+ if(j==q.a)G.ok++;c.append(h('div','fb',(j==q.a?'Correct. ':'Not quite. ')+q.why));
+ const n=h('button','btn p',G.i+1<G.q.length?'Next':'See results');n.onclick=()=>{G.i++;G.lock=false;show()};c.append(n);n.focus()}
+function end(m){const n=G.q.length,c=h('div','card');let extra='';
+ if(G.mode=='daily'){const day=dk();SV.done[day]=G.ok;SV.streak=SV.last==dk(1)?SV.streak+1:1;SV.last=day;SV.best=Math.max(SV.best,SV.streak);const xp=G.ok*10+Math.min(SV.streak,7)*5;SV.xp+=xp;extra=` You earned ${xp} XP. Streak: ${SV.streak} day${SV.streak>1?'s':''}.`}
+ save();try{if(parent!==window)parent.postMessage({type:'mt-games',game:G.mode,ok:G.ok,n},location.origin)}catch(e){}
+ c.append(h('h2','',`You got ${G.ok} of ${n}`),h('p','',(G.ok==n?'Perfect round.':G.ok>=n*0.7?'Strong round.':'Keep practising.')+extra));
+ const a=h('button','btn p','Back to games');a.onclick=()=>{G=null;stats();show()};c.append(a);m.append(c);stats()}
+function home(m){const d=dk(),dn=SV.done[d],c=h('div','card');
+ c.append(h('h2','','Pick a game'));
+ [['daily','Daily 5',dn!=null?`Done today: ${dn} of 5. Come back tomorrow to keep your streak.`:'Five questions, the same for everyone today. Keep your streak going.'],['note','Fix the Note','Choose the call note that captures the customer\'s voice.'],['store','Which Store?','Find the MTN service centre that is open for the customer.']].forEach(([k,t,s])=>{const b=h('button','opt');const w=h('span');w.append(h('b','',t),document.createElement('br'),h('small','',s));b.append(w);b.onclick=()=>start(k);c.append(b)});m.append(c)}
+function stats(){const s=$('stats');s.replaceChildren();[['Streak',SV.last==dk()||SV.last==dk(1)?SV.streak:0],['Best streak',SV.best],['XP',SV.xp]].forEach(([k,v])=>{const c=h('div','chip',k);c.prepend(h('b','',v));s.append(c)})}
+const tb=$('tabs');[['Games',null],['Daily 5','daily'],['Fix the Note','note'],['Which Store?','store']].forEach(([t,k])=>{const b=h('button','tab',t);b.onclick=()=>{G=null;k?start(k):show()};tb.append(b)});
+document.addEventListener('keydown',e=>{if(!G||G.i>=G.q.length)return;const c=document.querySelector('.card');if(!G.lock){const j='abcd'.indexOf(e.key.toLowerCase());const k=j>=0?j:'1234'.indexOf(e.key);if(k>=0&&k<G.q[G.i].o.length)ans(k,c)}else if(e.key=='Enter'||e.key==' '){e.preventDefault();c.querySelector('.btn.p')?.click()}});
+stats();show();
+</script></body></html>
