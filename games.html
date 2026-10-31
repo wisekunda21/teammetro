@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Metro Team · Games</title>
+<style>
+:root{--navy:#0b1430;--gold:#e7b93f;--gold2:#ffe18a;--ac:#79a4ff;--ok:#39d9a0;--bad:#ff7783;--mu:#aebbd8;--tx:#eef2ff;--card:rgba(255,255,255,.07);--bd:rgba(255,255,255,.14)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--tx);background:linear-gradient(145deg,#0d1731,#080b17);min-height:100vh;padding:14px}
+.w{max-width:760px;margin:0 auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+button{font:inherit;cursor:pointer;color:var(--tx)}
+.tab,.btn{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:9px 14px;font-weight:600}
+.tab.on,.btn.p{background:var(--ac);color:#06122e;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.chip{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--mu)}
+.chip b{display:block;font-size:20px;color:var(--gold2)}
+h2{margin:0 0 6px;font-size:20px}p{margin:0 0 10px;color:var(--mu)}
+.q{font-size:17px;font-weight:600;color:var(--tx);margin-bottom:6px}.ctx{color:var(--mu);margin-bottom:12px}
+.opt{display:flex;gap:10px;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:8px;min-height:48px}
+.opt:hover:not(:disabled){border-color:var(--ac)}.opt i{font-style:normal;font-weight:700;color:var(--gold2);min-width:18px}
+.opt.ok{border-color:var(--ok);background:rgba(57,217,160,.14)}.opt.bad{border-color:var(--bad);background:rgba(255,119,131,.14)}
+.fb{border-left:4px solid var(--gold);padding:8px 12px;margin:10px 0;color:var(--tx)}
+.bar{height:6px;background:var(--bd);border-radius:6px;margin-bottom:14px;overflow:hidden}.bar div{height:100%;background:var(--ac)}
+small{color:var(--mu)}
+</style></head><body><div class="w"><div class="tabs" id="tabs"></div><div class="stats" id="stats"></div><div id="main"></div>
+<p><small>Store hours and USSD codes are from mtn.zm (October 2026). Streaks and scores are saved on this device only.</small></p></div>
+<script>
+const $=id=>document.getElementById(id);
+function h(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+/* storage */
+let SV={last:'',streak:0,best:0,xp:0,done:{}};
+try{SV=Object.assign(SV,JSON.parse(localStorage.getItem('mtg')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('mtg',JSON.stringify(SV))}catch(e){}};
+const dk=off=>new Date(Date.now()+2*36e5-(off||0)*864e5).toISOString().slice(0,10); /* Lusaka time */
+/* seeded random */
+function rngOf(s){let a=0;for(const c of s)a=(a*31+c.charCodeAt(0))>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+const pick=(r,a)=>a[Math.floor(r()*a.length)];
+function shuf(r,a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+/* MTN Zambia service centres: name, town, Mon-Fri, Sat, Sun hours (null = closed) */
+const ST=[["Airport (KKIA)","Lusaka",[8,21],[8,21],[8,21]],["Chinsali","Chinsali",[8,17],[9,14],null],["Nakonde","Nakonde",[8,17],[8,13],null],["Barotse Mall","Mongu",[8,18],[9,16],[9,14]],["Town Centre","Mansa",[8,17],[9,13],null],["Chingola","Chingola",[8,17],[9,13],null],["Kafubu Mall","Ndola",[8,17],[9,15],[10,14]],["Kapiji Mall","Solwezi",[8,17],[9,15],[9,13]],["Mukuba Mall","Kitwe",[8,18],[9,15],[9,14]],["Town Centre","Kitwe",[8,17],[9,13],null],["Town Centre","Kasama",[8,17],[9,13],null],["Town Centre","Kabwe",[8,17],[9,14],null],["Crossroads Mall","Lusaka",[8,19],[9,16],[9,15]],["Mandahill Mall","Lusaka",[9,20],[9,16],[9,15]],["Town Centre","Choma",[8,17],[8,13],null],["Makeni Mall","Lusaka",[9,18],[9,16],[10,15]],["Cairo Mall","Lusaka",[8,17],[9,16],[9,14]],["Yello House (HQ)","Lusaka",[9,18],[9,14],null],["Centro Mall, Kabulonga","Lusaka",[9,20],[9,16],[10,15]],["Town Centre","Livingstone",[8,17],[8,14],null],["Chipata Mall","Chipata",[8,17],[9,14],null],["East Park Mall","Lusaka",[8,18],[9,17],[10,15]],["Levy Mall","Lusaka",[9,18],[9,16],[9,15]]];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fm=x=>String(Math.floor(x)).padStart(2,'0')+':'+(x%1?'30':'00');
+const hrs=(s,d)=>d==0?s[4]:d==6?s[3]:s[2];
+const isOpen=(s,d,t)=>{const o=hrs(s,d);return !!o&&t>=o[0]&&t<o[1]};
+const sname=s=>s[1]+' · '+s[0];
+const rng2=(s,d)=>{const o=hrs(s,d);return o?fm(o[0])+' to '+fm(o[1]):'closed all day'};
+function storeQ(r){for(let n=0;n<60;n++){const d=Math.floor(r()*7),t=pick(r,[8.5,9.5,12,14.5,16,17.5,18.5,19.5,20.5]),op=ST.filter(s=>isOpen(s,d,t)),cl=ST.filter(s=>!isOpen(s,d,t));if(!op.length||cl.length<3)continue;const c=pick(r,op),ds=shuf(r,cl).slice(0,3),x=ds[0],all=shuf(r,[c,...ds]);
+return{k:'store',t:`It is ${DAYS[d]} at ${fm(t)}. A customer wants to visit a service centre right now to sort out a complaint. Which one is open?`,c:'Pick the centre that is open at this time.',o:all.map(sname),a:all.indexOf(c),why:`${sname(c)} is open ${rng2(c,d)} on ${DAYS[d]}s. ${sname(x)} is not: ${rng2(x,d)}.`}}return null}
+/* Fix the Note */
+const TIP='A good note has three parts: the reason, what the customer said, and what happens next.';
+const NOTES=[
+["The customer says her signal drops at home in Chilanga, so mobile money payments fail.",["network","Weak signal at home in Chilanga, so MoMo fails. Advised her to transact when in town and she will retry.","NETWORK BARRIER","Customer has a problem"],1],
+["The phone belongs to the customer's brother, who is out of town until Monday.",["not owner","owner of the sim is not around","Phone belongs to the customer's brother, away until Monday. Call back Monday to speak to him.","wrong person"],2],
+["The customer accepted the offer and will activate after payday on the 28th.",["HE WILL ACTIVATE","Accepted the offer. Will activate after payday on the 28th. Follow up on the 29th.","offer accepted","customer is fine"],1],
+["The customer stopped using MoMo because cash-out agents near him are often out of float.",["no reason given","agents","Stopped using MoMo: agents near him often lack float. Advised him to cash out at a service centre.","customer says money goes back"],2],
+["The customer forgot her MoMo PIN and is afraid of being locked out if she tries again.",["Forgot PIN and fears a lockout. Explained the PIN reset steps and told her the nearest service centre.","pin","customer forgot","she will try"],0],
+["The customer says cash-out fees are higher than on another network he uses.",["fees","Says cash-out fees are higher than the other network. Explained the current fees; he will think about it.","not interested","customer complaining"],1],
+["The customer lost her SIM two weeks ago and has not replaced it.",["lost sim","Lost her SIM two weeks ago. Told her a service centre can help with SIM registration. She will visit this weekend.","SIM problem","customer will come"],1],
+["The customer says he rarely has money in his wallet, so he is not interested.",["not interested","NOT INTERESTED","Not interested: rarely has money in his wallet. Thanked him and closed. Dispose the call.","customer busy"],2]];
+const noteQ=(r,i)=>{const n=NOTES[i??Math.floor(r()*NOTES.length)],c=n[1][n[2]],o=shuf(r,n[1]);return{k:'note',t:'Which note should the agent write for this call?',c:n[0],o,a:o.indexOf(c),why:TIP}};
+/* Facts */
+const FACTS=[["A customer wants to check their main account balance. Which code?",["*114#","*115#","*117#","*292#"],0],["Which code buys a Home or Mifi data bundle?",["*115#","*292#","*114#","*117#"],1],["Can a postpaid customer buy 1Zed bundles?",["No, 1Zed bundles are for prepaid customers only","Yes, any customer","Only on weekends","Only with MoMo"],0],["Can a customer share a UniK bundle with another number?",["Yes, with any MTN number","No, UniK bundles cannot be shared","Only to family","Only monthly bundles"],1],["What is MTN's toll-free customer care number?",["111","114","117","115"],0]];
+const factQ=r=>{const f=pick(r,FACTS),c=f[1][f[2]],o=shuf(r,f[1]);return{k:'fact',t:f[0],c:'Codes as listed on mtn.zm.',o,a:o.indexOf(c),why:'Answer: '+c+'.'}};
+/* Engine */
+let G=null;
+function start(mode){
+ const day=dk(),r=mode=='daily'?rngOf(day):rngOf(String(Math.random()));let q=[];
+ if(mode=='daily'){if(SV.done[day]!=null){show();return}q=[storeQ(r),storeQ(r),noteQ(r),noteQ(r),factQ(r)]}
+ else if(mode=='note')q=shuf(r,NOTES.map((_,i)=>i)).slice(0,6).map(i=>noteQ(r,i));
+ else for(let i=0;i<6;i++)q.push(storeQ(r));
+ G={mode,q:q.filter(Boolean),i:0,ok:0,lock:false};show()}
+function show(){const m=$('main');m.replaceChildren();
+ if(!G){home(m);return}
+ if(G.i>=G.q.length){end(m);return}
+ const q=G.q[G.i],c=h('div','card');
+ const b=h('div','bar');const f=h('div');f.style.width=(G.i/G.q.length*100)+'%';b.append(f);c.append(b,h('div','q',`${G.i+1}/${G.q.length}. ${q.t}`),h('div','ctx',q.c));
+ q.o.forEach((t,j)=>{const o=h('button','opt');o.append(h('i','','ABCD'[j]),h('span','',t));o.onclick=()=>ans(j,c);c.append(o)});
+ c.append(h('small','','Tip: press A to D or 1 to 4 to answer.'));m.append(c)}
+function ans(j,c){if(G.lock)return;G.lock=true;const q=G.q[G.i],bs=c.querySelectorAll('.opt');bs.forEach((b,k)=>{b.disabled=true;if(k==q.a)b.classList.add('ok');else if(k==j)b.classList.add('bad')});
+ if(j==q.a)G.ok++;c.append(h('div','fb',(j==q.a?'Correct. ':'Not quite. ')+q.why));
+ const n=h('button','btn p',G.i+1<G.q.length?'Next':'See results');n.onclick=()=>{G.i++;G.lock=false;show()};c.append(n);n.focus()}
+function end(m){const n=G.q.length,c=h('div','card');let extra='';
+ if(G.mode=='daily'){const day=dk();SV.done[day]=G.ok;SV.streak=SV.last==dk(1)?SV.streak+1:1;SV.last=day;SV.best=Math.max(SV.best,SV.streak);const xp=G.ok*10+Math.min(SV.streak,7)*5;SV.xp+=xp;extra=` You earned ${xp} XP. Streak: ${SV.streak} day${SV.streak>1?'s':''}.`}
+ save();try{if(parent!==window)parent.postMessage({type:'mt-games',game:G.mode,ok:G.ok,n},location.origin)}catch(e){}
+ c.append(h('h2','',`You got ${G.ok} of ${n}`),h('p','',(G.ok==n?'Perfect round.':G.ok>=n*0.7?'Strong round.':'Keep practising.')+extra));
+ const a=h('button','btn p','Back to games');a.onclick=()=>{G=null;stats();show()};c.append(a);m.append(c);stats()}
+function home(m){const d=dk(),dn=SV.done[d],c=h('div','card');
+ c.append(h('h2','','Pick a game'));
+ [['daily','Daily 5',dn!=null?`Done today: ${dn} of 5. Come back tomorrow to keep your streak.`:'Five questions, the same for everyone today. Keep your streak going.'],['note','Fix the Note','Choose the call note that captures the customer\'s voice.'],['store','Which Store?','Find the MTN service centre that is open for the customer.']].forEach(([k,t,s])=>{const b=h('button','opt');const w=h('span');w.append(h('b','',t),document.createElement('br'),h('small','',s));b.append(w);b.onclick=()=>start(k);c.append(b)});m.append(c)}
+function stats(){const s=$('stats');s.replaceChildren();[['Streak',SV.last==dk()||SV.last==dk(1)?SV.streak:0],['Best streak',SV.best],['XP',SV.xp]].forEach(([k,v])=>{const c=h('div','chip',k);c.prepend(h('b','',v));s.append(c)})}
+const tb=$('tabs');[['Games',null],['Daily 5','daily'],['Fix the Note','note'],['Which Store?','store']].forEach(([t,k])=>{const b=h('button','tab',t);b.onclick=()=>{G=null;k?start(k):show()};tb.append(b)});
+document.addEventListener('keydown',e=>{if(!G||G.i>=G.q.length)return;const c=document.querySelector('.card');if(!G.lock){const j='abcd'.indexOf(e.key.toLowerCase());const k=j>=0?j:'1234'.indexOf(e.key);if(k>=0&&k<G.q[G.i].o.length)ans(k,c)}else if(e.key=='Enter'||e.key==' '){e.preventDefault();c.querySelector('.btn.p')?.click()}});
+stats();show();
+</script></body></html>
