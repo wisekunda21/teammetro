@@ -1825,5 +1825,9 @@
    "t": "Notice: moving forward, only calls above 30 seconds will be uploaded.",
    "d": "2026-11-02"
   }
- ]
+ ],
+ "lock": {
+  "on": true,
+  "ts": "2026-11-02T10:22:54.087Z"
+ }
 }
