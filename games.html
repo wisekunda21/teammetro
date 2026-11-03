@@ -1,0 +1,196 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Metro Team · Games</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<script>
+/* November presentation: follow the workspace theme without changing its settings. */
+(function(){
+  var root=document.documentElement,host=null,media=window.matchMedia('(prefers-color-scheme: dark)'),observer;
+  try{if(window.parent!==window)host=window.parent.document.documentElement}catch(e){}
+  function sync(){
+    var saved='';
+    if(host){saved=host.dataset.theme==='dark'?'dark':'light'}
+    else{try{saved=localStorage.getItem('mtheme')||''}catch(e){}if(saved!=='dark'&&saved!=='light')saved=media.matches?'dark':'light'}
+    root.dataset.theme=saved;
+  }
+  function observe(){if(host){if(!observer)observer=new MutationObserver(sync);observer.observe(host,{attributes:true,attributeFilter:['data-theme']})}sync()}
+  observe();
+  if(media.addEventListener)media.addEventListener('change',sync);else if(media.addListener)media.addListener(sync);
+  window.addEventListener('storage',function(e){if(e.key==='mtheme')sync()});
+  window.addEventListener('pagehide',function(){if(observer)observer.disconnect()});
+  window.addEventListener('pageshow',observe);
+})();
+</script>
+<style>
+/* Metro Team · November 2026 · presentation layer */
+:root{
+  color-scheme:light;
+  --navy:#132840;--navy2:#102237;--brand:#132840;--gold:#C59A45;--gold2:#795920;
+  --ac:#265CC6;--action:#265CC6;--action-hover:#204FA9;--ok:#16704D;--bad:#B13435;
+  --mu:#5E6D82;--tx:#182C46;--ink:#182C46;--bg:#F3F5F9;--card:#FFFFFF;--surface:#FFFFFF;
+  --bd:#DDE5EF;--line:#DDE5EF;--soft:#F7F9FC;--hover:#EDF3FF;--focus:#265CC6;
+  --gold-soft:#FBF6EB;--good-soft:#EDF7F1;--good-ink:#155B3E;--bad-soft:#FFF1F0;--bad-ink:#8F2E2F;
+  --shadow:0 3px 14px rgba(19,40,64,.035);
+  --disp:Manrope,"Source Sans 3",system-ui,sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+html[data-theme=dark]{
+  color-scheme:dark;
+  --navy:#EAF0FA;--navy2:#C5D3E8;--gold2:#E2C17F;--ac:#98BCFF;--action:#3268D0;--action-hover:#3E74DA;
+  --ok:#8BD3AD;--bad:#FFAAA2;--mu:#ADBCD1;--tx:#EAF0FA;--ink:#EAF0FA;
+  --bg:#0C1525;--card:#162339;--surface:#162339;--bd:#30425D;--line:#30425D;
+  --soft:#1C2C44;--hover:#203B61;--focus:#98BCFF;--gold-soft:#2D2A28;
+  --good-soft:#17372B;--good-ink:#B7E8CE;--bad-soft:#3A252D;--bad-ink:#FFCAC4;
+  --shadow:0 3px 14px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-width:280px}
+html{scroll-behavior:auto;scroll-padding:24px}
+body{min-height:100vh;color:var(--ink);background:var(--bg);font:400 15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+::selection{background:var(--hover);color:var(--ink)}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:700;letter-spacing:-.035em;color:var(--navy)}
+p{margin:0 0 16px;color:var(--mu)}
+small{color:var(--mu)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;background:var(--action);border:1px solid var(--action);border-radius:6px;color:#FFFFFF;font:600 14px/1.5 var(--body);cursor:pointer;box-shadow:none;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--action-hover);border-color:var(--action-hover)}
+.btn.g{background:var(--surface);border-color:var(--line);color:var(--ink);box-shadow:none}
+.btn.g:hover{background:var(--soft);border-color:var(--ac)}
+.in{display:block;width:100%;min-height:46px;padding:11px 13px;margin:18px 0 14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;color:var(--ink);font:400 15px/1.5 var(--body)}
+.in::placeholder{color:var(--mu);opacity:1}
+.in:focus{border-color:var(--ac)}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.card p{line-height:1.65}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(pointer:coarse){input,select,textarea{font-size:16px}.btn,button.opt{min-height:44px}}
+body{padding:24px}
+.w{max-width:1000px;margin:0 auto}
+.practice-hero{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--brand);border:1px solid #304563;border-radius:10px;padding:25px 28px;margin-bottom:20px}
+.hero-copy{min-width:0}
+.eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 10px;color:#CCD7E7;font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase}
+.eyebrow:before{content:'';height:2px;width:18px;background:var(--gold);flex:none}
+h1{font-size:clamp(24px,3.2vw,31px);line-height:1.2;letter-spacing:-.04em;margin:0 0 9px;color:#F6F8FE}
+.practice-hero p{max-width:550px;margin:0;color:#BDCBDD;font-size:14px;line-height:1.6}
+.hero-mark{display:grid;place-items:center;width:48px;height:48px;flex:none;color:#BDCBDD}
+.hero-mark svg{width:28px;height:28px}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;padding:4px;background:var(--soft);border:1px solid var(--line);border-radius:7px;margin-bottom:19px}
+.tab{flex:1;white-space:nowrap;min-height:42px;background:transparent;border:1px solid transparent;border-radius:5px;padding:9px 12px;font:600 12px/1.5 var(--disp);color:var(--mu);transition:background .15s,color .15s,border-color .15s}
+.tab:hover{background:var(--surface);color:var(--ac);border-color:var(--line)}
+.tab.on{background:var(--surface);color:var(--ac);border-color:var(--line);box-shadow:var(--shadow)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.chip{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:16px 18px;font-size:12px;font-weight:400;color:var(--mu);box-shadow:var(--shadow);position:relative;min-width:0}
+.chip b{display:block;font:700 28px/1.2 var(--disp);letter-spacing:-.04em;color:var(--navy);margin-bottom:5px;font-variant-numeric:tabular-nums}
+.card{padding:26px;margin-bottom:18px}
+h2{margin:0 0 18px;font-size:20px;line-height:1.3}
+.card:has(>h2):has(>.opt){display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card:has(>h2):has(>.opt)>h2{grid-column:1/-1;margin-bottom:5px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:15px 16px;margin-bottom:10px;min-height:56px;color:var(--ink);font:400 15px/1.55 var(--body);transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--ac);background:var(--hover)}
+.opt i{display:grid;place-items:center;flex:none;font-style:normal;font-family:var(--disp);font-weight:600;font-size:12px;color:var(--ac);min-width:28px;height:28px;margin-top:-1px;background:var(--hover);border-radius:5px;line-height:1}
+.opt>span{min-width:0;overflow-wrap:anywhere}
+.card:has(>h2)>.opt{flex-direction:column;gap:17px;min-height:184px;margin:0;padding:19px;position:relative;background:var(--soft)}
+.card:has(>h2)>.opt:before{content:'01';display:grid;place-items:center;width:31px;height:31px;background:var(--hover);border-radius:5px;color:var(--ac);font:600 12px var(--disp);font-variant-numeric:tabular-nums}
+.card:has(>h2)>.opt:nth-of-type(2):before{content:'02'}
+.card:has(>h2)>.opt:nth-of-type(3):before{content:'03'}
+.card:has(>h2)>.opt:after{content:'\2197';position:absolute;right:18px;top:21px;color:var(--mu);font-size:19px;line-height:1}
+.card:has(>h2)>.opt:hover:not(:disabled){background:var(--hover)}
+.opt b{display:inline-block;color:var(--ink);font:700 16px/1.35 var(--disp);margin-bottom:8px;letter-spacing:-.025em}
+.opt small{display:inline-block;color:var(--mu);font-size:13px;line-height:1.65}
+.opt.ok{border-color:var(--ok);background:var(--good-soft);color:var(--good-ink)}
+.opt.ok i{background:var(--good-soft);color:var(--good-ink)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft);color:var(--bad-ink)}
+.opt.bad i{background:var(--bad-soft);color:var(--bad-ink)}
+.q{font:700 clamp(18px,2.3vw,21px)/1.45 var(--disp);letter-spacing:-.025em;color:var(--ink);margin:4px 0 12px;max-width:760px}
+.ctx{color:var(--mu);line-height:1.65;margin-bottom:21px;padding-bottom:18px;border-bottom:1px solid var(--line);font-size:14px}
+.fb{background:var(--soft);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:6px;padding:15px 17px;margin:20px 0 16px;color:var(--ink);font-size:14px;line-height:1.65}
+.bar{height:6px;background:var(--line);border-radius:99px;margin:0 0 23px;overflow:hidden}
+.bar div{height:100%;background:var(--action);border-radius:99px;transition:width .2s ease}
+.btn{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn:hover{background:var(--soft);border-color:var(--ac)}
+.btn.p{background:var(--action);color:#FFFFFF;border-color:var(--action)}
+.btn.p:hover{background:var(--action-hover);border-color:var(--action-hover)}
+.card>small{display:block;font-size:12px;margin-top:14px;line-height:1.6}
+.practice-footer{padding:0 4px 8px;color:var(--mu);line-height:1.6}
+.practice-footer small{font-size:11px}
+@media(max-width:700px){body{padding:18px}.practice-hero{padding:23px;margin-bottom:18px}.card{padding:22px}.card:has(>h2):has(>.opt){grid-template-columns:1fr}.card:has(>h2)>.opt{min-height:0;display:grid;grid-template-columns:31px minmax(0,1fr);gap:15px;padding:18px 44px 18px 18px;align-items:start}.card:has(>h2)>.opt:after{right:16px;top:23px}.opt b{margin-bottom:5px}}
+@media(max-width:440px){body{padding:12px}.practice-hero{padding:20px;gap:12px}.hero-mark{display:none}.practice-hero p{font-size:13px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:16px}.tab{padding:10px 8px}.stats{gap:8px;margin-bottom:16px}.chip{padding:14px 12px;font-size:11px;line-height:1.4}.chip b{font-size:24px;margin-bottom:7px}.card{padding:20px 16px}.opt{padding:13px;gap:10px;font-size:14px}.card:has(>h2)>.opt{padding-left:14px;gap:12px}.ctx{font-size:14px;margin-bottom:17px;padding-bottom:17px}.fb{font-size:14px;padding:13px}}
+@media print{body{background:#FFFFFF;color:#182C46;padding:0}.tabs,.hero-mark{display:none}.practice-hero{background:#FFFFFF;border-color:#DDE5EF}.practice-hero h1{color:#132840}.practice-hero p,.eyebrow{color:#5E6D82}.card,.chip{box-shadow:none;break-inside:avoid}}
+
+</style></head><body><div class="w">
+<header class="practice-hero">
+  <div class="hero-copy"><div class="eyebrow">Metro Team · Practice room</div><h1>Small practice. Stronger skills.</h1><p>Sharpen your customer service skills, one quick round at a time.</p></div>
+  <div class="hero-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5h12v6a6 6 0 0 1-12 0V5Z"/><path d="M10 7H5v3a5 5 0 0 0 5 5m12-8h5v3a5 5 0 0 1-5 5M16 17v7m-5 3h10m-8-3h6v3h-6v-3Z"/></svg></div>
+</header>
+<nav class="tabs" id="tabs" aria-label="Game modes"></nav>
+<section class="stats" id="stats" aria-label="Your game progress"></section>
+<main id="main" aria-label="Practice games"></main>
+<footer class="practice-footer"><small>Store hours and USSD codes are from mtn.zm (October 2026). Streaks and scores are saved on this device only.</small></footer></div>
+<script>
+const $=id=>document.getElementById(id);
+function h(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+/* storage */
+let SV={last:'',streak:0,best:0,xp:0,done:{}};
+try{SV=Object.assign(SV,JSON.parse(localStorage.getItem('mtg')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('mtg',JSON.stringify(SV))}catch(e){}};
+const dk=off=>new Date(Date.now()+2*36e5-(off||0)*864e5).toISOString().slice(0,10); /* Lusaka time */
+/* seeded random */
+function rngOf(s){let a=0;for(const c of s)a=(a*31+c.charCodeAt(0))>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+const pick=(r,a)=>a[Math.floor(r()*a.length)];
+function shuf(r,a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+/* MTN Zambia service centres: name, town, Mon-Fri, Sat, Sun hours (null = closed) */
+const ST=[["Airport (KKIA)","Lusaka",[8,21],[8,21],[8,21]],["Chinsali","Chinsali",[8,17],[9,14],null],["Nakonde","Nakonde",[8,17],[8,13],null],["Barotse Mall","Mongu",[8,18],[9,16],[9,14]],["Town Centre","Mansa",[8,17],[9,13],null],["Chingola","Chingola",[8,17],[9,13],null],["Kafubu Mall","Ndola",[8,17],[9,15],[10,14]],["Kapiji Mall","Solwezi",[8,17],[9,15],[9,13]],["Mukuba Mall","Kitwe",[8,18],[9,15],[9,14]],["Town Centre","Kitwe",[8,17],[9,13],null],["Town Centre","Kasama",[8,17],[9,13],null],["Town Centre","Kabwe",[8,17],[9,14],null],["Crossroads Mall","Lusaka",[8,19],[9,16],[9,15]],["Mandahill Mall","Lusaka",[9,20],[9,16],[9,15]],["Town Centre","Choma",[8,17],[8,13],null],["Makeni Mall","Lusaka",[9,18],[9,16],[10,15]],["Cairo Mall","Lusaka",[8,17],[9,16],[9,14]],["Yello House (HQ)","Lusaka",[9,18],[9,14],null],["Centro Mall, Kabulonga","Lusaka",[9,20],[9,16],[10,15]],["Town Centre","Livingstone",[8,17],[8,14],null],["Chipata Mall","Chipata",[8,17],[9,14],null],["East Park Mall","Lusaka",[8,18],[9,17],[10,15]],["Levy Mall","Lusaka",[9,18],[9,16],[9,15]]];
+const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fm=x=>String(Math.floor(x)).padStart(2,'0')+':'+(x%1?'30':'00');
+const hrs=(s,d)=>d==0?s[4]:d==6?s[3]:s[2];
+const isOpen=(s,d,t)=>{const o=hrs(s,d);return !!o&&t>=o[0]&&t<o[1]};
+const sname=s=>s[1]+' · '+s[0];
+const rng2=(s,d)=>{const o=hrs(s,d);return o?fm(o[0])+' to '+fm(o[1]):'closed all day'};
+function storeQ(r){for(let n=0;n<60;n++){const d=Math.floor(r()*7),t=pick(r,[8.5,9.5,12,14.5,16,17.5,18.5,19.5,20.5]),op=ST.filter(s=>isOpen(s,d,t)),cl=ST.filter(s=>!isOpen(s,d,t));if(!op.length||cl.length<3)continue;const c=pick(r,op),ds=shuf(r,cl).slice(0,3),x=ds[0],all=shuf(r,[c,...ds]);
+return{k:'store',t:`It is ${DAYS[d]} at ${fm(t)}. A customer wants to visit a service centre right now to sort out a complaint. Which one is open?`,c:'Pick the centre that is open at this time.',o:all.map(sname),a:all.indexOf(c),why:`${sname(c)} is open ${rng2(c,d)} on ${DAYS[d]}s. ${sname(x)} is not: ${rng2(x,d)}.`}}return null}
+/* Fix the Note */
+const TIP='A good note has three parts: the reason, what the customer said, and what happens next.';
+const NOTES=[
+["The customer says her signal drops at home in Chilanga, so mobile money payments fail.",["network","Weak signal at home in Chilanga, so MoMo fails. Advised her to transact when in town and she will retry.","NETWORK BARRIER","Customer has a problem"],1],
+["The phone belongs to the customer's brother, who is out of town until Monday.",["not owner","owner of the sim is not around","Phone belongs to the customer's brother, away until Monday. Call back Monday to speak to him.","wrong person"],2],
+["The customer accepted the offer and will activate after payday on the 28th.",["HE WILL ACTIVATE","Accepted the offer. Will activate after payday on the 28th. Follow up on the 29th.","offer accepted","customer is fine"],1],
+["The customer stopped using MoMo because cash-out agents near him are often out of float.",["no reason given","agents","Stopped using MoMo: agents near him often lack float. Advised him to cash out at a service centre.","customer says money goes back"],2],
+["The customer forgot her MoMo PIN and is afraid of being locked out if she tries again.",["Forgot PIN and fears a lockout. Explained the PIN reset steps and told her the nearest service centre.","pin","customer forgot","she will try"],0],
+["The customer says cash-out fees are higher than on another network he uses.",["fees","Says cash-out fees are higher than the other network. Explained the current fees; he will think about it.","not interested","customer complaining"],1],
+["The customer lost her SIM two weeks ago and has not replaced it.",["lost sim","Lost her SIM two weeks ago. Told her a service centre can help with SIM registration. She will visit this weekend.","SIM problem","customer will come"],1],
+["The customer says he rarely has money in his wallet, so he is not interested.",["not interested","NOT INTERESTED","Not interested: rarely has money in his wallet. Thanked him and closed. Dispose the call.","customer busy"],2]];
+const noteQ=(r,i)=>{const n=NOTES[i??Math.floor(r()*NOTES.length)],c=n[1][n[2]],o=shuf(r,n[1]);return{k:'note',t:'Which note should the agent write for this call?',c:n[0],o,a:o.indexOf(c),why:TIP}};
+/* Facts */
+const FACTS=[["A customer wants to check their main account balance. Which code?",["*114#","*115#","*117#","*292#"],0],["Which code buys a Home or Mifi data bundle?",["*115#","*292#","*114#","*117#"],1],["Can a postpaid customer buy 1Zed bundles?",["No, 1Zed bundles are for prepaid customers only","Yes, any customer","Only on weekends","Only with MoMo"],0],["Can a customer share a UniK bundle with another number?",["Yes, with any MTN number","No, UniK bundles cannot be shared","Only to family","Only monthly bundles"],1],["What is MTN's toll-free customer care number?",["111","114","117","115"],0]];
+const factQ=r=>{const f=pick(r,FACTS),c=f[1][f[2]],o=shuf(r,f[1]);return{k:'fact',t:f[0],c:'Codes as listed on mtn.zm.',o,a:o.indexOf(c),why:'Answer: '+c+'.'}};
+/* Engine */
+let G=null;
+function start(mode){
+ const day=dk(),r=mode=='daily'?rngOf(day):rngOf(String(Math.random()));let q=[];
+ if(mode=='daily'){if(SV.done[day]!=null){show();return}q=[storeQ(r),storeQ(r),noteQ(r),noteQ(r),factQ(r)]}
+ else if(mode=='note')q=shuf(r,NOTES.map((_,i)=>i)).slice(0,6).map(i=>noteQ(r,i));
+ else for(let i=0;i<6;i++)q.push(storeQ(r));
+ G={mode,q:q.filter(Boolean),i:0,ok:0,lock:false};show()}
+function show(){const m=$('main');m.replaceChildren();
+ if(!G){home(m);return}
+ if(G.i>=G.q.length){end(m);return}
+ const q=G.q[G.i],c=h('div','card');
+ const b=h('div','bar');const f=h('div');f.style.width=(G.i/G.q.length*100)+'%';b.append(f);c.append(b,h('div','q',`${G.i+1}/${G.q.length}. ${q.t}`),h('div','ctx',q.c));
+ q.o.forEach((t,j)=>{const o=h('button','opt');o.append(h('i','','ABCD'[j]),h('span','',t));o.onclick=()=>ans(j,c);c.append(o)});
+ c.append(h('small','','Tip: press A to D or 1 to 4 to answer.'));m.append(c)}
+function ans(j,c){if(G.lock)return;G.lock=true;const q=G.q[G.i],bs=c.querySelectorAll('.opt');bs.forEach((b,k)=>{b.disabled=true;if(k==q.a)b.classList.add('ok');else if(k==j)b.classList.add('bad')});
+ if(j==q.a)G.ok++;c.append(h('div','fb',(j==q.a?'Correct. ':'Not quite. ')+q.why));
+ const n=h('button','btn p',G.i+1<G.q.length?'Next':'See results');n.onclick=()=>{G.i++;G.lock=false;show()};c.append(n);n.focus()}
+function end(m){const n=G.q.length,c=h('div','card');let extra='';
+ if(G.mode=='daily'){const day=dk();SV.done[day]=G.ok;SV.streak=SV.last==dk(1)?SV.streak+1:1;SV.last=day;SV.best=Math.max(SV.best,SV.streak);const xp=G.ok*10+Math.min(SV.streak,7)*5;SV.xp+=xp;extra=` You earned ${xp} XP. Streak: ${SV.streak} day${SV.streak>1?'s':''}.`}
+ save();try{if(parent!==window)parent.postMessage({type:'mt-games',game:G.mode,ok:G.ok,n},location.origin)}catch(e){}
+ c.append(h('h2','',`You got ${G.ok} of ${n}`),h('p','',(G.ok==n?'Perfect round.':G.ok>=n*0.7?'Strong round.':'Keep practising.')+extra));
+ const a=h('button','btn p','Back to games');a.onclick=()=>{G=null;stats();show()};c.append(a);m.append(c);stats()}
+function home(m){const d=dk(),dn=SV.done[d],c=h('div','card');
+ c.append(h('h2','','Pick a game'));
+ [['daily','Daily 5',dn!=null?`Done today: ${dn} of 5. Come back tomorrow to keep your streak.`:'Five questions, the same for everyone today. Keep your streak going.'],['note','Fix the Note','Choose the call note that captures the customer\'s voice.'],['store','Which Store?','Find the MTN service centre that is open for the customer.']].forEach(([k,t,s])=>{const b=h('button','opt');const w=h('span');w.append(h('b','',t),document.createElement('br'),h('small','',s));b.append(w);b.onclick=()=>start(k);c.append(b)});m.append(c)}
+function stats(){const s=$('stats');s.replaceChildren();[['Streak',SV.last==dk()||SV.last==dk(1)?SV.streak:0],['Best streak',SV.best],['XP',SV.xp]].forEach(([k,v])=>{const c=h('div','chip',k);c.prepend(h('b','',v));s.append(c)})}
+const tb=$('tabs');[['Games',null],['Daily 5','daily'],['Fix the Note','note'],['Which Store?','store']].forEach(([t,k])=>{const b=h('button','tab',t);b.onclick=()=>{G=null;k?start(k):show()};tb.append(b)});
+document.addEventListener('keydown',e=>{if(!G||G.i>=G.q.length)return;const c=document.querySelector('.card');if(!G.lock){const j='abcd'.indexOf(e.key.toLowerCase());const k=j>=0?j:'1234'.indexOf(e.key);if(k>=0&&k<G.q[G.i].o.length)ans(k,c)}else if(e.key=='Enter'||e.key==' '){e.preventDefault();c.querySelector('.btn.p')?.click()}});
+stats();show();
+</script></body></html>

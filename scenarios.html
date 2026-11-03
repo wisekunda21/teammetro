@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#132840"><meta name="description" content="Practise customer conversations with Metro Team. Choose a reply, get coaching and build your confidence."><title>Metro Team · Customer Scenarios</title>
+<link rel="icon" href="favicon.svg">
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<script>
+/* November presentation: follow the workspace theme without changing its settings. */
+(function(){
+  var root=document.documentElement,host=null,media=window.matchMedia('(prefers-color-scheme: dark)'),observer;
+  try{if(window.parent!==window)host=window.parent.document.documentElement}catch(e){}
+  function sync(){
+    var saved='';
+    if(host){saved=host.dataset.theme==='dark'?'dark':'light'}
+    else{try{saved=localStorage.getItem('mtheme')||''}catch(e){}if(saved!=='dark'&&saved!=='light')saved=media.matches?'dark':'light'}
+    root.dataset.theme=saved;
+  }
+  function observe(){if(host){if(!observer)observer=new MutationObserver(sync);observer.observe(host,{attributes:true,attributeFilter:['data-theme']})}sync()}
+  observe();
+  if(media.addEventListener)media.addEventListener('change',sync);else if(media.addListener)media.addListener(sync);
+  window.addEventListener('storage',function(e){if(e.key==='mtheme')sync()});
+  window.addEventListener('pagehide',function(){if(observer)observer.disconnect()});
+  window.addEventListener('pageshow',observe);
+})();
+</script>
+<style>
+/* Metro Team · November 2026 · presentation layer */
+:root{
+  color-scheme:light;
+  --navy:#132840;--navy2:#102237;--brand:#132840;--gold:#C59A45;--gold2:#795920;
+  --ac:#265CC6;--action:#265CC6;--action-hover:#204FA9;--ok:#16704D;--bad:#B13435;
+  --mu:#5E6D82;--tx:#182C46;--ink:#182C46;--bg:#F3F5F9;--card:#FFFFFF;--surface:#FFFFFF;
+  --bd:#DDE5EF;--line:#DDE5EF;--soft:#F7F9FC;--hover:#EDF3FF;--focus:#265CC6;
+  --gold-soft:#FBF6EB;--good-soft:#EDF7F1;--good-ink:#155B3E;--bad-soft:#FFF1F0;--bad-ink:#8F2E2F;
+  --shadow:0 3px 14px rgba(19,40,64,.035);
+  --disp:Manrope,"Source Sans 3",system-ui,sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+html[data-theme=dark]{
+  color-scheme:dark;
+  --navy:#EAF0FA;--navy2:#C5D3E8;--gold2:#E2C17F;--ac:#98BCFF;--action:#3268D0;--action-hover:#3E74DA;
+  --ok:#8BD3AD;--bad:#FFAAA2;--mu:#ADBCD1;--tx:#EAF0FA;--ink:#EAF0FA;
+  --bg:#0C1525;--card:#162339;--surface:#162339;--bd:#30425D;--line:#30425D;
+  --soft:#1C2C44;--hover:#203B61;--focus:#98BCFF;--gold-soft:#2D2A28;
+  --good-soft:#17372B;--good-ink:#B7E8CE;--bad-soft:#3A252D;--bad-ink:#FFCAC4;
+  --shadow:0 3px 14px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-width:280px}
+html{scroll-behavior:auto;scroll-padding:24px}
+body{min-height:100vh;color:var(--ink);background:var(--bg);font:400 15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+::selection{background:var(--hover);color:var(--ink)}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:700;letter-spacing:-.035em;color:var(--navy)}
+p{margin:0 0 16px;color:var(--mu)}
+small{color:var(--mu)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;background:var(--action);border:1px solid var(--action);border-radius:6px;color:#FFFFFF;font:600 14px/1.5 var(--body);cursor:pointer;box-shadow:none;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--action-hover);border-color:var(--action-hover)}
+.btn.g{background:var(--surface);border-color:var(--line);color:var(--ink);box-shadow:none}
+.btn.g:hover{background:var(--soft);border-color:var(--ac)}
+.in{display:block;width:100%;min-height:46px;padding:11px 13px;margin:18px 0 14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;color:var(--ink);font:400 15px/1.5 var(--body)}
+.in::placeholder{color:var(--mu);opacity:1}
+.in:focus{border-color:var(--ac)}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.card p{line-height:1.65}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(pointer:coarse){input,select,textarea{font-size:16px}.btn,button.opt{min-height:44px}}
+
+.wrap{width:100%;max-width:880px;margin:auto;padding:26px 24px 40px}
+.card{padding:clamp(24px,3.2vw,36px);border-top:3px solid var(--action)}
+.logo{display:block;width:54px;height:54px;object-fit:cover;border-radius:9px;margin:0 auto 8px;box-shadow:0 0 0 1px var(--line)}
+h1{font-size:clamp(27px,3.8vw,34px)!important;line-height:1.2!important;margin:14px 0 12px!important;letter-spacing:-.04em}
+.kick{display:inline-flex;align-items:center;gap:8px;color:var(--mu);padding:0;font:600 11px/1.5 var(--body);letter-spacing:.11em;text-transform:uppercase}
+.kick::before{content:'';display:block;flex:none;width:18px;height:2px;background:var(--gold)}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 8px}
+.rules div{display:flex;flex-direction:column;justify-content:center;min-height:80px;padding:14px 10px;text-align:center;background:var(--soft);border:1px solid var(--line);border-radius:7px;color:var(--mu);font-size:12px;line-height:1.5}
+.rules b{display:block;margin-bottom:3px;font:700 20px/1.3 var(--disp);letter-spacing:-.03em;color:var(--navy)}
+.hud{display:flex;align-items:center;gap:12px;margin:0 0 22px;padding:13px 16px;background:var(--brand);border:1px solid #304563;border-radius:7px;font-weight:600;color:#F6F8FE}
+.hud .sc{color:#F6F8FE;font:700 23px/1.25 var(--disp);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.hud .sp{flex:1}
+.chip{padding:5px 10px;background:#243B57;border:1px solid #435773;border-radius:5px;color:#E9F0FC;font-size:12px;line-height:1.5;font-variant-numeric:tabular-nums}
+.opt{display:block;width:100%;min-height:60px;text-align:left;margin-top:11px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-radius:7px;color:var(--ink);font:400 15px/1.6 var(--body);cursor:pointer;transition:background .15s,border-color .15s;overflow-wrap:anywhere}
+.opt:hover:not(:disabled){background:var(--hover);border-color:var(--ac)}
+.opt:disabled{opacity:1;cursor:default}
+.opt.ok{background:var(--good-soft);border-color:var(--ok);color:var(--good-ink)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad-ink)}
+.fb{margin-top:22px;padding:18px 20px;background:var(--soft);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:6px}
+.fb.ok{border-left-color:var(--ok)}
+.fb.bad{border-left-color:var(--bad)}
+.fb b{font:700 16px/1.5 var(--disp);color:var(--navy)}
+.fb.ok b{color:var(--ok)}
+.fb.bad b{color:var(--bad)}
+.fb p{margin:7px 0 18px;color:var(--mu);font-size:14px;line-height:1.65}
+.big{margin:25px 0 13px;text-align:center;color:var(--navy);font:700 clamp(52px,9vw,68px)/1 var(--disp);letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+.rank{text-align:center;font:700 24px/1.35 var(--disp);letter-spacing:-.035em;color:var(--navy)}
+.sub{margin:9px 0 25px;text-align:center;color:var(--mu);font-size:14px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:23px}
+.stats div{padding:16px 10px;text-align:center;background:var(--soft);border:1px solid var(--line);border-radius:7px;color:var(--mu);font-size:12px}
+.stats b{display:block;margin-bottom:2px;color:var(--navy);font:700 23px/1.35 var(--disp);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.row{display:flex;gap:11px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:140px}
+@media(max-width:600px){.wrap{padding:17px 12px 28px}.card{padding:24px 20px}.hud{gap:8px;margin:0 0 20px;padding:12px}.rules,.stats{gap:8px}.rules{margin-top:22px}.rules div{padding:13px 6px;min-height:78px;font-size:11px}.rules b{font-size:18px}.opt{padding:15px 16px}.fb{padding:17px 16px}.stats div{padding:15px 7px}.stats b{font-size:22px}}
+@media(max-width:360px){.card{padding:22px 16px}.rules b{font-size:16px}.stats b{font-size:20px}.row .btn{min-width:100%}.chip{padding:5px 8px}}
+@media print{body{background:#FFFFFF;color:#132840}.wrap{max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid}.btn{display:none}}
+
+.scenario-name-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body:not(:has(#nm)) .scenario-name-label{display:none}
+.say{margin:18px 0 23px;padding:20px 22px;background:var(--soft);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:6px;font:600 clamp(18px,2.8vw,22px)/1.55 var(--disp);letter-spacing:-.025em;color:var(--navy);overflow-wrap:anywhere}
+@media(max-width:600px){.say{padding:17px 16px;margin:16px 0 20px}}
+
+</style></head><body>
+<label class="scenario-name-label" for="nm">Your name</label>
+<main class="wrap" id="app" aria-label="Customer scenario practice"><noscript><div class="card"><h1>Customer Scenarios</h1><p>Enable JavaScript to start your practice session.</p></div></noscript></main>
+<script>
+const Q=[
+{s:"PIN safety",q:"“Someone on WhatsApp said I won a MoMo prize and asked for my PIN.”",o:["Tell them to reply and ask for proof of the prize","Advise: MTN MoMo only contacts customers about prizes through 115. Never share the PIN","Ask them to send the PIN so you can check the prize","Tell them to share only the last 4 digits"],a:1,e:"MTN MoMo only contacts customers through 115. Never share PIN or personal details with anyone claiming a prize."},
+{s:"PIN safety",q:"“Can I just read you my PIN so you can reset it faster?”",o:["Take the PIN and complete the reset for them","Stop them and say we never ask for the MoMo PIN – keep it private","Ask for the first two digits only","Write it down for verification"],a:1,e:"We never ask for a MoMo PIN over the phone. Remind the customer to keep it private."},
+{s:"Objection",q:"“I’m not interested.”",o:["Hang up immediately","Thank them, confirm the outcome and dispose the call correctly","Argue the benefits again until they change their mind","Skip the notes to save time"],a:1,e:"Close every call properly and log accurate notes, even on a no."},
+{s:"Objection",q:"“Is this a scam? Why are you calling me?”",o:["Get defensive and insist you are genuine","Give a calm, clear reason for the call, confirm your name and that you are from MTN MoMo, and never ask for the PIN","Ask them to prove their identity first","Hang up because they are difficult"],a:1,e:"Stay calm, state the reason simply, introduce yourself properly and reinforce PIN safety."},
+{s:"Inactive",q:"“I lost my SIM and never used MoMo again.”",o:["Tell them to buy a new SIM and forget the old wallet","Advise Change of Ownership or SIM replacement at an MTN shop, capture the feedback and end the call properly","Ask for the old PIN so you can transfer the balance","Pitch the highest value offer anyway"],a:1,e:"Wrong party / lost SIM: advise Change of Ownership at an MTN shop, capture feedback and end the call."},
+{s:"Inactive",q:"“I forgot my PIN and gave up.”",o:["Pitch Offer 1 (1ZED minutes) first","Pitch the PIN Reset Cashback (K5) first – it is the primary offer","Tell them PIN reset is impossible","Ask them to create a new wallet"],a:1,e:"Always pitch PIN Reset Cashback first for customers who forgot their PIN."},
+{s:"KYC",q:"“My PIN reset keeps failing.”",o:["Tell them to try again tomorrow","Advise them to visit the nearest MTN Service Centre with NRC or Passport; updates take up to 72 hours","Ask them to send the NRC by SMS","Tell them to buy a new SIM"],a:1,e:"KYC issues are fixed at an MTN Service Centre with valid ID, within 72 hours."},
+{s:"Cash-in",q:"“So the cashback is only for the first deposit?”",o:["Yes, only the first deposit qualifies","No – they earn cashback on every qualifying cash-in, up to K10 per deposit","Only one deposit per week qualifies","Yes, but they can reapply next month"],a:1,e:"It is not a once-off reward. Every qualifying cash-in earns cashback."},
+{s:"Time",q:"“This is a bad time.”",o:["Pitch quickly anyway before they hang up","Offer to call back at a better time and dispose correctly","Hang up without saying anything","Ask them to call you later"],a:1,e:"Respect the answer. Offer a callback and dispose the call."},
+{s:"Self recharge",q:"“Do I have to visit an agent to get the K5 or K10 bonus?”",o:["Yes, the bonus is only paid at an agent","No – they dial *115# and pay with the MoMo wallet; no agent visit needed","Only on weekends","They must buy at an MTN shop"],a:1,e:"K5 and K10 segment customers recharge themselves on *115#. Agent visit is for the Cash-In welcome offer."}
+];
+const N=8,RANKS=[[40,"Needs more practice","Scenarios get easier with repetition."],[65,"Solid handler","You are reading customers well."],[85,"Scenario Pro","Calm, correct answers under pressure."],[101,"Customer Champion","Almost perfect. The floor trusts you."]];
+const $=s=>document.querySelector(s),app=$("#app");
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let S={};
+function home(){
+  let nm="";try{nm=localStorage.getItem("mt_quiz_name")||""}catch(e){}
+  app.innerHTML=`<div class=card style="text-align:center"><img class=logo src=logo.svg alt="" onerror="this.style.display='none'"><div class=kick style="margin-top:14px">Metro Team</div>
+  <h1 style="font-size:28px;margin:6px 0 4px">Customer Scenarios</h1>
+  <p style="color:var(--mu);margin:0">A customer says something. Choose the best reply. Short explanations after every answer.</p>
+  <div class=rules><div><b>${N}</b>scenarios</div><div><b>PIN</b>safety</div><div><b>Objections</b></div></div>
+  <input class=in id=nm maxlength=24 placeholder="Enter your name" value="${esc(nm)}" autocomplete=off>
+  <button class=btn id=go style="width:100%">Start scenarios</button></div>`;
+  $("#go").onclick=()=>{const n=$("#nm").value.trim();if(!n){$("#nm").focus();return}try{localStorage.setItem("mt_quiz_name",n)}catch(e){}start(n)};
+  $("#nm").onkeydown=e=>{if(e.key=="Enter")$("#go").click()}
+}
+function start(n){S={n,qs:shuf(Q).slice(0,N),i:0,ok:0};ask()}
+function ask(){
+  const q=S.qs[S.i];q.opts=shuf(q.o.map((t,k)=>({t,c:k===q.a})));
+  app.innerHTML=`<div class=card>
+  <div class=hud><span class=sc>${S.ok}/${S.i}</span><span class=sp></span><span class=chip>${S.i+1} / ${N}</span></div>
+  <div class=kick>${q.s}</div>
+  <div class=say>“${esc(q.q)}”</div>
+  <div id=os>${q.opts.map((o,k)=>`<button class=opt data-k=${k}>${esc(o.t)}</button>`).join("")}</div>
+  <div id=fb></div></div>`;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(+b.dataset.k));
+}
+function pick(k){
+  const q=S.qs[S.i],right=q.opts[k].c;
+  document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(q.opts[j].c)b.classList.add("ok");else if(j===k)b.classList.add("bad")});
+  if(right)S.ok++;
+  const last=S.i===N-1;
+  $("#fb").innerHTML=`<div class="fb ${right?"ok":"bad"}"><b>${right?"Correct":"Not the best reply"}</b><p>${q.e}</p>
+  <button class=btn id=nx>${last?"See results":"Next scenario"}</button></div>`;
+  $("#nx").onclick=()=>{S.i++;last?end():ask()};$("#nx").focus();
+}
+function end(){
+  const pct=Math.round(S.ok/N*100),r=RANKS.find(x=>pct<x[0]);
+  app.innerHTML=`<div class=card><div class=kick style="text-align:center">Scenarios complete</div>
+  <div class=big>${pct}%</div><div class=rank>${r[1]}</div><div class=sub>${r[2]}</div>
+  <div class=stats><div><b>${S.ok}/${N}</b>correct</div><div><b>${pct}%</b>accuracy</div><div><b>${N-S.ok}</b>to review</div></div>
+  <div class=row><button class=btn id=ag>Play again</button><button class="btn g" id=hm>Change name</button></div></div>`;
+  $("#ag").onclick=()=>start(S.n);$("#hm").onclick=home;
+  try{if(parent!==window)parent.postMessage({type:"mt-scenarios",score:pct,ok:S.ok,n:N,name:S.n},location.origin)}catch(e){}
+}
+home();
+</script></body></html>
