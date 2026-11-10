@@ -155,8 +155,9 @@
    "k": "k20",
    "id": 1010,
    "name": "Violet Chanka",
-   "trn": true,
-   "crm": false
+   "trn": false,
+   "crm": false,
+   "off": true
   },
   {
    "k": "k24",
