@@ -46,7 +46,7 @@
    "k": "k07",
    "id": 1075,
    "name": "Christina Tembo",
-   "trn": true,
+   "trn": false,
    "crm": false
   },
   {
@@ -54,7 +54,7 @@
    "id": 1014,
    "name": "Daniella Kaseba",
    "crm": false,
-   "trn": true
+   "trn": false
   },
   {
    "k": "k08",
