@@ -93,7 +93,8 @@
    "id": 1017,
    "name": "Michelle Mutale",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "off": true
   },
   {
    "k": "k16",
