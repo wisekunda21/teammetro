@@ -24,7 +24,9 @@
   {
    "k": "k40",
    "id": 1008,
-   "name": "Chimwemwe  Chanda"
+   "name": "Chimwemwe  Chanda",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k07",
@@ -43,12 +45,16 @@
   {
    "k": "k38",
    "id": 1063,
-   "name": "Edwin Mwanakambo"
+   "name": "Edwin Mwanakambo",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k42",
    "id": 1016,
-   "name": "Elizabeth v Zimba"
+   "name": "Elizabeth v Zimba",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k08",
@@ -60,17 +66,23 @@
   {
    "k": "k33",
    "id": 1002,
-   "name": "Francis Chipepo"
+   "name": "Francis Chipepo",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k27",
    "id": 1046,
-   "name": "hope nyirenda"
+   "name": "hope nyirenda",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k32",
    "id": 1001,
-   "name": "Joyce Mabuku"
+   "name": "Joyce Mabuku",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k09",
@@ -90,7 +102,9 @@
   {
    "k": "k26",
    "id": 1004,
-   "name": "kondwani mkandawire"
+   "name": "kondwani mkandawire",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k11",
@@ -111,7 +125,9 @@
   {
    "k": "k34",
    "id": 1082,
-   "name": "Mainza Himwiila"
+   "name": "Mainza Himwiila",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k13",
@@ -124,7 +140,9 @@
   {
    "k": "k29",
    "id": 1040,
-   "name": "memory Mbewe"
+   "name": "memory Mbewe",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k14",
@@ -144,22 +162,30 @@
   {
    "k": "k31",
    "id": 1091,
-   "name": "Mirriam Mwaba"
+   "name": "Mirriam Mwaba",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k30",
    "id": 1013,
-   "name": "Mulenga Musonda"
+   "name": "Mulenga Musonda",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k25",
    "id": 1010,
-   "name": "Nandi Nyirongo"
+   "name": "Nandi Nyirongo",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k35",
    "id": 1033,
-   "name": "Oliver Mubitana"
+   "name": "Oliver Mubitana",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k16",
@@ -171,7 +197,9 @@
   {
    "k": "k37",
    "id": 1070,
-   "name": "Princess Siluwaile"
+   "name": "Princess Siluwaile",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k18",
@@ -183,12 +211,16 @@
   {
    "k": "k36",
    "id": 1026,
-   "name": "Sera Nasilele"
+   "name": "Sera Nasilele",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k28",
    "id": 1057,
-   "name": "Stephen Mumba"
+   "name": "Stephen Mumba",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k19",
@@ -200,7 +232,9 @@
   {
    "k": "k41",
    "id": 1039,
-   "name": "Winfridah Nalwimba"
+   "name": "Winfridah Nalwimba",
+   "trn": false,
+   "crm": false
   },
   {
    "k": "k24",
@@ -214,7 +248,9 @@
   {
    "k": "k39",
    "id": 1029,
-   "name": "Wiza Namunyola"
+   "name": "Wiza Namunyola",
+   "trn": false,
+   "crm": false
   }
  ],
  "months": {
@@ -2486,6 +2522,39 @@
      "3": 189,
      "4": 254,
      "5": 277
+    },
+    "k32": {
+     "2": 210
+    },
+    "k33": {
+     "2": 224
+    },
+    "k40": {
+     "2": 188
+    },
+    "k30": {
+     "2": 252
+    },
+    "k42": {
+     "2": 249
+    },
+    "k36": {
+     "2": 270
+    },
+    "k39": {
+     "2": 227
+    },
+    "k35": {
+     "2": 43
+    },
+    "k29": {
+     "2": 203
+    },
+    "k27": {
+     "2": 223
+    },
+    "k28": {
+     "2": 191
     }
    },
    "staff": {
@@ -3120,6 +3189,39 @@
     "k02": {
      "17": 87,
      "18": 97
+    },
+    "k32": {
+     "2": 116
+    },
+    "k33": {
+     "2": 97
+    },
+    "k40": {
+     "2": 103
+    },
+    "k30": {
+     "2": 96
+    },
+    "k42": {
+     "2": 99
+    },
+    "k36": {
+     "2": 83
+    },
+    "k39": {
+     "2": 110
+    },
+    "k35": {
+     "2": 123
+    },
+    "k29": {
+     "2": 124
+    },
+    "k27": {
+     "2": 109
+    },
+    "k28": {
+     "2": 132
     }
    }
   },
