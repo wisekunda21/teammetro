@@ -5,91 +5,104 @@
    "id": 1028,
    "name": "Agness Phiri",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k01",
    "id": 1030,
    "name": "Anastasia Banda",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k02",
    "id": 1081,
    "name": "Beauty Kamonga",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k40",
    "id": 1008,
    "name": "Chimwemwe  Chanda",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k07",
    "id": 1075,
    "name": "Christina Tembo",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k23",
    "id": 1014,
    "name": "Daniella Kaseba",
    "crm": false,
-   "trn": false
+   "trn": false,
+   "lead": false
   },
   {
    "k": "k38",
    "id": 1063,
    "name": "Edwin Mwanakambo",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k42",
    "id": 1016,
    "name": "Elizabeth v Zimba",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k08",
    "id": 1092,
    "name": "Faith Alicia Mvula",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k33",
    "id": 1002,
    "name": "Francis Chipepo",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k27",
    "id": 1046,
    "name": "hope nyirenda",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k32",
    "id": 1001,
    "name": "Joyce Mabuku",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k09",
    "id": 1056,
    "name": "Kaila Simenda",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k10",
@@ -97,14 +110,16 @@
    "name": "Kena Chibale",
    "trn": false,
    "crm": false,
-   "rs": 1793775222026
+   "rs": 1793775222026,
+   "lead": false
   },
   {
    "k": "k26",
    "id": 1004,
    "name": "kondwani mkandawire",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k11",
@@ -113,21 +128,24 @@
    "crm": false,
    "pw": "9eca0a233c1101d2096da668a60fab6a2cf2429311783306117e76a8489b3302",
    "trn": false,
-   "off": true
+   "off": true,
+   "lead": false
   },
   {
    "k": "k12",
    "id": 1021,
    "name": "Magaret Kachingwe",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k34",
    "id": 1082,
    "name": "Mainza Himwiila",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k13",
@@ -135,21 +153,24 @@
    "name": "Maureen Liyama",
    "crm": false,
    "pw": "67fa6579b2ca4e43009e51325786df8f2a824b44b40d3e4068846d0c7bfd3c5f",
-   "trn": false
+   "trn": false,
+   "lead": false
   },
   {
    "k": "k29",
    "id": 1040,
    "name": "memory Mbewe",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k14",
    "id": 1035,
    "name": "Micheal Phiri",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k15",
@@ -157,84 +178,96 @@
    "name": "Michelle Mutale",
    "trn": false,
    "crm": false,
-   "off": true
+   "off": true,
+   "lead": false
   },
   {
    "k": "k31",
    "id": 1091,
    "name": "Mirriam Mwaba",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k30",
    "id": 1013,
    "name": "Mulenga Musonda",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k25",
    "id": 1010,
    "name": "Nandi Nyirongo",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k35",
    "id": 1033,
    "name": "Oliver Mubitana",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k16",
    "id": 1020,
    "name": "Precious Zulu",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k37",
    "id": 1070,
    "name": "Princess Siluwaile",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k18",
    "id": 1024,
    "name": "Selifa Phiri",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k36",
    "id": 1026,
    "name": "Sera Nasilele",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k28",
    "id": 1057,
    "name": "Stephen Mumba",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k19",
    "id": 1090,
    "name": "Tricia M Chikoka",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k41",
    "id": 1039,
    "name": "Winfridah Nalwimba",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   },
   {
    "k": "k24",
@@ -243,14 +276,16 @@
    "pw": "10b39c45d8bb1c895d8db28f4286940d069c1987ae0caf03a79cb1e84807289c",
    "rs": 1793268149630,
    "trn": true,
-   "crm": false
+   "crm": false,
+   "lead": true
   },
   {
    "k": "k39",
    "id": 1029,
    "name": "Wiza Namunyola",
    "trn": false,
-   "crm": false
+   "crm": false,
+   "lead": false
   }
  ],
  "months": {
@@ -2265,7 +2300,8 @@
      "18": 266,
      "19": 274,
      "20": 282,
-     "21": 220
+     "21": 220,
+     "23": 292
     },
     "k04": {
      "2": 90,
@@ -2329,7 +2365,8 @@
      "18": 234,
      "19": 259,
      "20": 303,
-     "21": 244
+     "21": 244,
+     "23": 165
     },
     "k23": {
      "2": 9,
@@ -2345,7 +2382,8 @@
      "17": 216,
      "18": 230,
      "19": 246,
-     "20": 289
+     "20": 289,
+     "23": 140
     },
     "k13": {
      "2": 12,
@@ -2365,7 +2403,8 @@
      "18": 215,
      "19": 258,
      "20": 236,
-     "21": 257
+     "21": 257,
+     "23": 245
     },
     "k14": {
      "2": 20,
@@ -2384,7 +2423,8 @@
      "18": 310,
      "19": 305,
      "20": 203,
-     "21": 317
+     "21": 317,
+     "23": 302
     },
     "k01": {
      "2": 231,
@@ -2403,7 +2443,8 @@
      "18": 250,
      "19": 200,
      "20": 310,
-     "21": 219
+     "21": 219,
+     "23": 312
     },
     "k02": {
      "2": 260,
@@ -2420,7 +2461,8 @@
      "17": 248,
      "18": 276,
      "19": 309,
-     "21": 244
+     "21": 244,
+     "23": 144
     },
     "k05": {
      "2": 251,
@@ -2448,7 +2490,8 @@
      "18": 295,
      "19": 201,
      "20": 303,
-     "21": 285
+     "21": 285,
+     "23": 317
     },
     "k09": {
      "2": 191,
@@ -2467,7 +2510,8 @@
      "18": 257,
      "19": 288,
      "20": 312,
-     "21": 241
+     "21": 241,
+     "23": 308
     },
     "k10": {
      "2": 212,
@@ -2487,7 +2531,8 @@
      "18": 228,
      "19": 269,
      "20": 290,
-     "21": 252
+     "21": 252,
+     "23": 215
     },
     "k12": {
      "2": 208,
@@ -2506,7 +2551,8 @@
      "18": 251,
      "19": 190,
      "20": 308,
-     "21": 311
+     "21": 311,
+     "23": 312
     },
     "k15": {
      "2": 150,
@@ -2538,7 +2584,8 @@
      "17": 197,
      "19": 175,
      "20": 249,
-     "21": 239
+     "21": 239,
+     "23": 271
     },
     "k17": {
      "3": 142,
@@ -2561,7 +2608,8 @@
      "18": 286,
      "19": 313,
      "20": 314,
-     "21": 250
+     "21": 250,
+     "23": 305
     },
     "k24": {
      "2": 97,
@@ -2577,7 +2625,8 @@
      "17": 166,
      "19": 20,
      "20": 51,
-     "21": 144
+     "21": 144,
+     "23": 284
     },
     "k41": {
      "3": 135,
@@ -2587,7 +2636,8 @@
      "17": 181,
      "18": 210,
      "19": 218,
-     "20": 222
+     "20": 222,
+     "23": 265
     },
     "k25": {
      "2": 217,
@@ -2602,7 +2652,8 @@
      "18": 191,
      "19": 220,
      "20": 218,
-     "21": 189
+     "21": 189,
+     "23": 209
     },
     "k38": {
      "2": 231,
@@ -2614,7 +2665,8 @@
      "18": 210,
      "19": 279,
      "20": 306,
-     "21": 283
+     "21": 283,
+     "23": 302
     },
     "k32": {
      "2": 210,
@@ -2634,7 +2686,8 @@
      "18": 64,
      "19": 269,
      "20": 273,
-     "21": 167
+     "21": 167,
+     "23": 304
     },
     "k33": {
      "2": 224,
@@ -2653,7 +2706,8 @@
      "18": 263,
      "19": 297,
      "20": 275,
-     "21": 181
+     "21": 181,
+     "23": 272
     },
     "k40": {
      "2": 188,
@@ -2667,7 +2721,8 @@
      "12": 247,
      "17": 274,
      "18": 284,
-     "21": 234
+     "21": 234,
+     "23": 304
     },
     "k30": {
      "2": 252,
@@ -2684,7 +2739,8 @@
      "18": 312,
      "19": 303,
      "20": 306,
-     "21": 237
+     "21": 237,
+     "23": 237
     },
     "k42": {
      "2": 249,
@@ -2701,7 +2757,8 @@
      "18": 264,
      "19": 286,
      "20": 292,
-     "21": 278
+     "21": 278,
+     "23": 261
     },
     "k36": {
      "2": 270,
@@ -2713,7 +2770,8 @@
      "11": 274,
      "13": 222,
      "18": 316,
-     "20": 320
+     "20": 320,
+     "23": 202
     },
     "k39": {
      "2": 227,
@@ -2728,7 +2786,8 @@
      "16": 300,
      "17": 246,
      "19": 305,
-     "20": 305
+     "20": 305,
+     "23": 319
     },
     "k35": {
      "2": 43,
@@ -2761,7 +2820,8 @@
      "18": 286,
      "19": 301,
      "20": 4,
-     "21": 238
+     "21": 238,
+     "23": 309
     },
     "k27": {
      "2": 223,
@@ -2778,7 +2838,8 @@
      "18": 294,
      "19": 148,
      "20": 301,
-     "21": 297
+     "21": 297,
+     "23": 219
     },
     "k28": {
      "2": 191,
@@ -2795,7 +2856,8 @@
      "18": 251,
      "19": 255,
      "20": 267,
-     "21": 165
+     "21": 165,
+     "23": 283
     },
     "k31": {
      "3": 98,
@@ -2825,7 +2887,8 @@
      "17": 199,
      "18": 183,
      "19": 207,
-     "20": 255
+     "20": 255,
+     "23": 264
     },
     "k26": {
      "2": 213,
@@ -2840,7 +2903,8 @@
      "18": 183,
      "19": 228,
      "20": 267,
-     "21": 239
+     "21": 239,
+     "23": 260
     },
     "k37": {
      "2": 221,
@@ -2857,7 +2921,8 @@
      "18": 250,
      "19": 273,
      "20": 302,
-     "21": 243
+     "21": 243,
+     "23": 268
     }
    },
    "staff": {
