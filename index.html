@@ -120,7 +120,6 @@ dialog{background:#fff;color:var(--ink);border:0;border-radius:10px;padding:24px
 .png{display:grid;grid-template-columns:1fr 1fr}.pnc{padding:14px 18px 8px}.pnc+.pnc{border-left:1px solid var(--ln)}.pnc .lab{margin:0 0 4px;font-size:11.5px;font-weight:700;color:var(--mu);letter-spacing:.04em;text-transform:uppercase}
 .pn .foot{margin:0;padding:0 18px 14px;color:var(--mu);font-size:11.5px}.rw .dy{color:var(--mu);font-size:11.5px;font-weight:500;margin:0 12px 0 8px;white-space:nowrap}
 @media(max-width:700px){.png{grid-template-columns:1fr}.pnc+.pnc{border-left:0;border-top:1px solid var(--ln)}}
-.pn>.wkc{border-top:1px solid var(--ln);padding-bottom:6px}
 .live{margin-left:auto;display:inline-flex;gap:6px;align-items:center;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:lv 2s ease-out infinite}
 @keyframes lv{0%{box-shadow:0 0 0 0 rgba(21,128,61,.5)}70%{box-shadow:0 0 0 7px rgba(21,128,61,0)}100%{box-shadow:0 0 0 0 rgba(21,128,61,0)}}
 @media(prefers-reduced-motion:reduce){.live i{animation:none}}
@@ -1287,7 +1286,7 @@ const fmt=n=>Number(n).toLocaleString('en-US'),pc=p=>p==null?'—':(p*100).toFix
 const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
 const dim=m=>new Date(+m.slice(0,4),+m.slice(5),0).getDate(),dow=(m,d)=>(new Date(+m.slice(0,4),+m.slice(5)-1,d).getDay()+6)%7,wk=(m,d)=>Math.floor((d-1+dow(m,1))/7);
 const M=m=>S.d.months[m]||(S.d.months[m]={}),bs=(m,k,d)=>{const a=S.d.agents.find(x=>x.k==k),t=a&&a.start||getFM().i[k];return !!t&&m+'-'+String(d).padStart(2,'0')<t},att=(m,k,d)=>dow(m,d)==6||bs(m,k,d)?'OFF':(M(m).att?.[k]?.[d]||''),cl=(m,k,d)=>M(m).calls?.[k]?.[d]||0;
-const cls=p=>p==null?'na':p>=.9?'hi':p>=.75?'mid':'lo',AG=()=>S.d.agents,isA=()=>S.role=='admin';
+const cls=p=>p==null?'na':p>=.9?'hi':p>=.75?'mid':'lo',AG=()=>S.d.agents.filter(a=>!a.lead),AGX=()=>S.d.agents,isA=()=>S.role=='admin';
 async function sha(s){return[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('')}
 const pwh=(k,p)=>sha(k+':'+p.trim().toLowerCase());
 function ref(m){if(S.day[m])return S.day[m];const c=M(m).calls||{},t={};let mx=0;for(const k in c)for(const d in c[k])mx=Math.max(mx,t[d]=(t[d]||0)+c[k][d]);let r=1;for(const d in t)if(t[d]>=mx*.5&&+d>r)r=+d;return r}
@@ -1413,14 +1412,16 @@ function lastTop(){const w=lastWk(),hasP=Object.keys(w.pr).length>0,all=AG().map
  trn=AG().filter(isTrn).map(a=>a.name),
  tm=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
  if(!top.length)return `<section class=pn><div class=pnh><h3>Last week performance</h3><small>${w.label}</small></div><div class=pnc><p class=sb style="margin:0 0 10px;color:var(--mu)">No calls were recorded for this period.</p></div></section>`;
- const lo=el.slice(0,3),n=el.length,
- rch=top.filter(o=>o.v>=TW),bel=top.filter(o=>o.v<TW),cm=bel.length?bel[0].v:0,cls=bel.filter(o=>o.v==cm).slice(0,3),
- trow=(o,t)=>`<div class=rw><b>${esc(o.a.name)}${yo(o)}</b>${t?`<span class=dy>${t}</span>`:''}<span class=v>${fmt(o.v)}</span></div>`,
- wkc=(rch.length||cls.length)?`<div class="pnc wkc">${rch.length?`<div class=lab>Reached the weekly target · ${fmt(TW)} calls</div>${rch.slice(0,5).map(o=>trow(o,'')).join('')}`:`<p class=sb style="margin:0 0 6px;color:var(--mu)">Nobody reached ${fmt(TW)} calls last week.</p>`}${cls.length?`<div class=lab${rch.length?' style="margin-top:10px"':''}>Closest to the weekly target · ${fmt(TW)} calls</div>${cls.map(o=>trow(o,fmt(TW-o.v)+' to go')).join('')}`:''}</div>`:'';
+ const lo=el.slice(0,3),n=el.length;
  return `<section class=pn><div class=pnh><h3>Last week performance</h3><small>${w.label} · Monday to Saturday</small></div><div class=png>
 <div class=pnc><div class=lab>Top 3 by total week calls</div>${top.slice(0,3).map((o,i)=>row(o,i+1,i+1)).join('')}</div>
-<div class=pnc><div class=lab>Lowest 3 by total week calls</div>${lo.map((o,i)=>row(o,n-i,0)).join('')}</div></div>${wkc}
+<div class=pnc><div class=lab>Lowest 3 by total week calls</div>${lo.map((o,i)=>row(o,n-i,0)).join('')}</div></div>
 <p class=foot>Ranked by total week calls (Monday to Saturday).${trn.length?` <b>Note:</b> ${trn.map(esc).join(' and ')} ${trn.length>1?'are':'is'} still in training and left out of the lowest list.`:''}</p></section>`}
+function wkBoard(){const w=lastWk(),rows=AG().map(a=>({a,v:w.tot[a.k]||0})).filter(o=>o.v>0).sort((x,y)=>y.v-x.v||x.a.name.localeCompare(y.a.name));
+ if(!rows.length)return'';
+ const rch=rows.filter(o=>o.v>=TW).length,top=rows.slice(0,5),
+ row=(o,i)=>{const pc=Math.min(100,Math.round(o.v/TW*100)),ok=o.v>=TW;return `<div class=rw><span class="rk${i<3?' r'+(i+1):''}">${i+1}</span><div style="flex:1;min-width:0"><b>${esc(o.a.name)}${o.a.k==S.me?'<span class=you>You</span>':''}</b><div style="height:6px;background:var(--ln);border-radius:4px;margin-top:6px;overflow:hidden"><i style="display:block;height:100%;width:${pc}%;background:${ok?'var(--ok)':'var(--gold)'}"></i></div></div><span class=dy>${ok?'Target reached':fmt(TW-o.v)+' to go'}</span><span class=v>${fmt(o.v)}</span></div>`};
+ return `<section class=pn style="margin-bottom:16px"><div class=pnh><h3>Weekly target board</h3><small>${w.label} · Monday to Saturday · target ${fmt(TW)} calls</small></div><div class=pnc><div class=lab>Last week · closest to reaching the weekly target</div>${top.map(row).join('')}</div><p class=foot>${rch?`<b>${rch}</b> agent${rch==1?'':'s'} reached ${fmt(TW)} calls last week.`:`Nobody reached ${fmt(TW)} calls last week.`} Ranked by total week calls (Monday to Saturday).</p></section>`}
 function ahtTop(){if(!isA())return'';const m=S.m,mm=M(m);if(mm.totals||!mm.aht)return'';
  const days=new Set();for(const k in mm.aht)for(const d in mm.aht[k])if(mm.aht[k][d]>0)days.add(+d);if(!days.size)return'';
  const d=Math.max(...days),w=wk(m,d),ds=DY(m).filter(x=>wk(m,x)==w&&dow(m,x)<6),
@@ -1506,10 +1507,10 @@ let c4='';const T=rows.reduce((t,o)=>t+sf(m,o.a.k),0);
  if(T>0){const ad=isA(),mine=sf(m,S.me);
   c4=`<section class="hc t2"><h3>${ad?'Team staffed time':'My staffed time'} · ${MT[m]}</h3>`+(ad?rw('','Total staffed',fmtH(T)):(mine?rw('','My staffed time',fmtH(mine))+rw('','Team staffed time',fmtH(T)):'<p class=sb>No staffed time for you yet.</p>'))+`<p class=sb>From the CRM report.</p></section>`}
  if(part=='boards')return `<div class=pbx>${dayTop()}${lastTop()}</div><div class=hg>${c1}${c2}${c3}${cvCard(rw)}</div>`;
- return `${homeCards(lk)}${lk?'':`<div class=pbx>${dayTop()}${lastTop()}</div>${ahtTop()}`}<div class=dash><div class=dash-main>${todo()}${myWork()}${dayChart()}${ban}</div><aside class=dash-side>${isA()?(lk?'':belowv()):tb}</aside></div>`}
+ return `${homeCards(lk)}${lk?'':`<div class=pbx>${dayTop()}${lastTop()}</div>${wkBoard()}`}<div class=dash><div class=dash-main>${todo()}${myWork()}${dayChart()}${ban}</div><aside class=dash-side>${isA()?(lk?'':belowv()):tb}</aside></div>`}
 /* blank register days before an agent's first mark (while colleagues were already marked) = not started yet */
 function getFM(){if(FMc)return FMc;const f={};let tf='9';
- AG().forEach(a=>{let b=null;for(const m of MN){const o=M(m).att?.[a.k];if(!o)continue;for(const d in o){if(!o[d])continue;const t=m+'-'+String(d).padStart(2,'0');if(b==null||t<b)b=t}}if(b){f[a.k]=b;if(b<tf)tf=b}});
+ AGX().forEach(a=>{let b=null;for(const m of MN){const o=M(m).att?.[a.k];if(!o)continue;for(const d in o){if(!o[d])continue;const t=m+'-'+String(d).padStart(2,'0');if(b==null||t<b)b=t}}if(b){f[a.k]=b;if(b<tf)tf=b}});
  const i={};for(const k in f)if(f[k]>tf)i[k]=f[k];return FMc={i}}
 /* ---------- sign-in log (Google Sheet via Apps Script) ---------- */
 const lgOn=()=>/^https:/.test(LOGURL),td=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
@@ -1541,7 +1542,7 @@ function logv(){const g=S.lg??={rows:null,err:'',busy:false,date:td()};
  if(g.err)return `<div class="note info">${esc(g.err)}</div><div class=tbar><button class=btn id=lgr>Try again</button><button class="btn g" id=lgx>Change key</button></div>`;
  if(!g.rows){if(!g.busy)loadLog(key);return '<div class="note info">Loading sign-ins… the first load can take up to 15 seconds, then it is quick.</div>'}
  const by={};g.rows.filter(r=>r[1]==g.date).forEach(r=>(by[r[2]]??=[]).push(r[0]));
- const li=AG().map(a=>({a,t:(by[a.id]||[]).slice().sort()})).sort((x,y)=>(x.t.length?0:1)-(y.t.length?0:1)||(x.t[0]||'').localeCompare(y.t[0]||'')||x.a.name.localeCompare(y.a.name)),n=li.filter(o=>o.t.length).length,tm=x=>x.slice(11,16);
+ const li=AGX().map(a=>({a,t:(by[a.id]||[]).slice().sort()})).sort((x,y)=>(x.t.length?0:1)-(y.t.length?0:1)||(x.t[0]||'').localeCompare(y.t[0]||'')||x.a.name.localeCompare(y.a.name)),n=li.filter(o=>o.t.length).length,tm=x=>x.slice(11,16);
  return `<div class=tbar><span>Date</span><input class=in type=date id=lgd value="${g.date}" style="max-width:170px"><span class=sp></span><button class="btn g s" id=lgr>Refresh</button><button class="btn g s" id=lgx>Change key</button></div>
 <div class="note info"><b>${n}</b> of ${li.length} agents signed in on this date. Times are Lusaka time, recorded when the agent signs in.</div>
 <div class=sheet><table><thead><tr><th class=nm>Agent</th><th>First sign-in</th><th>Last sign-in</th><th>Sign-ins</th></tr></thead><tbody>${li.map(o=>`<tr><td class=nm>${esc(o.a.name)}</td>${o.t.length?`<td>${tm(o.t[0])}</td><td>${tm(o.t[o.t.length-1])}</td><td>${o.t.length}</td>`:'<td colspan=3 style="color:var(--mu)">Not signed in</td>'}</tr>`).join('')}</tbody></table></div>`}
@@ -1550,19 +1551,19 @@ function summ(list){const T=a=>MN.map(m=>stat(m,a.k,1).month),tot=MN.map(()=>0);
  `</tbody>${list.length>1?`<tfoot><tr><td class=nm colspan=2>TOTAL</td>${tot.map(v=>`<td class=n>${fmt(v)}</td>`).join('')}<td class=n>${fmt(tot.reduce((s,v)=>s+v,0))}</td></tr></tfoot>`:''}</table></div>`}
 function pwv(){return `<h3 class=sh>Add an agent</h3><div class=tbar><input class=in id=an placeholder="Full name" style="max-width:240px"><input class=in id=ai type=number min=1 placeholder="User ID" style="max-width:130px"><input class=in id=ap placeholder="Password (blank = ${DEFPW})" style="max-width:210px"><button class=btn id=add>Add agent</button></div>
  <p class=note style="padding:0 0 14px">Default agent password is <b>${DEFPW}</b>. One person per User ID: when someone leaves, change the name on their row (or add the new name with the same ID to replace them). Calls stay on the ID, and the CRM import keeps matching it. Edit a name or ID directly in the table. Days before a new joiner's first register mark show as OFF (not started yet). <b>CRM only</b> agents (calls loaded from the CRM file) show no register letters on the Calls tab. Untick <b>Can log in</b> to disable an agent: they are blocked from logging in and Messages, and their past data stays. Agents can change their own password with the <b>Change password</b> button at the top of their page. <b>Reset</b> puts an agent back on the default (<b>${DEFPW}</b>), even if they changed it themselves, so use it when someone forgets. Passwords are stored as hashes, so existing ones can't be shown.</p>
- <div class=sheet><table><thead><tr><th class=nm>Agent</th><th>User ID</th><th>CRM only</th><th>Trainee</th><th>Can log in</th><th>Password</th><th>New password</th><th>Actions</th></tr></thead><tbody>`+AG().map(a=>`<tr><td class=nm><input class=ni data-nk=${a.k} value="${esc(a.name)}"></td><td><input class=ni data-ik=${a.k} type=number value=${a.id} style="width:90px"></td><td><input type=checkbox data-ck=${a.k}${crmOnly(a)?' checked':''} title="Calls come from the CRM import: no register letters on the Calls tab"></td><td><input type=checkbox data-tk=${a.k}${isTrn(a)?' checked':''} title="Trainee or no calls: left out of the lowest-3 lists"></td><td><input type=checkbox data-ak=${a.k}${a.off?'':' checked'} title="Untick to stop this agent logging in">${a.off?'<small style="color:var(--bad)"> Disabled</small>':''}</td><td>${a.pw||ovOn(a)?'<b>Custom</b>':'Default ('+DEFPW+')'}</td><td><input class=ni id=np-${a.k} placeholder="Type new password" style="width:170px"></td><td><button class="btn s" data-set=${a.k}>Save</button> <button class="btn g s" data-rs=${a.k}>Reset</button> <button class="btn danger s" data-rm=${a.k}>Remove</button></td></tr>`).join('')+`</tbody></table></div><h3 class="sh dz">Start afresh</h3><div class=tbar>Clears editable months' attendance and call entries. Agents and passwords stay.<label><input type=checkbox id=csep> Also clear September's locked totals</label><button class="btn danger s" id=clr>Clear calls & attendance</button></div>`}
+ <div class=sheet><table><thead><tr><th class=nm>Agent</th><th>User ID</th><th>CRM only</th><th>Trainee</th><th>Can log in</th><th>Password</th><th>New password</th><th>Actions</th></tr></thead><tbody>`+AGX().map(a=>`<tr><td class=nm><input class=ni data-nk=${a.k} value="${esc(a.name)}"></td><td><input class=ni data-ik=${a.k} type=number value=${a.id} style="width:90px"></td><td><input type=checkbox data-ck=${a.k}${crmOnly(a)?' checked':''} title="Calls come from the CRM import: no register letters on the Calls tab"></td><td><input type=checkbox data-tk=${a.k}${isTrn(a)?' checked':''} title="Trainee or no calls: left out of the lowest-3 lists"></td><td><input type=checkbox data-ak=${a.k}${a.off?'':' checked'} title="Untick to stop this agent logging in">${a.off?'<small style="color:var(--bad)"> Disabled</small>':''}</td><td>${a.pw||ovOn(a)?'<b>Custom</b>':'Default ('+DEFPW+')'}</td><td><input class=ni id=np-${a.k} placeholder="Type new password" style="width:170px"></td><td><button class="btn s" data-set=${a.k}>Save</button> <button class="btn g s" data-rs=${a.k}>Reset</button> <button class="btn danger s" data-rm=${a.k}>Remove</button></td></tr>`).join('')+`</tbody></table></div><h3 class="sh dz">Start afresh</h3><div class=tbar>Clears editable months' attendance and call entries. Agents and passwords stay.<label><input type=checkbox id=csep> Also clear September's locked totals</label><button class="btn danger s" id=clr>Clear calls & attendance</button></div>`}
 async function addAgent(){const n=$('#an').value.trim(),id=parseInt($('#ai').value),p=$('#ap').value.trim();
  if(!n||!(id>0))return alert('Enter the agent\'s full name and User ID.');
  if(p&&p.length<6)return alert('Use at least 6 characters for the password.');
- const ex=AG().find(a=>a.id==id);
+ const ex=AGX().find(a=>a.id==id);
  if(ex){if(!confirm('User ID '+id+' belongs to '+ex.name+'. Replace '+ex.name+' with '+n+' on this ID? The ID and its calls stay. '+n+' will log in with '+(p||DEFPW)+'.'))return;
   ex.name=n;delete ex.off;if(p)ex.pw=await pwh(ex.k,p);else delete ex.pw;ex.rs=await srvNow();S.d.agents.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));dirty();render();return}
- const k='k'+String(Math.max(-1,...AG().map(a=>+a.k.slice(1)))+1).padStart(2,'0'),a={k,id,name:n};if(p)a.pw=await pwh(k,p);
+ const k='k'+String(Math.max(-1,...AGX().map(a=>+a.k.slice(1)))+1).padStart(2,'0'),a={k,id,name:n};if(p)a.pw=await pwh(k,p);
  S.d.agents.push(a);S.d.agents.sort((x,y)=>x.name.toLowerCase().localeCompare(y.name.toLowerCase()));dirty();render()}
 function clearAll(){if(!isA())return;if(prompt('This deletes all marked attendance and call entries. Type CLEAR to confirm.')!=='CLEAR')return;{const u=URL.createObjectURL(new Blob([JSON.stringify(S.d)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='register-backup-'+td()+'.json';l.click()}
  const sep=$('#csep').checked;MN.forEach(m=>{if(M(m).totals){if(sep)S.d.months[m]={locked:true,totals:{}}}else S.d.months[m]={}});dirty();render()}
-function rmAgent(k){const a=AG().find(x=>x.k==k);if(!a||!confirm('Remove '+a.name+'? They disappear from the register, logins and totals. Their past entries stay in the saved file.'))return;
- S.d.agents=AG().filter(x=>x.k!=k);dirty();render()}
+function rmAgent(k){const a=AGX().find(x=>x.k==k);if(!a||!confirm('Remove '+a.name+'? They disappear from the register, logins and totals. Their past entries stay in the saved file.'))return;
+ S.d.agents=AGX().filter(x=>x.k!=k);dirty();render()}
 
 const sq=()=>`<input class=in id=aq placeholder="Find an agent" value="${esc(S.q||'')}" style="max-width:220px" aria-label="Find an agent">`;
 /* ---------- store locator ----------
@@ -1669,7 +1670,7 @@ function groupedNav(T){
 }
 document.addEventListener('click',e=>{const menu=document.querySelector('.navwrap'),toggle=document.getElementById('menu-toggle');if(!menu||!toggle)return;if(e.target.closest('#menu-toggle')){const open=menu.classList.toggle('nav-open');toggle.setAttribute('aria-expanded',String(open))}else if(e.target.closest('#tabs [data-t]')){menu.classList.remove('nav-open');toggle.setAttribute('aria-expanded','false')}});
 document.addEventListener('keydown',e=>{if(e.key!='Escape')return;const menu=document.querySelector('.navwrap'),toggle=document.getElementById('menu-toggle');if(menu&&toggle&&menu.classList.contains('nav-open')){menu.classList.remove('nav-open');toggle.setAttribute('aria-expanded','false');toggle.focus()}});
-function render(){FMc=null;const a=isA();let m=S.m;const me=AG().find(x=>x.k==S.me),list=a?AG():[me],q=(S.q||'').trim().toLowerCase(),fl=q?list.filter(x=>x.name.toLowerCase().includes(q)||String(x.id).includes(q)):list,lk=!!M(m).totals;
+function render(){FMc=null;const a=isA();let m=S.m;const me=AG().find(x=>x.k==S.me),list=a?AGX():[me],q=(S.q||'').trim().toLowerCase(),fl=q?list.filter(x=>x.name.toLowerCase().includes(q)||String(x.id).includes(q)):list,lk=!!M(m).totals;
  $('#who2').innerHTML=(a?`<span id=ss role=status aria-live=polite class="ss ${S.ss[1]}">${S.ss[0]}</span>`:'')+`<span class=usr data-viewer-name="${a?'Admin':esc(me.name)}"><b>${a?'Admin':esc(me.name)}</b><small>${a?'Administrator':'ID '+me.id}</small></span>${a?'<span class="tsz" role="group" aria-label="Text size"><button type="button" data-ts="-1" aria-label="Smaller text" title="Smaller text">A−</button><button type="button" data-ts="0" aria-label="Normal text size" title="Normal text size">Normal</button><button type="button" data-ts="1" aria-label="Larger text" title="Larger text">A+</button></span>':''}${a?'':'<button class="btn g s" id=cpw>Password</button>'}${a?lockBtn():''}<button class="btn g s ib thm" type=button aria-label="Dark mode" title="Dark mode"></button><button class="btn g s ib" id=out type=button aria-label="Log out" title="Log out"><svg width=18 height=18 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button>`;window.tszAp&&tszAp();
  const todayLabel=new Date().toLocaleDateString('en-ZM',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
  $('#wel').innerHTML=`<div class="wel-copy"><div class="wel-eyebrow"><span class="wel-dot"></span>${a?'TEAM LEAD VIEW':'AGENT WORKSPACE'}</div><h2>${gr()}, ${a?'Admin':esc(me.name)}</h2><p>${a?'Manage attendance, review performance and keep the team moving.':`User ID ${me.id} · your attendance, your calls and the team standings`}</p></div><div class="wel-meta"><span class="meta-label">TODAY</span><b>${esc(todayLabel)}</b><small>Metro Team · One team, one goal</small></div>`;
@@ -1770,7 +1771,7 @@ addEventListener('message',e=>{const d=e.data;if(!d||e.origin!==location.origin|
 /* ---------- editing + saving ---------- */
 function dirty(){S.pend=1;if(!tok&&!ls('mt')){ss('Not saved: connect GitHub','bad');$('#derr').textContent='';$('#dlg').showModal();return}tok=tok||ls('mt');ss('Saving…');clearTimeout(timer);timer=setTimeout(save,1200)}
 function setAtt(k,d,v){FMc=null;const mm=M(S.m);((mm.att??={})[k]??={});v?mm.att[k][d]=v:delete mm.att[k][d]}
-function upd(k){const tr=document.querySelector(`tr[data-r=${k}]`),at=S.tab=='att';if(!tr){$('#kpi').innerHTML=kpis(AG());return}tr.querySelectorAll('.sm,.tt').forEach(e=>e.remove());tr.insertAdjacentHTML('beforeend',at?sumA(k):sumC(k));$('#ft').innerHTML=at?foot():cfoot();$('#kpi').innerHTML=kpis(AG())}
+function upd(k){const tr=document.querySelector(`tr[data-r=${k}]`),at=S.tab=='att';if(!tr){$('#kpi').innerHTML=kpis(AGX());return}tr.querySelectorAll('.sm,.tt').forEach(e=>e.remove());tr.insertAdjacentHTML('beforeend',at?sumA(k):sumC(k));$('#ft').innerHTML=at?foot():cfoot();$('#kpi').innerHTML=kpis(AGX())}
 const H=()=>({Authorization:'Bearer '+tok,Accept:'application/vnd.github+json'});
 async function save(){if(!isA())return;ss('Saving…');
  try{for(let i=0;i<3;i++){if(!S.sha){const g=await fetch(API+'?ref='+BR+'&t='+Date.now(),{headers:H()});if(g.ok)S.sha=(await g.json()).sha}
@@ -1781,13 +1782,13 @@ addEventListener('beforeunload',e=>{if(S.pend){e.preventDefault();e.returnValue=
 async function connect(t){const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}`,{headers:{Authorization:'Bearer '+t}}),j=await r.json();
  if(!r.ok||!j.permissions?.push)throw 'This token cannot edit '+OWNER+'/'+REPO;tok=t;ls('mt',t);if(S.pend)save();else ss('GitHub connected','ok')}
 async function load(){let t;try{const r=await fetch(API+'?ref='+BR+'&t='+Date.now(),{headers:{Accept:'application/vnd.github.raw+json'}});if(r.ok)t=await r.text()}catch(e){}
- if(!t)t=await(await fetch(FILE+'?t='+Date.now())).text();S.d=JSON.parse(t);const g=S.d.targets;if(g){TD=+g.day||TD;TW=+g.week||TW;TM=+g.month||(+g.days?TD*(+g.days):TM)}S.d.agents.forEach(a=>{if(a.trn===undefined)a.trn=NOLOW.test(a.name);if(a.crm===undefined)a.crm=/tamika|daniell?a/i.test(a.name)})}
+ if(!t)t=await(await fetch(FILE+'?t='+Date.now())).text();S.d=JSON.parse(t);const g=S.d.targets;if(g){TD=+g.day||TD;TW=+g.week||TW;TM=+g.month||(+g.days?TD*(+g.days):TM)}S.d.agents.forEach(a=>{if(a.lead===undefined)a.lead=/^\s*wisdom\s+kalumba\s*$/i.test(a.name);if(a.trn===undefined)a.trn=NOLOW.test(a.name);if(a.crm===undefined)a.crm=/tamika|daniell?a/i.test(a.name)})}
 
 const lib=()=>window.XLSX?0:new Promise((r,j)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=r;s.onerror=()=>j('Could not load the Excel reader. Check your internet.');document.head.append(s)});
 /* ---------- Excel export (same layout as your register, live formulas) ---------- */
 async function xl(){const m=S.m;if(M(m).totals)return alert('September is locked (totals only). Choose an editable reporting month.');
  await lib();
- const n=dim(m),W=wk(m,n)+1,A=AG(),N=A.length,E=XLSX.utils,C=E.encode_col,D=DY(m),wb=E.book_new(),F=N+3;
+ const n=dim(m),W=wk(m,n)+1,A=AGX(),N=A.length,E=XLSX.utils,C=E.encode_col,D=DY(m),wb=E.book_new(),F=N+3;
  const aw=E.aoa_to_sheet([['Agent','User ID',...D,'P','A','L','FL','SL','Attendance %'],...A.map(a=>[a.name,a.id,...D.map(d=>att(m,a.k,d)||null)])]);
  A.forEach((a,i)=>{const r=i+2,g=`${C(2)}${r}:${C(n+1)}${r}`;['P','A','L','FL','SL'].forEach((x,j)=>aw[C(n+2+j)+r]={t:'n',f:`COUNTIF(${g},"${x}")`});aw[C(n+7)+r]={t:'n',z:'0.0%',f:`IFERROR(${C(n+2)}${r}/SUM(${C(n+2)}${r}:${C(n+6)}${r}),0)`}});
  aw['A'+F]={t:'s',v:'Present'};for(let c=2;c<=n+1;c++)aw[C(c)+F]={t:'n',f:`COUNTIF(${C(c)}2:${C(c)}${N+1},"P")`};
@@ -1811,7 +1812,7 @@ function impCalc(){const g=id=>+$('#'+id).value,idc=g('i-id'),cc=g('i-cl'),sc=g(
  IM.data.forEach(r=>{const id=parseInt(r[idc]);if(!(id>0)){skip++;return}let d=day;
   if(dc>=0){const p=dparse(r[dc]);if(!p||p.y+'-'+String(p.m).padStart(2,'0')!=m){skip++;return}d=p.d}
   const c=cc>=0?Number(r[cc]):cc==-2?0:1;if(!isFinite(c)||c<0){skip++;return}
-  const a=AG().find(x=>x.id==id);if(!a){miss.add(id);return}
+  const a=AGX().find(x=>x.id==id);if(!a){miss.add(id);return}
   (out[a.k]??={});out[a.k][d]=(out[a.k][d]||0)+Math.round(c);
   if(wc>=0){const wv=r[wc];if(wv!=null&&wv!==''){const wn=Number(wv);if(isFinite(wn)&&wn>=0){(wo[a.k]??={});wo[a.k][d]=(wo[a.k][d]||0)+Math.round(wn)}}}
   if(ac>=0){const av=hms(r[ac]);if(av>0){const aw=c>0?c:1;(ah[a.k]??={});const q=(ah[a.k][d]??=[0,0]);q[0]+=av*aw;q[1]+=aw}}
@@ -1875,7 +1876,7 @@ document.addEventListener('click',async e=>{if(!e.target.closest('#pop,.c'))hide
  else if(b.dataset.stcp){const s=stAll().find(x=>x.id==b.dataset.stcp);if(s)stCopy(b,s)}
  else if(b.dataset.grid){S.grid=!S.grid;render()}
  else if(b.dataset.dv){S.dvm=S.m;S.dvd=Math.min(dim(S.m),Math.max(1,dvDay()+ +b.dataset.dv));render()}
- else if(b.dataset.dva){if(!isA())return;const k=b.dataset.dva,d=dvDay(),x=b.dataset.v,cur=att(S.m,k,d);if(cur=='OFF')return;const v=cur==x?'':x;setAtt(k,d,v);b.parentNode.querySelectorAll('button').forEach(y=>y.classList.toggle('on',y.dataset.v==v));$('#kpi').innerHTML=kpis(AG());dirty()}
+ else if(b.dataset.dva){if(!isA())return;const k=b.dataset.dva,d=dvDay(),x=b.dataset.v,cur=att(S.m,k,d);if(cur=='OFF')return;const v=cur==x?'':x;setAtt(k,d,v);b.parentNode.querySelectorAll('button').forEach(y=>y.classList.toggle('on',y.dataset.v==v));$('#kpi').innerHTML=kpis(AGX());dirty()}
  else if(b.dataset.dvall){if(!isA())return;const d=dvDay();AG().forEach(a=>{if(!att(S.m,a.k,d))setAtt(a.k,d,'P')});dirty();render()}
  else if(b.dataset.as){S.as=b.dataset.as;render()}
  else if(b.id=='gset'){const v=prompt('Team goal: total calls for '+MT[S.m]+'? (leave empty to use the default '+DEFGOAL.toLocaleString('en-US')+')',M(S.m).goal||DEFGOAL);if(v!==null){const n=Math.max(0,Math.round(+v)||0);if(n)M(S.m).goal=n;else delete M(S.m).goal;dirty();render()}}
@@ -1898,7 +1899,7 @@ document.addEventListener('click',async e=>{if(!e.target.closest('#pop,.c'))hide
  else if(b.id=='lgk'){const v=$('#lgkey').value.trim();if(v){ls('lgk',v);S.lg.rows=null;S.lg.err='';render()}}
  else if(b.id=='imp')$('#impf').click();else if(b.id=='ic')$('#idlg').close();else if(b.id=='ig')impGo();
  else if(b.id=='add')addAgent();else if(b.id=='clr')clearAll();else if(b.dataset.rm){if(isA())rmAgent(b.dataset.rm)}
- else if(b.dataset.set||b.dataset.rs){if(!isA())return;const k=b.dataset.set||b.dataset.rs,a=AG().find(x=>x.k==k),v=$('#np-'+k).value.trim();
+ else if(b.dataset.set||b.dataset.rs){if(!isA())return;const k=b.dataset.set||b.dataset.rs,a=AGX().find(x=>x.k==k),v=$('#np-'+k).value.trim();
   if(b.dataset.set){if(v.length<6)return alert('Use at least 6 characters.');a.pw=await pwh(k,v)}else delete a.pw;a.rs=await srvNow();dirty();render()}
  else if(b.dataset.r){R=b.dataset.r;document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x==b));$('#err').textContent=''}
  else if(b.id=='go')login();else if(b.classList.contains('thm'))toggleTheme()});
@@ -1906,11 +1907,11 @@ document.addEventListener('input',e=>{if(e.target.id=='stq'){stS().q=e.target.va
 document.addEventListener('keydown',e=>{const t=e.target;if(e.key=='Enter'&&t.id=='pw')return login();if(e.key=='Escape')hidePop();
  if((e.key=='Enter'||e.key==' ')&&t.classList?.contains('c')&&isA()){e.preventDefault();t.click()}});
 document.addEventListener('change',e=>{const t=e.target;if(t.id=='stp'){stS().prov=t.value;stS().town='';stTownRefresh();stRefresh();return}if(t.id=='stt'){stS().town=t.value;stRefresh();return}if(t.dataset&&t.dataset.cv!==undefined){if(!isA()||M(S.m).totals)return;const mm=M(S.m),v=t.value.trim();(mm.conv??={});if(v==='')delete mm.conv[t.dataset.cv];else mm.conv[t.dataset.cv]=Math.max(0,Math.round(+v)||0);dirty();render();return}if(t.id=='impf'){impOpen(t.files[0]);t.value='';return}if(t.id?.startsWith('i-')){impSum();return}if(t.id=='lgd'){S.lg.date=t.value;render();return}if(t.id=='ds'){S.day[S.m]=+t.value;render()}
- else if(t.dataset.ak&&isA()){const a=AG().find(x=>x.k==t.dataset.ak);if(!t.checked&&!confirm('Disable '+a.name+'? They will not be able to log in until you tick the box again.')){t.checked=true;return}if(t.checked)delete a.off;else a.off=true;dirty();render()}
- else if(t.dataset.tk&&isA()){AG().find(x=>x.k==t.dataset.tk).trn=t.checked;dirty()}
- else if(t.dataset.ck&&isA()){AG().find(x=>x.k==t.dataset.ck).crm=t.checked;dirty()}
+ else if(t.dataset.ak&&isA()){const a=AGX().find(x=>x.k==t.dataset.ak);if(!t.checked&&!confirm('Disable '+a.name+'? They will not be able to log in until you tick the box again.')){t.checked=true;return}if(t.checked)delete a.off;else a.off=true;dirty();render()}
+ else if(t.dataset.tk&&isA()){AGX().find(x=>x.k==t.dataset.tk).trn=t.checked;dirty()}
+ else if(t.dataset.ck&&isA()){AGX().find(x=>x.k==t.dataset.ck).crm=t.checked;dirty()}
 
- else if((t.dataset.nk||t.dataset.ik)&&isA()){const a=AG().find(x=>x.k==(t.dataset.nk||t.dataset.ik));if(t.dataset.nk){const v=t.value.trim();if(v)a.name=v;else t.value=a.name}else{const v=parseInt(t.value);if(v>0&&!AG().some(x=>x!==a&&x.id==v))a.id=v;else{t.value=a.id;if(v>0)alert('User ID '+v+' is already used by another agent.')}}dirty()}
+ else if((t.dataset.nk||t.dataset.ik)&&isA()){const a=AGX().find(x=>x.k==(t.dataset.nk||t.dataset.ik));if(t.dataset.nk){const v=t.value.trim();if(v)a.name=v;else t.value=a.name}else{const v=parseInt(t.value);if(v>0&&!AGX().some(x=>x!==a&&x.id==v))a.id=v;else{t.value=a.id;if(v>0)alert('User ID '+v+' is already used by another agent.')}}dirty()}
  else if(t.classList.contains('ci')&&isA()){const mm=M(S.m),v=Math.max(0,parseInt(t.value)||0),{k,d}=t.dataset;((mm.calls??={})[k]??={});v?mm.calls[k][d]=v:delete mm.calls[k][d];t.value=v||'';upd(k);dirty()}});
 
 const zv=(m,k,d)=>!!M(m).zed?.[k]?.[d];
@@ -1927,7 +1928,7 @@ function zsum(m){const rows=AG().map(a=>({a,d:zdays(m,a.k)})).filter(o=>o.d.leng
 function zedv(m,lk){if(m<'2026-11')return '<div class="note info">ZedFin days are tracked from November. October is not tracked.</div>';if(lk)return '<div class="note info">This month is locked (totals only), so ZedFin days are not tracked for it.</div>';
  const n=dim(m);
  return `<div class="note info">Tap a day to mark who is working on <b>ZedFin</b> that day. ZedFin calls do not count for conversion. Changes save online automatically.</div><div class=tbar><button class="btn s" id=zimp>Import ZedFin CRM file</button><input type=file id=zimpf accept=".xlsx,.xls,.csv" hidden><span class=ss>Marks those days as ZedFin and saves the ZedFin calls and staffed time of each agent. The normal calls are not changed.</span></div><div class=zon id=zon>${zon(m)}</div>
- <div class=sheet><table id=zg><thead><tr class=h1><th class=nm rowspan=2>Agent</th>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}">${'MTWTFSS'[dow(m,d)]}</th>`).join('')}<th rowspan=2>Days</th></tr><tr class=h2>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}">${d}</th>`).join('')}</tr></thead><tbody>${AG().map(a=>`<tr data-zr=${a.k}>${nmc(a)}${DY(m).map(d=>{const on=zv(m,a.k,d);return `<td class="zc${on?' on':''}${dow(m,d)==6?' so':''}" tabindex=0 role=button aria-pressed="${on}" title="${on?zdet(m,a.k,d):''}" data-zk=${a.k} data-zd=${d}>${on?'Z':''}</td>`}).join('')}<td class="sm zt">${zdays(m,a.k).length||''}</td></tr>`).join('')}</tbody></table></div>
+ <div class=sheet><table id=zg><thead><tr class=h1><th class=nm rowspan=2>Agent</th>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}">${'MTWTFSS'[dow(m,d)]}</th>`).join('')}<th rowspan=2>Days</th></tr><tr class=h2>${DY(m).map(d=>`<th class="${dow(m,d)==6?'so':''}">${d}</th>`).join('')}</tr></thead><tbody>${AGX().map(a=>`<tr data-zr=${a.k}>${nmc(a)}${DY(m).map(d=>{const on=zv(m,a.k,d);return `<td class="zc${on?' on':''}${dow(m,d)==6?' so':''}" tabindex=0 role=button aria-pressed="${on}" title="${on?zdet(m,a.k,d):''}" data-zk=${a.k} data-zd=${d}>${on?'Z':''}</td>`}).join('')}<td class="sm zt">${zdays(m,a.k).length||''}</td></tr>`).join('')}</tbody></table></div>
  <h3 class="sh dz" style="margin:22px 0 8px">${MT[m]} summary</h3><div class=tbar><button class="btn g s" id=zx>Download summary (CSV)</button></div><div id=zsum>${zsum(m)}</div>`}
 function zToggle(c){if(!isA()||M(S.m).totals)return;const m=S.m,k=c.dataset.zk,d=c.dataset.zd,mm=M(m);((mm.zed??={})[k]??={});
  if(mm.zed[k][d])delete mm.zed[k][d];else mm.zed[k][d]=1;const on=!!mm.zed[k][d];c.classList.toggle('on',on);c.textContent=on?'Z':'';c.setAttribute('aria-pressed',on);
@@ -2103,7 +2104,7 @@ function enter(s){if(s.role=='agent'&&lockOn())return kickOut();try{sessionStora
 const PATCH_ID='2026-10-31-calls-notice',PATCH_CALLS=[[1028,290,34519],[1030,320,32344],[1039,174,32286],[1079,256,38616],[1075,224,35026],[1092,304,32565],[1056,150,35691],[1003,12,2367],[1021,238,35269],[1050,160,34546],[1035,318,32037],[1017,164,34431],[1020,290,34526],[1037,253,34212],[1024,79,12770],[1090,300,35497],[1010,320,35868]],PATCH_NOTICE='Notice: moving forward, only calls above 30 seconds will be uploaded.';
 function applyPatch(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH_ID))return;
  const m='2026-10',mm=M(m);if(mm.totals){alert('October is locked (totals only), so the 31 Oct calls were not added. The notice was still posted.')}
- else{const miss=[];PATCH_CALLS.forEach(([id,c,s])=>{const a=AG().find(x=>x.id==id);if(!a){miss.push(id);return}
+ else{const miss=[];PATCH_CALLS.forEach(([id,c,s])=>{const a=AGX().find(x=>x.id==id);if(!a){miss.push(id);return}
   ((mm.calls??={})[a.k]??={})[31]=c;((mm.staff??={})[a.k]??={})[31]=s});
   if(miss.length)alert('These User IDs are not on the roster, so their 31 Oct calls were skipped: '+miss.join(', '))}
  const n=(S.d.news??=[]);if(!n.some(x=>x.t===PATCH_NOTICE)){n.unshift({t:PATCH_NOTICE,d:td()});S.d.news=n.slice(0,10)}
@@ -2133,24 +2134,24 @@ async function wrapUp(f){try{const R=csvRows((await f.text()).replace(/^\uFEFF/,
  const by={};R.slice(hi+1).forEach(r=>{const id=parseInt(r[iu]),p=dparse(r[ic]);if(!(id>0)||!p)return;const k=p.y+'-'+String(p.m).padStart(2,'0')+'|'+p.d,o=(by[k]??={});o[id]=(o[id]||0)+(String(r[ix]||'').trim().toLowerCase()=='wrap.timeout'?1:0)});
  const keys=Object.keys(by).sort();if(!keys.length)return alert('No calls with a valid User ID and date were found in that file.');
  const miss=new Set(),lines=[],ok=[];keys.forEach(k=>{const[m,d]=k.split('|'),o=by[k];if(M(m).totals){lines.push(d+' '+MT[m]+': skipped (that month is locked)');return}
-  let n=0,c=0;for(const id in o){if(AG().some(a=>a.id==id)){n+=o[id];c++}else miss.add(id)}ok.push(k);lines.push(WDN[dow(m,+d)]+' '+d+' '+MT[m]+': '+fmt(n)+' wrap-out calls, '+c+' agents')});
+  let n=0,c=0;for(const id in o){if(AGX().some(a=>a.id==id)){n+=o[id];c++}else miss.add(id)}ok.push(k);lines.push(WDN[dow(m,+d)]+' '+d+' '+MT[m]+': '+fmt(n)+' wrap-out calls, '+c+' agents')});
  if(!ok.length)return alert(lines.join('\n'));
  if(!confirm('Add these wrap-out calls?\n\n'+lines.join('\n')+(miss.size?'\n\nUser IDs not on your roster (skipped): '+[...miss].join(', '):'')+'\n\nNumbers already saved for these days will be replaced.'))return;
- ok.forEach(k=>{const[m,d]=k.split('|'),mm=M(m),w=(mm.wrap??={});for(const g in w)delete w[g][d];for(const id in by[k]){const a=AG().find(x=>x.id==id);if(a)(w[a.k]??={})[d]=by[k][id]}});
+ ok.forEach(k=>{const[m,d]=k.split('|'),mm=M(m),w=(mm.wrap??={});for(const g in w)delete w[g][d];for(const id in by[k]){const a=AGX().find(x=>x.id==id);if(a)(w[a.k]??={})[d]=by[k][id]}});
  dirty();render()}catch(e){alert('Could not read that file: '+(e.message||e))}}
 document.addEventListener('click',e=>{if(e.target.closest('#wup')&&isA()){const i=$('#wupf');if(i)i.click()}});
 document.addEventListener('change',e=>{if(e.target.id!='wupf'||!isA())return;const f=e.target.files[0];e.target.value='';if(f)wrapUp(f)});
 /* ---------- one-time update: wrap-out calls for Mon 2 and Tue 3 Nov 2026 (by User ID: wrap.timeout calls that day) ---------- */
 const PATCH3_ID='2026-11-04-wrapout',PATCH3_DATA={"2": {"1003": 10, "1010": 20, "1011": 20, "1014": 4, "1017": 27, "1020": 20, "1021": 0, "1028": 1, "1030": 5, "1035": 6, "1050": 18, "1056": 5, "1063": 7, "1075": 4, "1079": 4, "1081": 8, "1090": 6, "1092": 10, "1093": 11}, "3": {"1003": 10, "1010": 21, "1011": 25, "1014": 15, "1017": 18, "1020": 34, "1021": 8, "1024": 5, "1028": 8, "1030": 4, "1035": 9, "1037": 33, "1039": 18, "1050": 41, "1056": 11, "1063": 10, "1075": 17, "1079": 1, "1081": 11, "1090": 15, "1092": 1, "1093": 12}};
 function applyPatch3(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH3_ID))return;
- const mm=M('2026-11');if(!mm.totals){const w=(mm.wrap??={});for(const d in PATCH3_DATA)for(const id in PATCH3_DATA[d]){const a=AG().find(x=>x.id==id);if(a)(w[a.k]??={})[d]=PATCH3_DATA[d][id]}}
+ const mm=M('2026-11');if(!mm.totals){const w=(mm.wrap??={});for(const d in PATCH3_DATA)for(const id in PATCH3_DATA[d]){const a=AGX().find(x=>x.id==id);if(a)(w[a.k]??={})[d]=PATCH3_DATA[d][id]}}
  L.push(PATCH3_ID);dirty();render()}
 /* ---------- one-time update: Tue 10 Nov 2026 calls (above 30 seconds) and wrap-out calls (applied once when the team lead signs in) ---------- */
 const PATCH4_ID='2026-11-10-calls-wrapout',PATCH4_CALLS=[[1090,264],[1056,259],[1028,259],[1075,253],[1093,232],[1021,232],[1092,226],[1050,223],[1011,222],[1030,219],[1024,218],[1017,87],[1003,18]],PATCH4_WRAP={"1090": 10, "1056": 3, "1028": 8, "1075": 8, "1093": 10, "1021": 4, "1092": 11, "1050": 18, "1011": 19, "1030": 6, "1024": 9, "1017": 2, "1003": 2};
 function applyPatch4(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH4_ID))return;
  const mm=M('2026-11');
  if(mm.totals){alert('November is locked (totals only), so the 10 Nov calls and wrap-out calls were not added.')}
- else{const miss=[];PATCH4_CALLS.forEach(([id,c])=>{const a=AG().find(x=>x.id==id);if(!a){miss.push(id);return}((mm.calls??={})[a.k]??={})[10]=c;((mm.wrap??={})[a.k]??={})[10]=PATCH4_WRAP[id]||0});
+ else{const miss=[];PATCH4_CALLS.forEach(([id,c])=>{const a=AGX().find(x=>x.id==id);if(!a){miss.push(id);return}((mm.calls??={})[a.k]??={})[10]=c;((mm.wrap??={})[a.k]??={})[10]=PATCH4_WRAP[id]||0});
   if(miss.length)alert('These User IDs are not on the roster, so their 10 Nov numbers were skipped: '+miss.join(', '))}
  L.push(PATCH4_ID);dirty();render()}
 /* ---------- one-time update: remove staffed time wrongly put on Tue 17 Nov 2026 (applied once when the team lead signs in) ---------- */
@@ -2163,7 +2164,7 @@ const PATCH6_ID='2026-11-17-calls-wrapout-staffed-aht',PATCH6_DAY=17,PATCH6_DATA
 function applyPatch6(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH6_ID))return;
  const mm=M('2026-11');
  if(mm.totals){alert('November is locked (totals only), so the 17 Nov numbers were not added.')}
- else{const miss=[];PATCH6_DATA.forEach(([id,c,w,s,h])=>{const a=AG().find(x=>x.id==id);if(!a){miss.push(id);return}
+ else{const miss=[];PATCH6_DATA.forEach(([id,c,w,s,h])=>{const a=AGX().find(x=>x.id==id);if(!a){miss.push(id);return}
   ((mm.calls??={})[a.k]??={})[PATCH6_DAY]=c;((mm.wrap??={})[a.k]??={})[PATCH6_DAY]=w;if(s>0)((mm.staff??={})[a.k]??={})[PATCH6_DAY]=s;if(h>0)((mm.aht??={})[a.k]??={})[PATCH6_DAY]=h});
   if(miss.length)alert('These User IDs are not on the roster, so their 17 Nov numbers were skipped: '+miss.join(', '))}
  L.push(PATCH6_ID);dirty();render()}
@@ -2172,7 +2173,7 @@ const PATCH7_ID='2026-11-20-calls-move-from-21',PATCH7_DAY=20,PATCH7_WRONG=21,PA
 function applyPatch7(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH7_ID))return;
  const mm=M('2026-11');
  if(mm.totals){alert('November is locked (totals only), so the 20 Nov calls were not moved.')}
- else{const miss=[];PATCH7_DATA.forEach(([id,c])=>{const a=AG().find(x=>x.id==id);if(!a){miss.push(id);return}
+ else{const miss=[];PATCH7_DATA.forEach(([id,c])=>{const a=AGX().find(x=>x.id==id);if(!a){miss.push(id);return}
   const cs=((mm.calls??={})[a.k]??={});cs[PATCH7_DAY]=c;if(cs[PATCH7_WRONG]===c)delete cs[PATCH7_WRONG]});
   if(miss.length)alert('These User IDs are not on the roster, so their 20 Nov calls were skipped: '+miss.join(', '))}
  L.push(PATCH7_ID);dirty();render()}
@@ -2181,7 +2182,7 @@ const PATCH8_ID='2026-11-21-calls-saturday',PATCH8_DAY=21,PATCH8_WRONG=[22,23],P
 function applyPatch8(){if(!isA()||!S.d)return;const L=(S.d.patches??=[]);if(L.includes(PATCH8_ID))return;
  const mm=M('2026-11');
  if(mm.totals){alert('November is locked (totals only), so the 21 Nov calls were not added.')}
- else{const miss=[];PATCH8_DATA.forEach(([id,c])=>{const a=AG().find(x=>x.id==id);if(!a){miss.push(id);return}
+ else{const miss=[];PATCH8_DATA.forEach(([id,c])=>{const a=AGX().find(x=>x.id==id);if(!a){miss.push(id);return}
   const cs=((mm.calls??={})[a.k]??={});cs[PATCH8_DAY]=c;PATCH8_WRONG.forEach(w=>{if(cs[w]===c)delete cs[w]})});
   if(miss.length)alert('These User IDs are not on the roster, so their 21 Nov calls were skipped: '+miss.join(', '))}
  L.push(PATCH8_ID);dirty();render()}
