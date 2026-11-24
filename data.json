@@ -70,7 +70,8 @@
    "name": "Faith Alicia Mvula",
    "trn": false,
    "crm": false,
-   "lead": false
+   "lead": false,
+   "off": true
   },
   {
    "k": "k33",
